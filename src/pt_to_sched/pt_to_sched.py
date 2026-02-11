@@ -140,24 +140,36 @@ def align_dependencies_with_log(pt, dependencies, log):
                     old_activity = deepcopy(activity)
                     old_activity.label = activity.label + f"_{i-1}"
                     dependencies.append((old_activity, new_activity))
-
     return dependencies
+
+def transform_process_trees_to_labels(dependencies):
+    return [(str(d[0]), str(d[1])) for d in dependencies]
+
+def save_as_json(dependencies, output_path: str|Path):
+    output_path = Path(output_path)
+    Path.mkdir(output_path.parent, exist_ok=True)
+
+    if output_path.suffix != '.json':
+        output_path = output_path.with_suffix('.json')
+    
+    dependencies = transform_process_trees_to_labels(dependencies)
+    dependencies_dict = {'dependencies': dependencies}
+    
+    with open(output_path, 'w') as f:
+        json.dump(dependencies_dict, f, indent=4)
 
 if __name__ == "__main__":
     PT_INPUT_PATH = Path("output_files/a20g6.ptml")
     LOG_INPUT_PATH = Path("input_files/xes_files/a20g6_loop.xes")
-    OUTPUT_PATH = Path("output_files/a20g6_dependencies.json")
+    OUTPUT_PATH = Path("output_files/dependencies/a20g6_dependencies.json")
+    
     pt = load_process_tree(PT_INPUT_PATH)
     log = load_instance_log(LOG_INPUT_PATH)
     
     dependencies = walk_tree(pt)
-    print(dependencies)
-
     aligned_dependencies = align_dependencies_with_log(pt, dependencies, log)
-    dependency_dict = {"dependencies": aligned_dependencies}    
-    with open(OUTPUT_PATH, 'w') as f:
-        json.dump(dependency_dict, f, default=str, indent=2)
-    print(aligned_dependencies)
+    save_as_json(aligned_dependencies, OUTPUT_PATH)
+    
     
     
     
