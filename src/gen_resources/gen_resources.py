@@ -50,7 +50,7 @@ def save_as_json(assignments, output_path: str|Path):
         json.dump(assignments, f, indent=4)
 
 if __name__ == "__main__":
-    PT_INPUT_PATH = Path("output_files/a20g6.ptml")
+    PT_INPUT_PATH = Path("output_files/petri_net/a20g6.ptml")
     OUTPUT_PATH = Path("output_files/assignments/a20g6_assignments.json")
     
     pt = load_process_tree(PT_INPUT_PATH)

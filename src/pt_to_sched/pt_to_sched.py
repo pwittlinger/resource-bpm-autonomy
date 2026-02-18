@@ -140,6 +140,11 @@ def align_dependencies_with_log(pt, dependencies, log):
                     old_activity = deepcopy(activity)
                     old_activity.label = activity.label + f"_{i-1}"
                     dependencies.append((old_activity, new_activity))
+            
+            # TODO: add a dependency between the last activity of the loop 
+            # and the first activity of the next iteration of loop.
+
+            
     return dependencies
 
 def transform_process_trees_to_labels(dependencies):
@@ -159,8 +164,8 @@ def save_as_json(dependencies, output_path: str|Path):
         json.dump(dependencies_dict, f, indent=4)
 
 if __name__ == "__main__":
-    PT_INPUT_PATH = Path("output_files/a20g6.ptml")
-    LOG_INPUT_PATH = Path("input_files/xes_files/a20g6_loop.xes")
+    PT_INPUT_PATH = Path("output_files/petri_net/a20g6.ptml")
+    LOG_INPUT_PATH = Path("input_files/xes_files/log_single_loop.xes")
     OUTPUT_PATH = Path("output_files/dependencies/a20g6_dependencies.json")
     
     pt = load_process_tree(PT_INPUT_PATH)
@@ -169,12 +174,4 @@ if __name__ == "__main__":
     dependencies = walk_tree(pt)
     aligned_dependencies = align_dependencies_with_log(pt, dependencies, log)
     save_as_json(aligned_dependencies, OUTPUT_PATH)
-    
-    
-    
-    
-
-
-
-
     

@@ -363,7 +363,7 @@ if __name__ == "__main__":
     deps = json.loads(dependencies_json_raw)
     
     # You can add multiple dependency dicts to this list to schedule multiple instances
-    result = solve_schedule(assigns, [deps], instance_log, top_n_instances=10, timeout=300, objective='makespan')
+    result = solve_schedule(assigns, [deps], instance_log, top_n_instances=15, timeout=300, objective='flow_time')
     
     if result:
         solver, all_tasks, rules, resources, task_struct = result

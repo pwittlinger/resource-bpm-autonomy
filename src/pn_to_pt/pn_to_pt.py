@@ -20,6 +20,7 @@ def pn_to_pt(net, im, fm):
 
 def save_pt(pt, output_path: str|Path, filetype: str = 'ptml'):
     output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     # Check if output path is a .ptml file
     if output_path.suffix != f'.{filetype}':
         output_path = output_path.with_suffix(f'.{filetype}')
@@ -28,6 +29,7 @@ def save_pt(pt, output_path: str|Path, filetype: str = 'ptml'):
 
 def save_pt_visualization(pt, output_path: str|Path, filetype: str = 'png'):
     output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     # Check if output path is a .png file
     if output_path.suffix != f'.{filetype}':
         output_path = output_path.with_suffix(f'.{filetype}')
@@ -36,6 +38,7 @@ def save_pt_visualization(pt, output_path: str|Path, filetype: str = 'png'):
 
 def save_pn_visualization(net, im, fm, output_path: str|Path, filetype: str = 'png'):
     output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     # Check if output path is a .png file
     if output_path.suffix != f'.{filetype}':
         output_path = output_path.with_suffix(f'.{filetype}')
@@ -43,13 +46,13 @@ def save_pn_visualization(net, im, fm, output_path: str|Path, filetype: str = 'p
     pm4py.visualization.petri_net.visualizer.save(gviz, str(output_path))
 
 if __name__ == "__main__":
-    INPUT_PATH = Path("input_files/a20g6.pnml")
+    INPUT_PATH = Path("input_files/petri_net/a20g6.pnml")
     OUTPUT_PATH = Path(str(INPUT_PATH).replace("input_files", "output_files").replace(".pnml", ".ptml"))
 
     net, im, fm = load_petri_net(INPUT_PATH)
     pt = pn_to_pt(net, im, fm)
     save_pt(pt, OUTPUT_PATH)
-    # add pt or pn into OUtput path
+    # add pt or pn into Output path
     save_pt_visualization(pt, OUTPUT_PATH.with_stem(OUTPUT_PATH.stem + "-pt"))
     save_pn_visualization(net, im, fm, OUTPUT_PATH.with_stem(OUTPUT_PATH.stem + "-pn"))
 
