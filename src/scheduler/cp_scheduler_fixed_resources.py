@@ -128,8 +128,8 @@ def solve_schedule(schedule_instances: list,
     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         print(f"Schedule found with {objective}: {solver.ObjectiveValue()}")
 
-        for flow_time in total_flow_time:
-            print(f"Flow time for instance: {solver.Value(flow_time)}")
+        #for flow_time in total_flow_time:
+            #print(f"Flow time for instance: {solver.Value(flow_time)}")
         return solver, all_tasks
     elif status == cp_model.INFEASIBLE:
         print("No feasible schedule found (infeasible).")
@@ -147,7 +147,7 @@ if __name__ == "__main__":
 
     # create a schedule_instance object
     sched_instances = []
-    for i in range(10):
+    for i in range(15):
         sched_instance = ScheduleInstance(xes_path=INSTANCES_PATH, 
                                         petri_net_pnml_path=PETRI_PATH, 
                                         output_path="output_files/schedule_instance_output")
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     # You can add multiple dependency dicts to this list to schedule multiple instances
     result = solve_schedule(schedule_instances=sched_instances, 
                             resource_repository=resource_repository, 
-                            timeout=50, 
+                            timeout=5, 
                             objective='flow_time')
     
     if result:
