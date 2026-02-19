@@ -90,34 +90,12 @@ def load_data(assignments_data, dependencies_data_list, instance_log, top_n_inst
 
     return task_options, sorted(list(all_resources)), tasks_to_schedule, instance_tasks
 
-def get_base_name_from_instance(instance_name, known_base_tasks):
-    """
-    Extracts the base definition name from a specific instance name.
-    e.g., 'ActivityI_1' -> 'ActivityI'
-    """
-    # 1. Exact match check
-    if instance_name in known_base_tasks:
-        return instance_name
-    
-    # 2. Underscore check (ActivityI_1 -> ActivityI)
-    if '_' in instance_name:
-        parts = instance_name.rsplit('_', 1) 
-        if parts[0] in known_base_tasks:
-            return parts[0]
-            
-    # 3. Fallback (if the base name isn't found exactly, return original)
-    return instance_name
-
-# --- 2. CP-SAT Solver Formulation ---
-
 def solve_schedule(schedule_instances: list,
                    resource_repository: ResourceRepository,
                    top_n_instances=10, 
                    timeout=100, 
                    objective='makespan'
                    ):
-    # Load and prep data
-    #task_rules, resources, tasks, instance_tasks = load_data(assignments_content, dependencies_contents, instance_log, top_n_instances)
     
     model = cp_model.CpModel()
     horizon = 500000000  # Arbitrary large number for the scheduling horizon
@@ -143,11 +121,9 @@ def solve_schedule(schedule_instances: list,
             all_tasks[instance.id][task_name] = {}
             
             unique_id = f"{instance.id}_{task_name}"
-            base_name = task_name.split("_")[0]  # Get the base name (e.g., "ActivityI" from "ActivityI_1")
             resource = instance.get_resource_for_task(task_name)  # Get the resource for the task_name
             duration = resource_repository.get_duration_for_assignment(task_name, resource)
 
-            
             # Create interval variables for task-resource-pair (resource-duration pair)
             start_var = model.NewIntVar(release_time, horizon, f'start_{unique_id}_{resource}')
             end_var = model.NewIntVar(0, horizon, f'end_{unique_id}_{resource}')
