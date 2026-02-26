@@ -1,4 +1,3 @@
-import json
 import collections
 from ortools.sat.python import cp_model
 import sys
@@ -10,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from src.scheduler.resource_repository import ResourceRepository
 from src.scheduler.schedule_instance import ScheduleInstance
 from src.scheduler.plotly_visualizer import visualize_schedule_plotly
+from src.scheduler.slack_analysis import export_highest_slack_instance
 
 def solve_schedule(schedule_instances: list,
                    resource_repository: ResourceRepository,
@@ -157,9 +157,11 @@ if __name__ == "__main__":
     # You can add multiple dependency dicts to this list to schedule multiple instances
     result = solve_schedule(schedule_instances=sched_instances, 
                             resource_repository=resource_repository, 
-                            timeout=5, 
-                            objective='flow_time')
+                            timeout=30, 
+                            objective='makespan')
     
     if result:
         solver, all_tasks = result
         visualize_schedule_plotly(solver, all_tasks)
+        export_highest_slack_instance(solver, all_tasks, sched_instances)
+
