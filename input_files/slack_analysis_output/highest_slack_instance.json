@@ -1,0 +1,31 @@
+{
+  "instance_id": "log_with_resources_10",
+  "accumulated_slack": 87,
+  "tasks": [
+    {
+      "task": "ActivityG",
+      "predecessor_slack": 57,
+      "resource": "R1"
+    },
+    {
+      "task": "ActivityT",
+      "predecessor_slack": 30,
+      "resource": "R0"
+    },
+    {
+      "task": "ActivityI",
+      "predecessor_slack": 0,
+      "resource": "R2"
+    },
+    {
+      "task": "ActivityH",
+      "predecessor_slack": 0,
+      "resource": "R1"
+    },
+    {
+      "task": "ActivityJ",
+      "predecessor_slack": 0,
+      "resource": "R2"
+    }
+  ]
+}

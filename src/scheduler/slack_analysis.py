@@ -100,12 +100,14 @@ def _build_report(
     accumulated: dict[str, int],
     critical_tasks: CriticalTaskMap,
     predecessor_slack: SlackMap,
+    all_tasks: AllTasks,
 ) -> dict:
     """Assemble the report dict for the given instance."""
     tasks = [
         {
             "task": task_name,
             "predecessor_slack": predecessor_slack[instance_id].get(task_name, 0),
+            "resource": all_tasks[instance_id][task_name][3],
         }
         for task_name in critical_tasks.get(instance_id, [])
     ]
@@ -166,7 +168,7 @@ def export_highest_slack_instance(
         f"(total slack = {accumulated[best_id]})"
     )
 
-    report = _build_report(best_id, accumulated, critical_tasks, predecessor_slack)
+    report = _build_report(best_id, accumulated, critical_tasks, predecessor_slack, all_tasks)
     path = _write_report(report, output_path)
     print(f"Slack report written to {path}")
 

@@ -150,7 +150,8 @@ if __name__ == "__main__":
     for i in range(15):
         sched_instance = ScheduleInstance(xes_path=INSTANCES_PATH, 
                                         petri_net_pnml_path=PETRI_PATH, 
-                                        output_path="output_files/schedule_instance_output")
+                                        output_path="output_files/schedule_instance_output", 
+                                        instance_id=Path(INSTANCES_PATH).stem + f'_{i}')
         sched_instances.append(sched_instance)
 
     resource_repository = ResourceRepository(ASSIGNMENTS_PATH)
@@ -163,5 +164,5 @@ if __name__ == "__main__":
     if result:
         solver, all_tasks = result
         visualize_schedule_plotly(solver, all_tasks)
-        export_highest_slack_instance(solver, all_tasks, sched_instances)
+        export_highest_slack_instance(solver, all_tasks, sched_instances, output_path="input_files/slack_analysis_output/highest_slack_instance.json")
 
