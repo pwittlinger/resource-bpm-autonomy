@@ -210,3 +210,8 @@ __marimo__/
 
 # Ignore all compiled java code
 *.jar
+
+# Ignore all temporary files created by the planner
+**problem*.pddl
+**problem*.txt
+**problem*.xes

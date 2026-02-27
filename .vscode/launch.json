@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "debugpy",
+            "name": "runner",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "program": "${file}",
+            "purpose": ["debug-in-terminal"],
+            "args": [
+                "input_files\\declare\\a20g6_7_data_parsed.decl", 
+                "input_files\\xes_files\\a20g6-prefix-conforming-3.xes", 
+                "input_files\\variable_values_multi_model.txt",
+                "input_files\\variable_substitutions_a20g6_7.decl.txt", 
+                "input_files\\assignments\\a20g6_assignments.json",
+                "input_files\\petri_net\\a20g6.pnml"
+            ]
+
+        }
+    ]
+}
