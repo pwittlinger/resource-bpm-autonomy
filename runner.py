@@ -90,26 +90,35 @@ def adjust_cost(problem_id, gap_file, activity_map_object):
     # I need to look for the cost allocations and replace them
     # (= (activity_cost a7 R0) 3) -> (= (activity_cost a7 R0) 10)
 
-    # I
-
     for g in gap_pairs:
         act = g["task"]
         res = g["resource"]
         cost = g["predecessor_slack"]
 
         repl_act = activity_map_object[act]
-        old = fr"\(= \(activity_cost {repl_act} {res}\) ([\d]+)\)"
+        #old = fr"\(= \(activity_cost {repl_act} {res}\) ([\d]+)\)"
+
+        old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
         #find = re.search(old, content)
         old_cost = 0
 
-        if find := re.search(old, content):
-            old_cost = find.group(1)
+        for m in re.finditer(old, content):
+            old_act = m.group(1)
+            if (old_act == repl_act):
+                continue
+            old_cost = m.group(2)
+            updated_cost = int(old_cost) + 700
+            new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
+            content = re.sub(old, new, content)
 
-        updated_cost = int(old_cost) + cost + 700
+        #if find := re.search(old, content):
+        #    old_cost = find.group(1)
+
+        #updated_cost = int(old_cost) + cost + 700
         
-        new = f"(= (activity_cost {repl_act} {res}) {updated_cost})"
+        #new = f"(= (activity_cost {repl_act} {res}) {updated_cost})"
 
-        content = re.sub(old, new, content)
+        #content = re.sub(old, new, content)
 
     with open(os.path.join(output_folder, f"problem{problem_id}.pddl"), "w") as pf:
         pf.write(content)
