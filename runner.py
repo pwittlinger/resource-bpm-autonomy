@@ -5,19 +5,24 @@ import os
 import random
 import re
 import json
+import pm4py
+import pandas as pd
+import src.scheduler.cp_scheduler_fixed_resources as cp
+
 
 parent_path = os.path.abspath(os.getcwd())
 output_folder = os.path.join(parent_path, "output", "pddl")
 
 
 jar_path = "pddl_gen-1.0-SNAPSHOT-launcher.jar"
-planner_path = "planner\enhsp.jar"
-domain_path = "planner\domain_framed_autonomy_resource.pddl"
+planner_path = os.path.join("planner", "enhsp.jar")#"planner\enhsp.jar"
+domain_path = os.path.join("planner", "domain_framed_autonomy_resource.pddl")#"planner\domain_framed_autonomy_resource.pddl"
 generated_plan_path = "generated_plans"
 generated_xes_path = "generated_xes"
 plan_parser = "ParsePlan.jar"
-slack_instance = "input_files/slack_analysis_output/highest_slack_instance.json"
+slack_instance = os.path.join("input_files","slack_analysis_output","highest_slack_instance.json")#"input_files/slack_analysis_output/highest_slack_instance.json"
 
+cols = ["concept:name", "org:resource", "case:concept:name"]
 
 def get_problem_path_from_id(id_to_search):
     return f"problem{id_to_search}.pddl"
@@ -46,14 +51,22 @@ def generate_all_xes_from_plan(decl_path,activity_mapping):
     for i in range(nProbs):
         if (os.path.isfile(os.path.join(parent_path, generated_plan_path, f"problem{i+1}.txt"))):
             print(f"Generating initial XES for problem{i+1}.pddl")
-            generate_xes_from_plan(decl_path=decl_path, activity_mapping=activity_mapping, problem_id = i+1)
+            generate_xes_from_plan(decl_path=decl_path, activity_mapping=activity_mapping, problem_id = i+1, initial=True)
 
 
-def generate_xes_from_plan(decl_path,activity_mapping, problem_id):
+def generate_xes_from_plan(decl_path,activity_mapping, problem_id, initial):
     """Converts the plan (.txt) into an actual XES file corresponding to the generated suffix.
     """
     generated_plan = os.path.join(parent_path, "generated_plans", f"problem{problem_id}.txt")
-    xes_path = os.path.join(parent_path, "generated_xes", f"problem{problem_id}.xes")
+
+    if initial:
+        xes_path = os.path.join(parent_path, "generated_xes", f"problem{problem_id}.xes")
+        if os.path.isfile(xes_path):
+            os.remove(xes_path)
+    else:
+        xes_path = os.path.join(parent_path, "generated_xes", "optim",f"problem{problem_id}.xes")
+        if os.path.isfile(xes_path):
+            os.remove(xes_path)
 
     call_array = ["java", "-jar",
                   os.path.join(parent_path, plan_parser),
@@ -83,7 +96,7 @@ def adjust_cost(problem_id, gap_file, activity_map_object):
         cost = g["predecessor_slack"]
 
         repl_act = activity_map_object[act]
-        old = f"\(= \(activity_cost {repl_act} {res}\) ([\d]+)\)"
+        old = fr"\(= \(activity_cost {repl_act} {res}\) ([\d]+)\)"
         #find = re.search(old, content)
         old_cost = 0
 
@@ -115,7 +128,6 @@ def instantiate_mapping_file(activity_mapping):
 
     return actmap
 
-
 def parse_input(args):
 
     decl_loc = os.path.join(parent_path,args[1])
@@ -132,7 +144,7 @@ if __name__ == "__main__":
     print(sys.argv)
     # Stopping conditions for loop
     maxIterations = 5 # total number of iterations
-    timeoutLimit = 35 # Maximum number of seconds spend
+    timeoutLimit = 65 # Maximum number of seconds spend
 
     # Read in file paths to generate PDDL files
     decl_loc, pn_loc, l, variable_values, var_sub_loc, cost_model = parse_input(sys.argv)
@@ -154,10 +166,16 @@ if __name__ == "__main__":
     generate_all_initial_plans()
     generate_all_xes_from_plan(decl_loc, activity_mapping)
 
+    inrus = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
+
     # Instantiate the loop variables
     i = 0
     currentStart = time.time()
     currentIteration = 0
+    same_trace = False
+    same_trace_count = 0
+
+    already_replanned = set()
 
     while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit)):
         # Update iteration counter
@@ -166,14 +184,34 @@ if __name__ == "__main__":
         # At this step, I need to get the correct ID to replan
         # And I need to update the cost model of the plan.
         id_to_plan = random.randint(0,9)+1
+        
+        if (not same_trace) or (same_trace_count > 2):
+            while id_to_plan in already_replanned:
+                id_to_plan = random.randint(0,9)+1
+
+            original_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
+            log1 = pm4py.read_xes(original_suffix)
 
         adjust_cost(id_to_plan, slack_instance, act_map)
 
-        run_planner(id_to_plan)
-        generate_xes_from_plan(decl_path=decl_loc, activity_mapping=activity_mapping,problem_id=id_to_plan)
+        cp.run_schedule()
 
+        run_planner(id_to_plan)
+        generate_xes_from_plan(decl_path=decl_loc, activity_mapping=activity_mapping,problem_id=id_to_plan, initial=False)
+
+        # Load both logs
+        
+        replanned_suffix = os.path.join(parent_path, generated_xes_path, "optim", f"problem{id_to_plan}.xes")
+        
+        log2 = pm4py.read_xes(replanned_suffix)
+
+        # Compare
+        same_trace = log1[cols].equals(log2[cols])
+
+        if same_trace:
+            same_trace_count += 1
         
         #print(os.listdir(output_folder))
         currentIteration = time.time()
-        print(id_to_plan, currentIteration, currentIteration-currentStart, ((currentIteration-currentStart)<timeoutLimit))
+        print(id_to_plan, same_trace, currentIteration, currentIteration-currentStart, ((currentIteration-currentStart)<timeoutLimit))
 

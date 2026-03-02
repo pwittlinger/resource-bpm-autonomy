@@ -7,6 +7,7 @@ from ortools.sat.python import cp_model
 import pm4py
 import pandas as pd
 import plotly.express as px
+import os
 
 # --- 1. Data Loading & Helper Functions ---
 
@@ -348,6 +349,23 @@ def visualize_schedule_plotly(solver, all_tasks, task_rules, resources, tasks):
 
     fig.show()
 
+
+def run_scheduler(assignment_path, dependency_path, instance_path):
+    with open(assignment_path, "r") as f:
+        assignments_json_raw = f.read()
+    with open(dependency_path, "r") as f:
+        dependencies_json_raw = f.read()
+
+    all_logs = [pm4py.read_xes(os.path.join(instance_path,x)) for x in instance_path]
+    #os.listdir(instance_path)
+    #instance_log = pm4py.read_xes(INSTANCES_PATH)
+    instance_log = pd.concat(all_logs, ignore_index=True)
+    assigns = json.loads(assignments_json_raw)
+    deps = json.loads(dependencies_json_raw)
+    
+    # You can add multiple dependency dicts to this list to schedule multiple instances
+    result = solve_schedule(assigns, [deps], instance_log, top_n_instances=15, timeout=300, objective='flow_time')
+    return result
 
 if __name__ == "__main__":
     ASSIGNMENTS_PATH = "output_files/assignments/a20g6_assignments.json"

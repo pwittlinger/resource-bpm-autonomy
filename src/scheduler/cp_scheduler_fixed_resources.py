@@ -2,6 +2,10 @@ import collections
 from ortools.sat.python import cp_model
 import sys
 from pathlib import Path
+import pm4py
+import pandas as pd
+import os
+import json
 
 # Add parent directories to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -125,6 +129,8 @@ def solve_schedule(schedule_instances: list,
     solver.parameters.log_search_progress = True
     solver.parameters.max_time_in_seconds = timeout
     status = solver.Solve(model)
+    #status = solver.solve(model)
+    print(status)
     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         print(f"Schedule found with {objective}: {solver.ObjectiveValue()}")
 
@@ -138,6 +144,37 @@ def solve_schedule(schedule_instances: list,
         print("Timeout.")
         return None   
 
+
+def run_schedule(xes_path:str, 
+                 petri_path:str, 
+                 assignment_path:str):
+
+    # create a schedule_instance object
+    sched_instances = []
+
+    for i in os.listdir(xes_path):
+        if not i.endswith(".xes"):
+            continue
+        current_instance = os.path.join(os.path.abspath(xes_path),i)
+        instance_name = str(i).replace("problem", "").replace(".xes", "")
+        sched_instance = ScheduleInstance(xes_path=current_instance, 
+                                        petri_net_pnml_path=petri_path, 
+                                        output_path="output_files/schedule_instance_output", 
+                                        instance_id=Path(current_instance).stem + f'_{instance_name}')
+        sched_instances.append(sched_instance)
+
+    resource_repository = ResourceRepository(assignment_path)
+    # You can add multiple dependency dicts to this list to schedule multiple instances
+    result = solve_schedule(schedule_instances=sched_instances, 
+                            resource_repository=resource_repository, 
+                            timeout=30, 
+                            objective='makespan')
+    
+    if result:
+        solver, all_tasks = result
+        #visualize_schedule_plotly(solver, all_tasks)
+        export_highest_slack_instance(solver, all_tasks, sched_instances, output_path=os.path.abspath("input_files/slack_analysis_output/highest_slack_instance.json"))
+    return result
 
 if __name__ == "__main__":
     ASSIGNMENTS_PATH = "input_files/assignments/a20g6_assignments.json"
