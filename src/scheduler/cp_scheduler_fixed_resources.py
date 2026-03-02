@@ -126,7 +126,7 @@ def solve_schedule(schedule_instances: list,
     # Solve the model
     print(f'Solving the scheduling problem for objective {objective}...')
     solver = cp_model.CpSolver()
-    solver.parameters.log_search_progress = True
+    solver.parameters.log_search_progress = False
     solver.parameters.max_time_in_seconds = timeout
     status = solver.Solve(model)
     #status = solver.solve(model)
