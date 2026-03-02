@@ -205,8 +205,6 @@ if __name__ == "__main__":
 
         adjust_cost(id_to_plan, slack_instance, act_map)
 
-        #
-
         run_planner(id_to_plan)
         generate_xes_from_plan(decl_path=decl_loc, activity_mapping=activity_mapping,problem_id=id_to_plan, initial=False)
 
@@ -221,9 +219,11 @@ if __name__ == "__main__":
 
         if same_trace:
             same_trace_count += 1
+            print("Same trace generated again, count: ", same_trace_count)
         else:
             shutil.copy(src=replanned_suffix, dst=original_suffix)
             cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
+
         
         #print(os.listdir(output_folder))
         currentIteration = time.time()
