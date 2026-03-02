@@ -37,7 +37,7 @@ def run_planner(problem_id):
                 "-planner", "opt-blind"]
     
     r = subprocess.call(call_array, stdout=output_file)
-    print(r)
+    #print(r)
 
 def generate_all_initial_plans():
     nProbs = len(os.listdir(output_folder))
@@ -109,7 +109,7 @@ def adjust_cost(problem_id, gap_file, activity_map_object):
             old_cost = m.group(2)
             updated_cost = int(old_cost) + 700
             new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
-            content = re.sub(old, new, content)
+            content = re.sub(m.group(0), new, content)
 
         #if find := re.search(old, content):
         #    old_cost = find.group(1)
