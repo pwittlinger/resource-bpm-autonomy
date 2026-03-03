@@ -53,7 +53,6 @@ def solve_schedule(schedule_instances: list,
     for instance in schedule_instances:
         for task_name in instance.get_task_list():
             all_tasks[instance.id][task_name] = {}
-            
             unique_id = f"{instance.id}_{task_name}"
             resource = instance.get_resource_for_task(task_name)  # Get the resource for the task_name
             duration = resource_repository.get_duration_for_assignment(task_name, resource)

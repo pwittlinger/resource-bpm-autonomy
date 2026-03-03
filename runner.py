@@ -230,9 +230,7 @@ if __name__ == "__main__":
 
         run_planner(id_to_plan)
         generate_xes_from_plan(decl_path=decl_loc, activity_mapping=activity_mapping,problem_id=id_to_plan, initial=False)
-
         # Load both logs
-        
         replanned_suffix = os.path.join(parent_path, generated_xes_path, "optim", f"problem{id_to_plan}.xes")
         
         log3 = pm4py.read_xes(replanned_suffix)
