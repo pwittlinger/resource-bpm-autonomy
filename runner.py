@@ -155,7 +155,7 @@ if __name__ == "__main__":
     print(sys.argv)
     # Stopping conditions for loop
     maxIterations = 5 # total number of iterations
-    timeoutLimit = 65 # Maximum number of seconds spend
+    timeoutLimit = 120 # Maximum number of seconds spend
 
     # Read in file paths to generate PDDL files
     decl_loc, pn_loc, l, variable_values, var_sub_loc, cost_model = parse_input(sys.argv)
@@ -207,14 +207,12 @@ if __name__ == "__main__":
 
         run_planner(id_to_plan)
         generate_xes_from_plan(decl_path=decl_loc, activity_mapping=activity_mapping,problem_id=id_to_plan, initial=False)
-
         # Load both logs
-        
         replanned_suffix = os.path.join(parent_path, generated_xes_path, "optim", f"problem{id_to_plan}.xes")
         
         log2 = pm4py.read_xes(replanned_suffix)
 
-        # Compare
+        # Compare the two logs based on the relevant columns
         same_trace = log1[cols].equals(log2[cols])
 
         if same_trace:

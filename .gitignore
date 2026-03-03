@@ -215,3 +215,5 @@ __marimo__/
 **problem*.pddl
 **problem*.txt
 **problem*.xes
+
+.vscode/settings.json
