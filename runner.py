@@ -233,13 +233,24 @@ if __name__ == "__main__":
         #if (id_to_plan not in already_replanned.keys()):
         #    already_replanned[id_to_plan] = 0
 
-        if (already_replanned[id_to_plan] > 1):
+        if (already_replanned[id_to_plan] > 2):
             #already_replanned = set()
             count = 0
+
+            keys_with_zero = [k for k, v in already_replanned.items() if v == 0]
+
+            if (len(already_replanned.keys())-len(keys_with_zero) >= max_replans_without_new_trace):
+                print(f"Reset the state space, plan random instance {id_to_plan}")
+                for i in range(len(os.listdir(output_folder))+1):
+                    already_replanned[i] = 0
+                shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
+                [shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(parent_path,output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
+
+            id_to_plan = random.choice(keys_with_zero)
             
-            while (already_replanned[id_to_plan] > 1) and (count <max_replans_without_new_trace):
-                id_to_plan = random.randint(0,9)+1
-                count += 1
+            #while (already_replanned[id_to_plan] > 1) and (count <max_replans_without_new_trace):
+            #    id_to_plan = random.randint(0,9)+1
+            #    count += 1
             
             if (count == max_replans_without_new_trace):
                 print(f"Reset the state space, plan random instance {id_to_plan}")
