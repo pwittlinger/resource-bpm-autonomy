@@ -62,7 +62,7 @@ def generate_xes_from_plan(decl_path,activity_mapping, problem_id, initial):
     generated_plan = os.path.join(parent_path, "generated_plans", f"problem{problem_id}.txt")
 
     if initial:
-        xes_path = os.path.join(parent_path, "generated_xes", f"problem{problem_id}.xes")
+        xes_path = os.path.join(parent_path, "generated_xes", "initial", f"problem{problem_id}.xes")
         if os.path.isfile(xes_path):
             os.remove(xes_path)
     else:
@@ -75,6 +75,9 @@ def generate_xes_from_plan(decl_path,activity_mapping, problem_id, initial):
                   decl_path, activity_mapping, generated_plan, xes_path
                   ]
     subprocess.call(call_array)
+
+    if initial:
+        shutil.copy(xes_path, os.path.join(parent_path, "generated_xes", f"problem{problem_id}.xes"))
 
 
 def adjust_cost(problem_id, gap_file, activity_map_object):
@@ -101,7 +104,7 @@ def adjust_cost(problem_id, gap_file, activity_map_object):
         old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
         #find = re.search(old, content)
         old_cost = 0
-
+        new_content = content
         for m in re.finditer(old, content):
             old_act = m.group(1)
             if (old_act == repl_act):
@@ -109,7 +112,9 @@ def adjust_cost(problem_id, gap_file, activity_map_object):
             old_cost = m.group(2)
             updated_cost = int(old_cost) + 700
             new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
-            content = re.sub(m.group(0), new, content)
+
+            new_content = re.sub(re.escape(m.group()), new, new_content)
+            #print(m.group(), new)
 
         #if find := re.search(old, content):
         #    old_cost = find.group(1)
@@ -121,7 +126,7 @@ def adjust_cost(problem_id, gap_file, activity_map_object):
         #content = re.sub(old, new, content)
 
     with open(os.path.join(output_folder, f"problem{problem_id}.pddl"), "w") as pf:
-        pf.write(content)
+        pf.write(new_content)
 
 def read_gap_file(gap_file):
     with open(gap_file) as f:
@@ -154,8 +159,8 @@ def parse_input(args):
 if __name__ == "__main__":
     print(sys.argv)
     # Stopping conditions for loop
-    maxIterations = 5 # total number of iterations
-    timeoutLimit = 65 # Maximum number of seconds spend
+    maxIterations = 25 # total number of iterations
+    timeoutLimit = 300 # Maximum number of seconds spend
 
     # Read in file paths to generate PDDL files
     decl_loc, pn_loc, l, variable_values, var_sub_loc, cost_model = parse_input(sys.argv)
@@ -179,6 +184,8 @@ if __name__ == "__main__":
 
     inrus = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
 
+    initial_objective = inrus[0].BestObjectiveBound()
+
     # Instantiate the loop variables
     i = 0
     currentStart = time.time()
@@ -186,7 +193,11 @@ if __name__ == "__main__":
     same_trace = False
     same_trace_count = 0
 
-    already_replanned = set()
+    already_replanned = dict()
+    best_ = initial_objective
+
+    for i in range(len(os.listdir(output_folder))+1):
+        already_replanned[i] = 0
 
     while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit)):
         # Update iteration counter
@@ -194,14 +205,26 @@ if __name__ == "__main__":
         
         # At this step, I need to get the correct ID to replan
         # And I need to update the cost model of the plan.
-        id_to_plan = random.randint(0,9)+1
+        #id_to_plan = random.randint(0,9)+1
+        gap = read_gap_file(os.path.join(parent_path, slack_instance))
+        id_to_plan = int(gap["instance_id"].split("_")[1])
+
+        if (id_to_plan not in already_replanned.keys()):
+            already_replanned[id_to_plan] = 0
+
+        if (already_replanned[id_to_plan] > 2):
+            #already_replanned = set()
+            id_to_plan = random.randint(0,9)+1
         
         if (not same_trace) or (same_trace_count > 2):
-            while id_to_plan in already_replanned:
-                id_to_plan = random.randint(0,9)+1
 
-            original_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
+            #while id_to_plan in already_replanned:
+            #    id_to_plan = random.randint(0,9)+1
+
+            original_suffix = os.path.join(parent_path, generated_xes_path,"initial", f"problem{id_to_plan}.xes")
+            last_planned_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
             log1 = pm4py.read_xes(original_suffix)
+            log2 = pm4py.read_xes(last_planned_suffix)
 
         adjust_cost(id_to_plan, slack_instance, act_map)
 
@@ -212,17 +235,25 @@ if __name__ == "__main__":
         
         replanned_suffix = os.path.join(parent_path, generated_xes_path, "optim", f"problem{id_to_plan}.xes")
         
-        log2 = pm4py.read_xes(replanned_suffix)
+        log3 = pm4py.read_xes(replanned_suffix)
 
         # Compare
-        same_trace = log1[cols].equals(log2[cols])
+        same_trace1 = log1[cols].equals(log3[cols])
+        same_trace2 = log2[cols].equals(log3[cols])
+
+        same_trace = (same_trace1 or same_trace2) 
 
         if same_trace:
+            already_replanned[id_to_plan] += 1
             same_trace_count += 1
             print("Same trace generated again, count: ", same_trace_count)
         else:
+            already_replanned[id_to_plan] = 0
             shutil.copy(src=replanned_suffix, dst=original_suffix)
-            cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
+            resulting_schedule = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
+            print(resulting_schedule[0].BestObjectiveBound())
+            if (best_ > resulting_schedule[0].BestObjectiveBound()):
+                best_ = resulting_schedule[0].BestObjectiveBound()
 
         
         #print(os.listdir(output_folder))
