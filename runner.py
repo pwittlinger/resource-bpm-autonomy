@@ -99,34 +99,32 @@ def adjust_cost(problem_id, gap_file, activity_map_object):
         cost = g["predecessor_slack"]
 
         repl_act = activity_map_object[act]
-        #old = fr"\(= \(activity_cost {repl_act} {res}\) ([\d]+)\)"
-
-        old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
-        #find = re.search(old, content)
-        old_cost = 0
-        new_content = content
-        for m in re.finditer(old, content):
-            old_act = m.group(1)
-            if (old_act == repl_act):
-                continue
-            old_cost = m.group(2)
-            updated_cost = int(old_cost) + 700
-            new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
-
-            new_content = re.sub(re.escape(m.group()), new, new_content)
-            #print(m.group(), new)
-
-        #if find := re.search(old, content):
-        #    old_cost = find.group(1)
-
-        #updated_cost = int(old_cost) + cost + 700
         
-        #new = f"(= (activity_cost {repl_act} {res}) {updated_cost})"
 
-        #content = re.sub(old, new, content)
+        #old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
+        #old_cost = 0
+        #new_content = content
+        #for m in re.finditer(old, content):
+        #    old_act = m.group(1)
+        #    old_cost = m.group(2)
+        #    updated_cost = int(old_cost) + 700
+        #    new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
+        #    new_content = re.sub(re.escape(m.group()), new, new_content)
+
+        old = fr"\(= \(activity_cost {repl_act} {res}\) ([\d]+)\)"
+        old_cost = 0
+        if find := re.search(old, content):
+            old_cost = find.group(1)
+
+        updated_cost = int(old_cost) + cost# + 700
+        
+        new = f"(= (activity_cost {repl_act} {res}) {updated_cost})"
+
+        content = re.sub(old, new, content)
 
     with open(os.path.join(output_folder, f"problem{problem_id}.pddl"), "w") as pf:
-        pf.write(new_content)
+        pf.write(content)
+        #pf.write(new_content)
 
 def read_gap_file(gap_file):
     with open(gap_file) as f:
@@ -247,7 +245,7 @@ if __name__ == "__main__":
             print("Same trace generated again, count: ", same_trace_count)
         else:
             already_replanned[id_to_plan] = 0
-            shutil.copy(src=replanned_suffix, dst=original_suffix)
+            shutil.copy(src=replanned_suffix, dst=os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes"))
             resulting_schedule = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
             print(resulting_schedule[0].BestObjectiveBound())
             if (best_ > resulting_schedule[0].BestObjectiveBound()):

@@ -210,8 +210,8 @@ def prepare_all_tasks(solver, all_tasks):
 
 
 if __name__ == "__main__":
-    XES_DIR = "generated_xes"
+    XES_DIR = "best_config"
     PETRI_PATH = "input_files/petri_net/a20g6.pnml"
-    ASSIGNMENTS_PATH = "input_files/assignments/a20g6_assignments.json"
+    ASSIGNMENTS_PATH = "input_files/assignments/a20g6_assignments_t.json"
     
     run_scheduler(XES_DIR, PETRI_PATH, ASSIGNMENTS_PATH)
