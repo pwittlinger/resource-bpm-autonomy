@@ -254,9 +254,11 @@ if __name__ == "__main__":
             print(resulting_schedule[0].BestObjectiveBound())
             if (best_ > resulting_schedule[0].BestObjectiveBound()):
                 best_ = resulting_schedule[0].BestObjectiveBound()
+                [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
 
         
         #print(os.listdir(output_folder))
         currentIteration = time.time()
         print(id_to_plan, same_trace, currentIteration, currentIteration-currentStart, ((currentIteration-currentStart)<timeoutLimit))
 
+    print(f"Best plan so far: {best_}")
