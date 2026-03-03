@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import pm4py
 from pm4py.objects.process_tree.obj import Operator, ProcessTree
+import numpy
 
 def load_process_tree(input_path: str|Path):
     input_path = Path(input_path)
@@ -108,7 +109,9 @@ def align_dependencies_with_log(pt, dependencies, log):
     for loop_pt in loop_pts:
         loop_activity_labels = [c.label for c in loop_pt._get_leaves() if c.operator == None]
         max_loop_count = unroll_loops_in_log(log, loop_activity_labels)
-
+        if numpy.isnan(max_loop_count):
+            max_loop_count = 1
+        
         # unroll the loop in the dependencies
         loop_dependencies = []
         for d in dependencies:

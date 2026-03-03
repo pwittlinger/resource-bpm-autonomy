@@ -2,6 +2,7 @@ import pm4py
 from pm4py.objects.conversion.wf_net import converter as pt_converter
 from pm4py.visualization.process_tree import visualizer as pt_visualizer
 from pathlib import Path
+import shutil
 
 def load_petri_net(input_path: str|Path):
 
@@ -34,7 +35,10 @@ def save_pt_visualization(pt, output_path: str|Path, filetype: str = 'png'):
     if output_path.suffix != f'.{filetype}':
         output_path = output_path.with_suffix(f'.{filetype}')
     gviz = pt_visualizer.apply(pt)
-    pt_visualizer.save(gviz, str(output_path))
+
+
+    if shutil.which("dot") is not None:
+        pt_visualizer.save(gviz, str(output_path))
 
 def save_pn_visualization(net, im, fm, output_path: str|Path, filetype: str = 'png'):
     output_path = Path(output_path)
@@ -43,7 +47,8 @@ def save_pn_visualization(net, im, fm, output_path: str|Path, filetype: str = 'p
     if output_path.suffix != f'.{filetype}':
         output_path = output_path.with_suffix(f'.{filetype}')
     gviz = pm4py.visualization.petri_net.visualizer.apply(net, im, fm)
-    pm4py.visualization.petri_net.visualizer.save(gviz, str(output_path))
+    if shutil.which("dot") is not None:
+        pm4py.visualization.petri_net.visualizer.save(gviz, str(output_path))
 
 if __name__ == "__main__":
     INPUT_PATH = Path("input_files/petri_net/a20g6.pnml")

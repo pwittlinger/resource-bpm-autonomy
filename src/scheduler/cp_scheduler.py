@@ -5,187 +5,102 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from ortools.sat.python import cp_model
 import pm4py
+from pathlib import Path
+import os
 import pandas as pd
 import plotly.express as px
+import sys
 
-# --- 1. Data Loading & Helper Functions ---
+# Add parent directories to path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-def load_data(assignments_data, dependencies_data_list, instance_log, top_n_instances=10):
-    """
-    Parses assignment rules and merges multiple dependency graphs.
-    assignments_data: List of dicts defining task-resource-duration rules.
-    dependencies_data_list: List of dicts (or loaded JSONs) containing dependency pairs.
-    instance_log: Event log from PM4Py. Used to extract unique task instances if needed.
-    top_n_instances: Number of top instances to consider from the event log.
-    """
-    
-    # 1. Parse Assignments into a lookup dictionary
-    # Format: {'ActivityA': [('R0', 2), ('R2', 1), ...]}
-    task_options = collections.defaultdict(list)
-    all_resources = set()
-    
-    for entry in assignments_data:
-        task = entry['task']
-        resource = entry['resource']
-        duration = entry['duration']
-        task_options[task].append((resource, duration))
-        all_resources.add(resource)
+from src.scheduler.resource_repository import ResourceRepository
+from src.scheduler.schedule_instance import ScheduleInstance
+from src.scheduler.plotly_visualizer import visualize_schedule_plotly
+from src.scheduler.slack_analysis import export_highest_slack_instance
 
-    # 2. Flatten specific task instances from dependencies
-    # We need to give every task in every process instance a unique ID.
-    # Structure: tasks = { 'unique_id': {'base_name': 'ActivityA', 'preds': []} }
-    
-    tasks_to_schedule = {}
-    
-    for instance_idx, dep_data in enumerate(dependencies_data_list):
-        tasks_to_schedule[instance_idx] = {}
-        # We prefix task names with the instance index to handle multiple process instances
-        # e.g., Instance 0, ActivityA -> "0_ActivityA"
-        
-        # Collect all tasks mentioned in dependencies
-        # (Both predecessors and successors needs to be tracked)
-        raw_dependencies = dep_data.get('dependencies', [])
-        
-        for pred, succ in raw_dependencies:
-            unique_pred = pred
-            unique_succ = succ
-            
-            # Initialize if new
-            if unique_pred not in tasks_to_schedule[instance_idx]:
-                tasks_to_schedule[instance_idx][unique_pred] = {'base_name': pred, 'preds': [], 'succs': []}
-            if unique_succ not in tasks_to_schedule[instance_idx]:
-                tasks_to_schedule[instance_idx][unique_succ] = {'base_name': succ, 'preds': [], 'succs': []}
-            
-            # Add dependency
-            tasks_to_schedule[instance_idx][unique_succ]['preds'].append(unique_pred)
-            tasks_to_schedule[instance_idx][unique_pred]['succs'].append(unique_succ)
-
-    # Identify tasks for each instance from log
-    # create mapping of {instance_idx: list of task_names}    
-    # for each task in each trace in the log, add the value counts of the task name in the trace
-    df = pm4py.convert_to_dataframe(instance_log)
-
-    # reduce df to top_n instances (for testing)
-    df = df[df['case:concept:name'].isin(df['case:concept:name'].unique()[:top_n_instances])]
-
-    df['counter'] = df.groupby(['case:concept:name', 'concept:name']).cumcount()
-
-    def append_suffix(row):
-        if row['counter'] > 0:
-            return f"{row['concept:name']}_{row['counter']}"
-        return row['concept:name']
-
-    df['concept:name'] = df.apply(append_suffix, axis=1)
-    df = df.drop(columns=['counter'])
-
-    instance_tasks = df[['case:concept:name', 'concept:name']].groupby('case:concept:name')['concept:name'].apply(list).to_dict()
-
-    return task_options, sorted(list(all_resources)), tasks_to_schedule, instance_tasks
-
-def get_base_name_from_instance(instance_name, known_base_tasks):
-    """
-    Extracts the base definition name from a specific instance name.
-    e.g., 'ActivityI_1' -> 'ActivityI'
-    """
-    # 1. Exact match check
-    if instance_name in known_base_tasks:
-        return instance_name
-    
-    # 2. Underscore check (ActivityI_1 -> ActivityI)
-    if '_' in instance_name:
-        parts = instance_name.rsplit('_', 1) 
-        if parts[0] in known_base_tasks:
-            return parts[0]
-            
-    # 3. Fallback (if the base name isn't found exactly, return original)
-    return instance_name
-
-# --- 2. CP-SAT Solver Formulation ---
-
-def solve_schedule(assignments_content, 
-                   dependencies_contents, 
-                   instance_log, 
+def solve_schedule(schedule_instances: list[ScheduleInstance], 
+                   resource_repository: ResourceRepository, 
                    top_n_instances=10, 
                    timeout=100, 
                    objective='makespan'
                    ):
-    # Load and prep data
-    task_rules, resources, tasks, instance_tasks = load_data(assignments_content, dependencies_contents, instance_log, top_n_instances)
     
     model = cp_model.CpModel()
-    horizon = 500000000  # Arbitrary large number for the scheduling horizon
-    instance_idx = 0 # Must be adapted once we handle multiple process models
-    all_tasks = collections.defaultdict(dict)  
-    # {'unique_id': 
-    #   {'task_label': task_label, 
-    #    'resource_options': 
-    #      {
-    #       'res_option1': (start_var, end_var, is_present), 
-    #       'res_option2': ...
-    #      }
-    #   }
-    # }
-    
-   # Create all task intervals for each instance
-    for instance_id, task_list in instance_tasks.items():
-        for task_name in task_list:
-            unique_id = f"{instance_id}_{task_name}"
-            base_name = get_base_name_from_instance(task_name, task_rules.keys())
+    # Horizon: sum of the maximum duration per task across all instances.
+    # This is a tight safe upper bound (all tasks run sequentially on their slowest resource).
+    horizon = 0
+    for instance in schedule_instances:
+        for task_name in instance.get_task_list():
+            resources = resource_repository.get_resources_for_task(task_name)
+            if resources:
+                horizon += max(
+                    resource_repository.get_duration_for_assignment(task_name, res)
+                    for res in resources
+                )
 
-            if task_name.endswith("_1"):
-                print("Stop")
-            if base_name not in task_rules:
-                print(f"Warning: No assignment rules found for {base_name}. Skipping.")
-                continue
+    release_time = 0
+    all_tasks = collections.defaultdict(dict)  
+    all_resources = set()
+    
+    # Create all task intervals for each instance
+    for instance in schedule_instances:
+        for task_name in instance.get_task_list():
+            all_tasks[instance.id][task_name] = {}
+            unique_id = f"{instance.id}_{task_name}"
             
-            all_tasks[instance_id][task_name] = {}
-            all_tasks[instance_id][task_name]['resource_options'] = {}
-            options = task_rules[base_name]
-            # Create interval variables for each option (resource-duration pair)
-            for res, dur in options:
-                start_var = model.NewIntVar(0, horizon, f'start_{unique_id}_{res}')
-                end_var = model.NewIntVar(0, horizon, f'end_{unique_id}_{res}')
-                is_present = model.NewBoolVar(f'is_present_{unique_id}_{res}')
+            for resource in resource_repository.get_resources_for_task(task_name):
+                all_resources.add(resource)
+                duration = resource_repository.get_duration_for_assignment(task_name, resource)
+
+                # Create interval variables for task-resource-pair (resource-duration pair)
+                start_var = model.NewIntVar(release_time, horizon, f'start_{unique_id}_{resource}')
+                end_expr = start_var + duration
+                presence_var = model.NewBoolVar(f'presence_{unique_id}_{resource}')
+
                 interval_var = model.NewOptionalIntervalVar(
-                    start_var, dur, end_var, is_present, f'interval_{unique_id}_{res}'
+                    start_var, duration, end_expr, presence_var, f'interval_{unique_id}_{resource}'
                 )
 
                 # Store the interval_var along with the others
-                all_tasks[instance_id][task_name]['resource_options'][res] = (
-                    start_var, end_var, is_present, interval_var
+                all_tasks[instance.id][task_name][resource] = (
+                    start_var, end_expr, interval_var, presence_var
                 )
 
+            if task_name.endswith("_1"):
+                print("Stop")
+
             # Exactly one resource option must be chosen
-            model.Add(sum(opt[2] for opt in all_tasks[instance_id][task_name]['resource_options'].values()) == 1)
+            model.Add(sum(opt[3] for opt in all_tasks[instance.id][task_name].values()) == 1)
 
             
-        for task_name in task_list:
-            successors = tasks[instance_idx][f"{task_name}"]['succs']
+        for task_name in instance.get_task_list():
+            successors = instance.get_successors(task_name)
             for succ in successors:
                 # Add all precedence constraints for this task_name and its successors
                 # Only adds precedence constraints for this instance's tasks, not across instances
                 # The end date of task_name must be > the start date of succ
-                current_task_options = all_tasks[instance_id][task_name]['resource_options'].values()
-                if succ not in all_tasks[instance_id]:
+                current_task_options = all_tasks[instance.id][task_name].values()
+                if succ not in all_tasks[instance.id]:
                     # Successor {succ} not found in tasks for instance {instance_id}. Skipping precedence constraint.")
                     continue
-                successor_task_options = all_tasks[instance_id][succ]['resource_options'].values()
+                successor_task_options = all_tasks[instance.id][succ].values()
 
                 for current_task_opt in current_task_options:
                     for successor_task_opt in successor_task_options:
                         # If both options are present, then we add the precedence constraint
                         model.Add(successor_task_opt[0] >= current_task_opt[1]).OnlyEnforceIf(
-                            [successor_task_opt[2], current_task_opt[2]]
+                            [successor_task_opt[3], current_task_opt[3]]
                         )
 
     # Add no overlap constraints for tasks that share the same resource
-    for res in resources:
+    for res in all_resources:
         resource_intervals = []
         for instance_id, task_dict in all_tasks.items():
             for task_name, task_info in task_dict.items():
-                if res in task_info['resource_options']:
+                if res in task_info:
                     # Pull the interval_var we stored (index 3)
-                    _, _, _, interval_var = task_info['resource_options'][res]
+                    _, _, interval_var, _ = task_info[res]
                     resource_intervals.append(interval_var)
         
         if resource_intervals:
@@ -193,22 +108,22 @@ def solve_schedule(assignments_content,
             model.AddNoOverlap(resource_intervals)
 
     if objective == 'makespan':
-        # Objective: Minimize makespan (end of the latest finishing task)
+        # Objective: Minimize makespan (end of the latest finishing task).
+        # Only enforce the bound for the chosen resource option (presence_var == 1).
         makespan = model.NewIntVar(0, horizon, 'makespan')
-        all_end_vars = []
         for instance_id, task_dict in all_tasks.items():
             for task_name, task_info in task_dict.items():
-                for res, (start_var, end_var, is_present, interval_var) in task_info['resource_options'].items():
-                    all_end_vars.append(end_var)
-        model.AddMaxEquality(makespan, all_end_vars)
+                for res, (start_var, end_var, interval_var, presence_var) in task_info.items():
+                    model.Add(end_var <= makespan).OnlyEnforceIf(presence_var)
         model.Minimize(makespan)
+
     elif objective == 'flow_time':
         # Objective: Minimize average flow time
         # Flow time = end time - start time for each task
         flow_times = []
         for instance_id, task_dict in all_tasks.items():
             for task_name, task_info in task_dict.items():
-                for res, (start_var, end_var, is_present, interval_var) in task_info['resource_options'].items():
+                for res, (start_var, end_var, is_present, interval_var) in task_info.items():
                     flow_time = model.NewIntVar(0, horizon, f'flow_time_{instance_id}_{task_name}_{res}')
                     model.Add(flow_time == end_var - start_var).OnlyEnforceIf(is_present)
                     model.Add(flow_time == 0).OnlyEnforceIf(is_present.Not())
@@ -228,7 +143,7 @@ def solve_schedule(assignments_content,
     status = solver.Solve(model)
     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         print(f"Schedule found with {objective}: {solver.ObjectiveValue()}")
-        return solver, all_tasks, task_rules, resources, tasks
+        return solver, all_tasks
     elif status == cp_model.INFEASIBLE:
         print("No feasible schedule found (infeasible).")
         return None
@@ -236,135 +151,67 @@ def solve_schedule(assignments_content,
         print("Timeout.")
         return None   
 
-def visualize_schedule(solver, all_tasks, task_rules, resources, tasks):
+
+def run_scheduler(xes_path, petri_path, assignment_path):
+# create a schedule_instance object
+    sched_instances = []
+
+    for i in os.listdir(xes_path):
+        if not i.endswith(".xes"):
+            continue
+        current_instance = os.path.join(os.path.abspath(xes_path),i)
+        instance_name = str(i).replace("problem", "").replace(".xes", "")
+        sched_instance = ScheduleInstance(xes_path=current_instance, 
+                                        petri_net_pnml_path=petri_path, 
+                                        output_path="output_files/schedule_instance_output", 
+                                        instance_id=Path(current_instance).stem + f'_{instance_name}')
+        sched_instances.append(sched_instance)
+
+    resource_repository = ResourceRepository(assignment_path)
+    # You can add multiple dependency dicts to this list to schedule multiple instances
+    result = solve_schedule(schedule_instances=sched_instances, 
+                            resource_repository=resource_repository, 
+                            timeout=30, 
+                            objective='makespan')
+    
+    if result:
+        solver, all_tasks = result
+
+        prepared_tasks = prepare_all_tasks(solver, all_tasks)
+        visualize_schedule_plotly(solver, prepared_tasks)
+        export_highest_slack_instance(solver, prepared_tasks, sched_instances, output_path=os.path.abspath("input_files/slack_analysis_output/highest_slack_instance.json"))
+        return result
+
+def prepare_all_tasks(solver, all_tasks):
     """
-    Bridges the CP-SAT variables to the Gantt Chart visualizer.
+    Transforms the `all_tasks` structure returned by `solve_schedule` into the
+    format expected by `visualize_schedule_plotly`.
+
+    solve_schedule format:
+        all_tasks[instance_id][task_name][resource] = (start_var, end_expr, interval_var, presence_var)
+
+    visualize_schedule_plotly format:
+        all_tasks[instance_id][task_name] = (start_var, end_var, interval_var, res, release_time)
+
+    For each task the chosen resource (presence_var == 1) is selected and the
+    tuple is reshaped accordingly.  `release_time` is set to 0 because it is
+    not part of the solver variables and is not used by the visualizer.
     """
-    schedule_data = []
-    instance_ids = []
+    prepared = collections.defaultdict(dict)
 
     for instance_id, task_dict in all_tasks.items():
-        instance_ids.append(instance_id)
-        for task_name, task_info in task_dict.items():
-            for res, (start_var, end_var, is_present, interval_var) in task_info['resource_options'].items():
-                # Check if this specific resource option was chosen by the solver
-                if solver.Value(is_present):
-                    schedule_data.append({
-                        'Instance_id': instance_id,
-                        'Resource': res,
-                        'Task': f"{instance_id}: {task_name}",
-                        'Start': solver.Value(start_var),
-                        'Finish': solver.Value(end_var)
-                    })
+        for task_name, resource_options in task_dict.items():
+            for res, (start_var, end_var, interval_var, presence_var) in resource_options.items():
+                if solver.Value(presence_var) == 1:
+                    prepared[instance_id][task_name] = (start_var, end_var, interval_var, res, 0)
+                    break  # exactly one resource is chosen per task
 
-    # Sort data so the Y-axis is organized by Resource name
-    schedule_data.sort(key=lambda x: x['Resource'])
-    
-    # Now call the plotting logic
-    fig, ax = plt.subplots(figsize=(15, 8))
-    unique_tasks = list(set(a['Task'].split(": ")[1] for a in schedule_data))
-    colors = list(mcolors.TABLEAU_COLORS.values())
-
-    task_color_map = {task: colors[i % len(colors)] for i, task in enumerate(instance_ids)}
-
-    for a in schedule_data:
-        base_task_name = a['Task'].split(": ")[1]
-        instance_id = a['Instance_id']
-        ax.barh(a['Resource'], a['Finish'] - a['Start'], left=a['Start'], 
-                color=task_color_map[instance_id], edgecolor='black')
-        
-    ax.set_xlabel('Time Units')
-    ax.set_ylabel('Resources')
-    ax.set_title(f'Optimal Schedule (Makespan: {solver.ObjectiveValue()})')
-    plt.grid(axis='x', linestyle='--', alpha=0.6)
-    plt.show()
-
-
-def visualize_schedule_plotly(solver, all_tasks, task_rules, resources, tasks):
-    """
-    Visualizes the schedule using an interactive Plotly Gantt chart.
-    """
-    schedule_data = []
-
-    for instance_id, task_dict in all_tasks.items():
-        for task_name, task_info in task_dict.items():
-            for res, (start_var, end_var, is_present, _) in task_info['resource_options'].items():
-                if solver.Value(is_present):
-                    start_val = solver.Value(start_var)
-                    finish_val = solver.Value(end_var)
-                    schedule_data.append({
-                        'Instance_id': str(instance_id),
-                        'Resource': res,
-                        'Task': task_name,
-                        'Start': start_val,
-                        'Finish': finish_val,
-                        'Duration': finish_val - start_val
-                    })
-
-    if not schedule_data:
-        print("No data to visualize.")
-        return
-
-    # Create DataFrame
-    df = pd.DataFrame(schedule_data)
-
-    # Plotly timeline requires a 'Start' and 'Finish' but usually as dates.
-    # We use px.timeline and then convert the X-axis back to linear integers.
-    fig = px.timeline(
-        df, 
-        x_start="Start", 
-        x_end="Finish", 
-        y="Resource", 
-        color="Instance_id",
-        hover_data={
-            'Instance_id': True,
-            'Task': True,
-            'Resource': True,
-            'Start': True, 
-            'Finish': True,
-            'Duration': True
-        },
-        title=f"Interactive Schedule Visualization (Makespan: {int(solver.ObjectiveValue())})"
-    )
-
-    # MAGIC STEP: Force the X-axis to display as integers instead of dates
-    fig.layout.xaxis.type = 'linear'
-    
-    # Map the data points to the linear scale
-    for i, data in enumerate(fig.data):
-        # Calculate the actual width based on our integer values
-        # Plotly timeline internally converts dates to milliseconds
-        data.x = df[df['Instance_id'] == data.name]['Duration'].tolist()
-        data.base = df[df['Instance_id'] == data.name]['Start'].tolist()
-
-    # UI Tweaks
-    fig.update_yaxes(autorange="reversed") # Highest resource at the top
-    fig.update_layout(
-        xaxis_title="Time Units",
-        yaxis_title="Resource / Machine",
-        legend_title="Process Instances",
-        hoverlabel=dict(bgcolor="white", font_size=12)
-    )
-
-    fig.show()
+    return prepared
 
 
 if __name__ == "__main__":
-    ASSIGNMENTS_PATH = "output_files/assignments/a20g6_assignments.json"
-    DEPENDENCIES_PATH = "output_files/dependencies/a20g6_dependencies.json"
-    INSTANCES_PATH = "input_files/xes_files/log_single_loop.xes"
+    XES_DIR = "generated_xes"
+    PETRI_PATH = "input_files/petri_net/a20g6.pnml"
+    ASSIGNMENTS_PATH = "input_files/assignments/a20g6_assignments.json"
     
-    with open(ASSIGNMENTS_PATH, "r") as f:
-        assignments_json_raw = f.read()
-    with open(DEPENDENCIES_PATH, "r") as f:
-        dependencies_json_raw = f.read()
-    instance_log = pm4py.read_xes(INSTANCES_PATH)
-    assigns = json.loads(assignments_json_raw)
-    deps = json.loads(dependencies_json_raw)
-    
-    # You can add multiple dependency dicts to this list to schedule multiple instances
-    result = solve_schedule(assigns, [deps], instance_log, top_n_instances=15, timeout=300, objective='flow_time')
-    
-    if result:
-        solver, all_tasks, rules, resources, task_struct = result
-        visualize_schedule_plotly(solver, all_tasks, rules, resources, task_struct)
+    run_scheduler(XES_DIR, PETRI_PATH, ASSIGNMENTS_PATH)

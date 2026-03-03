@@ -215,3 +215,6 @@ __marimo__/
 **problem*.pddl
 **problem*.txt
 **problem*.xes
+
+.vscode/settings.json
+input_files/slack_analysis_output/*
