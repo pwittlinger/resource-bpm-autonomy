@@ -123,13 +123,13 @@ def solve_schedule(schedule_instances: list,
         raise NotImplementedError(f"Objective {objective} not implemented. Choose 'makespan' or 'flow_time'.")
 
     # Solve the model
-    print(f'Solving the scheduling problem for objective {objective}...')
+    #print(f'Solving the scheduling problem for objective {objective}...')
     solver = cp_model.CpSolver()
     solver.parameters.log_search_progress = False
     solver.parameters.max_time_in_seconds = timeout
     status = solver.Solve(model)
     #status = solver.solve(model)
-    print(status)
+    #print(status)
     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         print(f"Schedule found with {objective}: {solver.ObjectiveValue()}")
 
@@ -171,7 +171,7 @@ def run_schedule(xes_path:str,
     
     if result:
         solver, all_tasks = result
-        visualize_schedule_plotly(solver, all_tasks)
+        #visualize_schedule_plotly(solver, all_tasks)
         export_highest_slack_instance(solver, all_tasks, sched_instances, output_path=os.path.abspath("input_files/slack_analysis_output/highest_slack_instance.json"))
 
     return result

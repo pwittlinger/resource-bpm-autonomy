@@ -1,0 +1,16 @@
+{
+  "instance_id": "problem9_9",
+  "accumulated_slack": 177,
+  "tasks": [
+    {
+      "task": "ActivityB",
+      "predecessor_slack": 93,
+      "resource": "R0"
+    },
+    {
+      "task": "ActivityT",
+      "predecessor_slack": 84,
+      "resource": "R0"
+    }
+  ]
+}

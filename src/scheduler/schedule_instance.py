@@ -1,14 +1,17 @@
 from pathlib import Path
 import pm4py
 import uuid
+import os
 
 from src.pn_to_pt.pn_to_pt import load_petri_net, save_pt, pn_to_pt, save_pn_visualization, save_pt_visualization
 from src.pt_to_sched.pt_to_sched import walk_tree, align_dependencies_with_log, save_as_json, load_instance_log
+os.environ['PM4PY_SHOW_PROGRESS_BAR'] = 'False'
+
 
 class ScheduleInstance:
     def __init__(self, xes_path: str, 
                  petri_net_pnml_path: str,
-                 output_path: str = "output_files/schedule_instance_output", 
+                 output_path: str = os.path.join("output_files","schedule_instance_output"), 
                  instance_id: str = None
                  ):
     

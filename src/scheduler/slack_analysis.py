@@ -170,6 +170,6 @@ def export_highest_slack_instance(
 
     report = _build_report(best_id, accumulated, critical_tasks, predecessor_slack, all_tasks)
     path = _write_report(report, output_path)
-    print(f"Slack report written to {path}")
+    #print(f"Slack report written to {path}")
 
     return report

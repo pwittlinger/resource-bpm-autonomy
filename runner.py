@@ -5,15 +5,22 @@ import os
 import random
 import re
 import json
+os.environ['SHOW_PROGRESS_BAR'] = 'False'
+os.environ['PM4PY_SHOW_PROGRESS_BAR'] = 'False'
+
 import pm4py
 import pandas as pd
 import src.scheduler.cp_scheduler_fixed_resources as cp
 import shutil
+import tqdm
+from functools import partialmethod
 
 
 parent_path = os.path.abspath(os.getcwd())
 output_folder = os.path.join(parent_path, "output", "pddl")
 
+
+tqdm.__init__ = partialmethod(tqdm.__init__, disable=True)
 
 jar_path = "pddl_gen-1.0-SNAPSHOT-launcher.jar"
 planner_path = os.path.join("planner", "enhsp.jar")#"planner\enhsp.jar"
@@ -43,9 +50,11 @@ def generate_all_initial_plans():
     nProbs = len(os.listdir(output_folder))
 
     for i in range(nProbs):
-        if not (os.path.isfile(os.path.join(parent_path, generated_plan_path, f"problem{i+1}.txt"))):
-            print(f"Generating initial plan for problem{i+1}.pddl")
-            run_planner(i+1)
+        print(f"Generating initial plan for problem{i+1}.pddl")
+        run_planner(i+1)
+        #if not (os.path.isfile(os.path.join(parent_path, generated_plan_path, f"problem{i+1}.txt"))):
+        #    print(f"Generating initial plan for problem{i+1}.pddl")
+        #    run_planner(i+1)
 
 def generate_all_xes_from_plan(decl_path,activity_mapping):
     nProbs = len(os.listdir(output_folder))
@@ -86,6 +95,7 @@ def adjust_cost(problem_id, gap_file, activity_map_object):
     gap = read_gap_file(os.path.join(parent_path, gap_file))
 
     gap_pairs = gap["tasks"]
+    total_slack = gap["accumulated_slack"]
 
     with open(os.path.join(output_folder, f"problem{problem_id}.pddl")) as pf:
         content = pf.read()
@@ -116,7 +126,8 @@ def adjust_cost(problem_id, gap_file, activity_map_object):
         if find := re.search(old, content):
             old_cost = find.group(1)
 
-        updated_cost = int(old_cost) + cost# + 700
+        #updated_cost = int(old_cost) + cost + 700
+        updated_cost = int(old_cost) + cost + int(total_slack)
         
         new = f"(= (activity_cost {repl_act} {res}) {updated_cost})"
 
@@ -157,7 +168,7 @@ def parse_input(args):
 if __name__ == "__main__":
     print(sys.argv)
     # Stopping conditions for loop
-    maxIterations = 25 # total number of iterations
+    maxIterations = 50 # total number of iterations
     timeoutLimit = 300 # Maximum number of seconds spend
 
     # Read in file paths to generate PDDL files
@@ -190,16 +201,27 @@ if __name__ == "__main__":
     currentIteration = 0
     same_trace = False
     same_trace_count = 0
+    no_improvement_found = 0
 
     already_replanned = dict()
     best_ = initial_objective
 
+    max_replans_without_new_trace = int(len(already_replanned.keys())*0.4)
+
     for i in range(len(os.listdir(output_folder))+1):
         already_replanned[i] = 0
 
-    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit)):
+    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (no_improvement_found < 10)):
         # Update iteration counter
         i = i+1
+        
+
+        #if (no_improvement_found > 5):
+        #    for i in range(len(os.listdir(output_folder))+1):
+        #            already_replanned[i] = 0
+        #    shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
+        #    [shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(parent_path,output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
+
         
         # At this step, I need to get the correct ID to replan
         # And I need to update the cost model of the plan.
@@ -207,24 +229,39 @@ if __name__ == "__main__":
         gap = read_gap_file(os.path.join(parent_path, slack_instance))
         id_to_plan = int(gap["instance_id"].split("_")[1])
 
-        if (id_to_plan not in already_replanned.keys()):
-            already_replanned[id_to_plan] = 0
 
-        if (already_replanned[id_to_plan] > 2):
+        #if (id_to_plan not in already_replanned.keys()):
+        #    already_replanned[id_to_plan] = 0
+
+        if (already_replanned[id_to_plan] > 1):
             #already_replanned = set()
-            id_to_plan = random.randint(0,9)+1
+            count = 0
+            
+            while (already_replanned[id_to_plan] > 1) and (count <max_replans_without_new_trace):
+                id_to_plan = random.randint(0,9)+1
+                count += 1
+            
+            if (count == max_replans_without_new_trace):
+                print(f"Reset the state space, plan random instance {id_to_plan}")
+                for i in range(len(os.listdir(output_folder))+1):
+                    already_replanned[i] = 0
+                shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
+                [shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(parent_path,output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
         
-        if (not same_trace) or (same_trace_count > 2):
+        #if (not same_trace) or (same_trace_count > 2):
+#
+        #    original_suffix = os.path.join(parent_path, generated_xes_path,"initial", f"problem{id_to_plan}.xes")
+        #    last_planned_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
+        #    log1 = pm4py.read_xes(original_suffix)
+        #    log2 = pm4py.read_xes(last_planned_suffix)
 
-            #while id_to_plan in already_replanned:
-            #    id_to_plan = random.randint(0,9)+1
-
-            original_suffix = os.path.join(parent_path, generated_xes_path,"initial", f"problem{id_to_plan}.xes")
-            last_planned_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
-            log1 = pm4py.read_xes(original_suffix)
-            log2 = pm4py.read_xes(last_planned_suffix)
+        original_suffix = os.path.join(parent_path, generated_xes_path,"initial", f"problem{id_to_plan}.xes")
+        last_planned_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
+        log1 = pm4py.read_xes(original_suffix)
+        log2 = pm4py.read_xes(last_planned_suffix)
 
         adjust_cost(id_to_plan, slack_instance, act_map)
+        shutil.copy(slack_instance, os.path.join(parent_path, "highest_slack_instance.json"))
 
         run_planner(id_to_plan)
         generate_xes_from_plan(decl_path=decl_loc, activity_mapping=activity_mapping,problem_id=id_to_plan, initial=False)
@@ -242,17 +279,27 @@ if __name__ == "__main__":
         if same_trace:
             already_replanned[id_to_plan] += 1
             same_trace_count += 1
-            print("Same trace generated again, count: ", same_trace_count)
+            if (same_trace_count+1%4 == 0):
+                no_improvement_found +=1
+            #print("Same trace generated again, count: ", same_trace_count, already_replanned[id_to_plan])
         else:
-            already_replanned[id_to_plan] = 0
+            
             shutil.copy(src=replanned_suffix, dst=os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes"))
             resulting_schedule = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
-            print(resulting_schedule[0].BestObjectiveBound())
+            #print(resulting_schedule[0].BestObjectiveBound())
             if (best_ > resulting_schedule[0].BestObjectiveBound()):
-                best_ = resulting_schedule[0].BestObjectiveBound()
-                [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
+                no_improvement_found = 0
+                already_replanned[id_to_plan] = 0
 
-        
+                for i in range(len(os.listdir(output_folder))+1):
+                    already_replanned[i] = 0
+                best_ = resulting_schedule[0].BestObjectiveBound()
+                shutil.move(os.path.join(parent_path, "highest_slack_instance.json"), os.path.join(parent_path, "best_config", "highest_slack_instance.json"))
+                [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
+                [shutil.copy(os.path.join(parent_path,output_folder,p), os.path.join(parent_path,"best_config", "pddl",p)) for p in os.listdir(os.path.join(parent_path,output_folder)) if p.endswith(".pddl")]
+            else:
+                no_improvement_found += 1
+                already_replanned[id_to_plan] += 1
         #print(os.listdir(output_folder))
         currentIteration = time.time()
         print(id_to_plan, same_trace, currentIteration, currentIteration-currentStart, ((currentIteration-currentStart)<timeoutLimit))

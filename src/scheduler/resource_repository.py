@@ -1,6 +1,10 @@
 from pathlib import Path
 import json
 import pandas as pd
+import os
+
+os.environ['PM4PY_SHOW_PROGRESS_BAR'] = 'False'
+os.environ['SHOW_PROGRESS_BAR'] = 'False'
 
 class ResourceRepository:
     def __init__(self, resource_file_path:str):
