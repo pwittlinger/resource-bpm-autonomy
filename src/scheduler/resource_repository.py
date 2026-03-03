@@ -20,6 +20,12 @@ class ResourceRepository:
             raise ValueError(f"No resources found for task {task_name}. Please ensure the task exists in the resource file.")
         return resources[0]
     
+    def get_resources_for_task(self, task_name:str) -> list:
+        resources = self.assignments[self.assignments['task'] == task_name]['resource'].unique()
+        if len(resources) == 0:
+            raise ValueError(f"No resources found for task {task_name}. Please ensure the task exists in the resource file.")
+        return resources.tolist()
+    
     def get_duration_for_assignment(self, task_name:str, resource_name:str) -> int:
         assignment = self.assignments[(self.assignments['task'] == task_name) & (self.assignments['resource'] == resource_name)]
         if len(assignment) == 0:
