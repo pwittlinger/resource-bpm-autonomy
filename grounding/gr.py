@@ -183,7 +183,7 @@ class PDDLWorkflowManager:
             {s1_condition} {constraint_not_violated}
         )
         :effect (and 
-            (increase (total_cost) {int(cost)}) 
+            (increase (total_cost) (activity_cost {a} {r})) 
             (after_add) (complete_sync {a})
         )
 \t)"""
