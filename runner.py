@@ -214,50 +214,60 @@ if __name__ == "__main__":
 
     already_replanned = dict()
     best_ = initial_objective
-
     
 
     all_original_logs = []
+    total_number_of_problems = len(os.listdir(output_folder))
 
-    for j in range(len(os.listdir(output_folder))):
-        already_replanned[j+1] = 0
+    for k in already_replanned.keys():
+        already_replanned[k] = 0
+
+    for j in range(total_number_of_problems):
         all_original_logs.append(pm4py.read_xes(os.path.join(parent_path, generated_xes_path,"initial", f"problem{j+1}.xes")))
     
-    max_replans_without_new_trace = int(len(already_replanned.keys())*0.3)
+    max_replans_without_new_trace = int(total_number_of_problems*0.3)
 
-    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (no_improvement_found < 10)):
+    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (no_improvement_found < max_replans_without_new_trace)):
         # Update iteration counter
         i = i+1
 
-        
+        # Select the instance to schedule
         gap = read_gap_file(os.path.join(parent_path, slack_instance))
         id_to_plan = int(gap["instance_id"].split("_")[1])
 
-        if (last_objective > initial_objective):
-            reset_space()
-
-            for j in range(len(os.listdir(output_folder))):
-                already_replanned[j+1] = 0
-
-
-        if (already_replanned[id_to_plan] > 1):
-            #already_replanned = set()
+        if (already_replanned[id_to_plan] > 0):
+            
             #print(f"{id_to_plan} has already been replanned more than two times without improvement")
             count = 0
 
             keys_with_zero = [k for k, v in already_replanned.items() if v == 0]
+            number_current_replanned = total_number_of_problems-len(keys_with_zero)
 
-            if (len(already_replanned.keys())-len(keys_with_zero) >= max_replans_without_new_trace):
+            if (number_current_replanned >= max_replans_without_new_trace):
                 print(f"Reset the state space, plan random instance {id_to_plan}")
-                for j in range(len(os.listdir(output_folder))):
-                    already_replanned[j+1] = 0
+
+                for k in already_replanned.keys():
+                    already_replanned[k] = 0
                 
                 keys_with_zero = [k for k, v in already_replanned.items() if v == 0]
                 reset_space()
-                #shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
-                #[shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(parent_path,output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
 
             id_to_plan = random.choice(keys_with_zero)
+
+        # Check if we found a schedule that is WORSE than the initial plan.
+        # If yes, we immediately reset to continue from the best solution found.
+        # While technically it might make sense to also check arbitrarily bad solutions, in testing we never went -> really bad -> super good
+        # After running this, we eventually get stuck in schedules that are only worse than the initial state.
+        # Apparently this idea is not a good one
+
+        #elif (last_objective > initial_objective):
+        #    print("Reset - Found objective with worse performance than initial state.")
+        #    reset_space()
+            
+        #    for j in range(len(os.listdir(output_folder))):
+        #        already_replanned[j+1] = 0
+        #    id_to_plan = random.choice(keys_with_zero)
+
             
         last_planned_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
         log2 = pm4py.read_xes(last_planned_suffix)
@@ -280,9 +290,7 @@ if __name__ == "__main__":
 
         if same_trace:
             already_replanned[id_to_plan] += 1
-            same_trace_count += 1
-            if (same_trace_count+1%4 == 0):
-                no_improvement_found +=1
+
             #print("Same trace generated again, count: ", same_trace_count, already_replanned[id_to_plan])
         else:
             
@@ -296,13 +304,18 @@ if __name__ == "__main__":
 
                 for k in already_replanned.keys():
                     already_replanned[k] = 0
+
                 best_ = last_objective
                 shutil.move(os.path.join(parent_path, "highest_slack_instance.json"), os.path.join(parent_path, "best_config", "highest_slack_instance.json"))
                 [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
                 [shutil.copy(os.path.join(parent_path,output_folder,p), os.path.join(parent_path,"best_config", "pddl",p)) for p in os.listdir(os.path.join(parent_path,output_folder)) if p.endswith(".pddl")]
             else:
-                no_improvement_found += 1
+                #no_improvement_found += 1
                 already_replanned[id_to_plan] += 1
+                if (last_objective > initial_objective):
+                    no_improvement_found +=1
+                else: 
+                    no_improvement_found = 0
         #print(os.listdir(output_folder))
         currentIteration = time.time()
         print(id_to_plan, same_trace, currentIteration-currentStart)
