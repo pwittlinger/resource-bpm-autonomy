@@ -37,8 +37,8 @@ def save_pt_visualization(pt, output_path: str|Path, filetype: str = 'png'):
     gviz = pt_visualizer.apply(pt)
 
 
-    if shutil.which("dot") is not None:
-        pt_visualizer.save(gviz, str(output_path))
+    #if shutil.which("dot") is not None:
+    #    pt_visualizer.save(gviz, str(output_path))
 
 def save_pn_visualization(net, im, fm, output_path: str|Path, filetype: str = 'png'):
     output_path = Path(output_path)
@@ -47,8 +47,8 @@ def save_pn_visualization(net, im, fm, output_path: str|Path, filetype: str = 'p
     if output_path.suffix != f'.{filetype}':
         output_path = output_path.with_suffix(f'.{filetype}')
     gviz = pm4py.visualization.petri_net.visualizer.apply(net, im, fm)
-    if shutil.which("dot") is not None:
-        pm4py.visualization.petri_net.visualizer.save(gviz, str(output_path))
+    #if shutil.which("dot") is not None:
+    #    pm4py.visualization.petri_net.visualizer.save(gviz, str(output_path))
 
 if __name__ == "__main__":
     INPUT_PATH = Path("input_files/petri_net/a20g6.pnml")

@@ -187,7 +187,6 @@ def reset_space():
     [shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(parent_path,output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
 
 
-
 if __name__ == "__main__":
     print(sys.argv)
     # Stopping conditions for loop
@@ -343,6 +342,7 @@ if __name__ == "__main__":
                 already_replanned[id_to_plan] += 1
                 if (last_objective > initial_objective):
                     no_improvement_found +=1
+                    shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
                 else: 
                     no_improvement_found = 0
         #print(os.listdir(output_folder))
