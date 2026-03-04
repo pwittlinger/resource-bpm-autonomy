@@ -42,7 +42,14 @@ def run_planner(problem_id):
                 "-o", os.path.join(parent_path, domain_path),
                 "-f", os.path.join(output_folder, get_problem_path_from_id(problem_id)),
                 "-s", "WAStar",
-                "-h", "-blind"]
+                "-h", "blind"]
+
+    #call_array = ["java", "-jar",
+    #            os.path.join(parent_path, planner_path),
+    #            "-o", os.path.join(parent_path, "grounded_domain.pddl"),
+    #            "-f", os.path.join(output_folder, get_problem_path_from_id(problem_id)),
+     #           "-s", "WAStar",
+    #            "-h", "blind"]
     
     r = subprocess.call(call_array, stdout=output_file)
     #print(r)
@@ -90,7 +97,7 @@ def generate_xes_from_plan(decl_path,activity_mapping, problem_id, initial):
         shutil.copy(xes_path, os.path.join(parent_path, "generated_xes", f"problem{problem_id}.xes"))
 
 
-def adjust_cost(problem_id, gap_file, activity_map_object):
+def adjust_cost(problem_id, gap_file, activity_map_object, initial, update_all = False):
     #[('ActivityA', 219), ('ActivityS', 17), ('ActivityM', 6)]
 
     gap = read_gap_file(os.path.join(parent_path, gap_file))
@@ -111,28 +118,36 @@ def adjust_cost(problem_id, gap_file, activity_map_object):
 
         repl_act = activity_map_object[act]
         
+        if (not update_all):
+            old = fr"\(= \(activity_cost {repl_act} {res}\) ([\d]+)\)"
+            old_cost = 0
+            if find := re.search(old, content):
+                old_cost = find.group(1)
+            
+            if initial:
+                updated_cost = int(old_cost) + cost + int(total_slack)
+            else:
+                updated_cost = int(old_cost) + cost
+            
+            new = f"(= (activity_cost {repl_act} {res}) {updated_cost})"
 
+            content = re.sub(old, new, content)
+
+        
+        # if (update_all):
         #old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
         #old_cost = 0
-        #new_content = content
         #for m in re.finditer(old, content):
         #    old_act = m.group(1)
         #    old_cost = m.group(2)
         #    updated_cost = int(old_cost) + 700
         #    new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
-        #    new_content = re.sub(re.escape(m.group()), new, new_content)
+        #    content = re.sub(re.escape(m.group()), new, content)
 
-        old = fr"\(= \(activity_cost {repl_act} {res}\) ([\d]+)\)"
-        old_cost = 0
-        if find := re.search(old, content):
-            old_cost = find.group(1)
+        
 
         #updated_cost = int(old_cost) + cost + 700
-        updated_cost = int(old_cost) + cost + int(total_slack)
-        
-        new = f"(= (activity_cost {repl_act} {res}) {updated_cost})"
 
-        content = re.sub(old, new, content)
 
     with open(os.path.join(output_folder, f"problem{problem_id}.pddl"), "w") as pf:
         pf.write(content)
@@ -214,26 +229,37 @@ if __name__ == "__main__":
 
     already_replanned = dict()
     best_ = initial_objective
-    
+    best_plan_iter = 0
+
+    update_cost_strongly = True
+    count_no_schedule_generated = 0
 
     all_original_logs = []
     total_number_of_problems = len(os.listdir(output_folder))
-
-    for k in already_replanned.keys():
-        already_replanned[k] = 0
-
+        
     for j in range(total_number_of_problems):
+        already_replanned[j+1] = 0
         all_original_logs.append(pm4py.read_xes(os.path.join(parent_path, generated_xes_path,"initial", f"problem{j+1}.xes")))
     
     max_replans_without_new_trace = int(total_number_of_problems*0.3)
-
-    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (no_improvement_found < max_replans_without_new_trace)):
+    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit)):
+    #while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (no_improvement_found < max_replans_without_new_trace)):
         # Update iteration counter
         i = i+1
 
         # Select the instance to schedule
         gap = read_gap_file(os.path.join(parent_path, slack_instance))
         id_to_plan = int(gap["instance_id"].split("_")[1])
+
+        if ((no_improvement_found > max_replans_without_new_trace) or (count_no_schedule_generated > max_replans_without_new_trace)):
+            no_improvement_found = 0
+            count_no_schedule_generated = 0
+            update_cost_strongly = False
+            print("resetting")
+            for k in already_replanned.keys():
+                already_replanned[k] = 0
+            
+            reset_space()
 
         if (already_replanned[id_to_plan] > 0):
             
@@ -244,7 +270,7 @@ if __name__ == "__main__":
             number_current_replanned = total_number_of_problems-len(keys_with_zero)
 
             if (number_current_replanned >= max_replans_without_new_trace):
-                print(f"Reset the state space, plan random instance {id_to_plan}")
+                
 
                 for k in already_replanned.keys():
                     already_replanned[k] = 0
@@ -253,6 +279,7 @@ if __name__ == "__main__":
                 reset_space()
 
             id_to_plan = random.choice(keys_with_zero)
+            print(f"Reset the state space, plan random instance {id_to_plan}")
 
         # Check if we found a schedule that is WORSE than the initial plan.
         # If yes, we immediately reset to continue from the best solution found.
@@ -272,7 +299,7 @@ if __name__ == "__main__":
         last_planned_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
         log2 = pm4py.read_xes(last_planned_suffix)
 
-        adjust_cost(id_to_plan, slack_instance, act_map)
+        adjust_cost(id_to_plan, slack_instance, act_map, update_cost_strongly)
         shutil.copy(slack_instance, os.path.join(parent_path, "highest_slack_instance.json"))
 
         run_planner(id_to_plan)
@@ -290,17 +317,19 @@ if __name__ == "__main__":
 
         if same_trace:
             already_replanned[id_to_plan] += 1
-
+            count_no_schedule_generated += 1
+            
             #print("Same trace generated again, count: ", same_trace_count, already_replanned[id_to_plan])
         else:
-            
+            count_no_schedule_generated = 0
             shutil.copy(src=replanned_suffix, dst=os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes"))
             resulting_schedule = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
         
             last_objective = resulting_schedule[0].BestObjectiveBound()
             if (best_ > last_objective):
                 no_improvement_found = 0
-                already_replanned[id_to_plan] = 0
+                
+                best_plan_iter = i
 
                 for k in already_replanned.keys():
                     already_replanned[k] = 0
@@ -320,4 +349,4 @@ if __name__ == "__main__":
         currentIteration = time.time()
         print(id_to_plan, same_trace, currentIteration-currentStart)
 
-    print(f"Best plan so far: {best_}")
+    print(f"Best plan so far: {best_} found after {best_plan_iter}")
