@@ -1,0 +1,89 @@
+import os
+import traceback
+import runner
+import matplotlib.pyplot as plt
+import ast
+
+args1 = ["dummy",
+    "input_files/declare/a20g6_7_data_parsed.decl", 
+        "input_files/xes_files/a20g6-prefix-conforming-3.xes", 
+        "input_files/variable_values_multi_model.txt",
+        "input_files/variable_substitutions_a20g6_7.decl.txt", 
+        "input_files/assignments/a20g6_assignments_t.json",
+        "input_files/petri_net/a20g6.pnml"
+            ]
+
+args2 = ["dummy",
+    "input_files/declare/a20g6_7_data_parsed.decl", 
+        "input_files/xes_files/a20g6-prefix-conforming-3.xes", 
+        "input_files/variable_values_multi_model.txt",
+        "input_files/variable_substitutions_a20g6_7.decl.txt", 
+        "input_files/assignments/a20g6_assignments_5.json",
+        "input_files/petri_net/a20g6.pnml"
+            ]
+
+def show_trajectories(file_name):
+    # Load data from file
+    with open(file_name, "r") as f:
+        trajectories = [ast.literal_eval(line.strip()) for line in f if line.strip()]
+
+    # Plot
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    for i, trajectory in enumerate(trajectories):
+        ax.plot(range(len(trajectory)), trajectory, marker="o", markersize=4, label=f"Trajectory {i + 1}")
+
+    ax.set_xlabel("Iteration", fontsize=13)
+    ax.set_ylabel("Value", fontsize=13)
+    ax.set_title("Schedule Trajectories", fontsize=15)
+    ax.legend(loc="upper right", fontsize=10)
+    ax.grid(True, linestyle="--", alpha=0.5)
+
+    plt.tight_layout()
+    plt.savefig(f"{file_name}.png", dpi=150)
+    plt.show()
+    print("Plot saved to schedule_trajectories.png")
+
+
+if __name__=="__main__":
+
+    best_plans = []
+    for j in range(0):
+        try:
+            print(f"Running iter {j}")
+            b_, bi_, found_objectives= runner.run_search(args1, 50, 150)
+            best_plans.append([bi_, b_])
+            with open("best_schedule_no_update.txt", "a") as f:
+                f.write(str(best_plans))
+            with open("schedule_trajectories_no_update.txt", "a") as f:
+                f.write(str(found_objectives)+"\n")
+        except Exception as e:
+            traceback.print_exc()
+            continue
+    
+    #show_trajectories("schedule_trajectories.txt")
+    #show_trajectories("schedule_trajectories_weak_update.txt")
+    show_trajectories("schedule_trajectories_no_update.txt")
+  
+
+    best_plans = []
+    for j in range(0):
+        try:
+            b_, bi_, found_objectives = runner.run_search(args2, 50, 150)
+            best_plans.append([bi_, b_])
+            with open("best_schedule_5_no_update.txt", "a") as f:
+                f.write(str(best_plans))
+            with open("schedule_trajectories_5_no_update.txt", "a") as f:
+                f.write(str(found_objectives)+"\n")
+        except Exception as e:
+            traceback.print_exc()
+            continue
+    
+    #show_trajectories("schedule_trajectories_5.txt")
+    #
+    show_trajectories("schedule_trajectories_5_no_update.txt")
+
+
+
+
+    

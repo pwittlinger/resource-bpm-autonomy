@@ -183,36 +183,36 @@ def parse_input(args):
 def reset_space():
     # Move the current best to the pddl folder
 
+    #[shutil.copy(os.path.join(parent_path,"output","initial",p),os.path.join(output_folder,p)) for p in os.listdir(os.path.join(parent_path,"output","initial")) if p.endswith(".pddl")]
     shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
-    [shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(parent_path,output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
+    [shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
 
+def reset_to_initial():
+    [shutil.copy(os.path.join(parent_path,"output","initial",p),os.path.join(output_folder,p)) for p in os.listdir(os.path.join(parent_path,"output", "initial")) if p.endswith(".pddl")]
+    #shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
+    
 
-if __name__ == "__main__":
-    print(sys.argv)
-    # Stopping conditions for loop
-    maxIterations = 50 # total number of iterations
-    timeoutLimit = 300 # Maximum number of seconds spend
-
-    # Read in file paths to generate PDDL files
-    decl_loc, pn_loc, l, variable_values, var_sub_loc, cost_model = parse_input(sys.argv)
-
-    # Setting variables to generate the XES later
+def run_search(args, maxIterations, timeoutLimit):
+    # Instantiate variables
+    decl_loc, pn_loc, l, variable_values, var_sub_loc, cost_model = parse_input(args)
     pn_name = os.path.normpath(pn_loc).split(os.sep)[-1]
+    
     activity_mapping = os.path.join(parent_path, "output", f"activityMapping_{pn_name}.txt")
-
     act_map = instantiate_mapping_file(activity_mapping=activity_mapping)
 
-    #slack_file = read_gap_file(os.path.join(parent_path, slack_instance))
-
-
-    # Generate PDDL files
-    # This creates files under the current path/output/pddl
     subprocess.call(['java', '-jar', jar_path, "-d", decl_loc, "-p", pn_loc, "-o", l, "-a",variable_values,"-s", var_sub_loc, "-c",cost_model])
 
-    #
+    [shutil.copy(os.path.join(output_folder,p),os.path.join(parent_path,"output", "initial",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
+
+    
     generate_all_initial_plans()
     generate_all_xes_from_plan(decl_loc, activity_mapping)
 
+    [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
+    [shutil.copy(os.path.join(parent_path,output_folder,p), os.path.join(parent_path,"best_config", "pddl",p)) for p in os.listdir(os.path.join(parent_path,output_folder)) if p.endswith(".pddl")]
+
+    ################
+    # Get initial schedule
     inrus = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
 
     initial_objective = inrus[0].BestObjectiveBound()
@@ -230,8 +230,9 @@ if __name__ == "__main__":
     best_ = initial_objective
     best_plan_iter = 0
 
-    update_cost_strongly = True
+    update_cost_strongly = False
     count_no_schedule_generated = 0
+    found_objectives = []
 
     all_original_logs = []
     total_number_of_problems = len(os.listdir(output_folder))
@@ -241,7 +242,9 @@ if __name__ == "__main__":
         all_original_logs.append(pm4py.read_xes(os.path.join(parent_path, generated_xes_path,"initial", f"problem{j+1}.xes")))
     
     max_replans_without_new_trace = int(total_number_of_problems*0.3)
-    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit)):
+
+    max_replans_without_new_trace = int(total_number_of_problems*0.3)
+    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (last_objective <= initial_objective)):
     #while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (no_improvement_found < max_replans_without_new_trace)):
         # Update iteration counter
         i = i+1
@@ -254,7 +257,7 @@ if __name__ == "__main__":
             no_improvement_found = 0
             count_no_schedule_generated = 0
             update_cost_strongly = False
-            print("resetting")
+
             for k in already_replanned.keys():
                 already_replanned[k] = 0
             
@@ -278,21 +281,7 @@ if __name__ == "__main__":
                 reset_space()
 
             id_to_plan = random.choice(keys_with_zero)
-            print(f"Reset the state space, plan random instance {id_to_plan}")
-
-        # Check if we found a schedule that is WORSE than the initial plan.
-        # If yes, we immediately reset to continue from the best solution found.
-        # While technically it might make sense to also check arbitrarily bad solutions, in testing we never went -> really bad -> super good
-        # After running this, we eventually get stuck in schedules that are only worse than the initial state.
-        # Apparently this idea is not a good one
-
-        #elif (last_objective > initial_objective):
-        #    print("Reset - Found objective with worse performance than initial state.")
-        #    reset_space()
             
-        #    for j in range(len(os.listdir(output_folder))):
-        #        already_replanned[j+1] = 0
-        #    id_to_plan = random.choice(keys_with_zero)
 
             
         last_planned_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
@@ -323,8 +312,12 @@ if __name__ == "__main__":
             count_no_schedule_generated = 0
             shutil.copy(src=replanned_suffix, dst=os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes"))
             resulting_schedule = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
+            
+            #reset_to_initial()
         
             last_objective = resulting_schedule[0].BestObjectiveBound()
+            found_objectives.append(last_objective)
+
             if (best_ > last_objective):
                 no_improvement_found = 0
                 
@@ -349,4 +342,19 @@ if __name__ == "__main__":
         currentIteration = time.time()
         print(id_to_plan, same_trace, currentIteration-currentStart)
 
-    print(f"Best plan so far: {best_} found after {best_plan_iter}")
+    #print(f"Best plan so far: {best_} found after {best_plan_iter}")
+    return [best_, best_plan_iter, found_objectives]
+
+
+
+
+if __name__ == "__main__":
+    print(sys.argv)
+    # Stopping conditions for loop
+    maxIterations = 50 # total number of iterations
+    timeoutLimit = 300 # Maximum number of seconds spend
+
+    b_, bi_ = run_search(sys.argv, maxIterations, timeoutLimit)
+
+    print(f"Best Plan found on iteration {bi_}: {b_}")
+
