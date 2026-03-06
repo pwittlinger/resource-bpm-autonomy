@@ -27,14 +27,15 @@ class ScheduleInstance:
         
         self.dependency_list = self._create_dependency_dict()
     
-    def _create_dependency_dict(self) -> dict:
+    def _create_dependency_dict(self, save_visualizations: bool = False) -> dict:
         net, im, fm = load_petri_net(self.petri_net_pnml_path)
         pt = pn_to_pt(net, im, fm)
         pt_output_path = self.output_path / Path("process_tree").with_suffix('.ptml')
         save_pt(pt, pt_output_path)
         # add pt or pn into Output path
-        save_pt_visualization(pt, self.output_path / Path("process_tree").with_stem("process_tree-pt"))
-        save_pn_visualization(net, im, fm, self.output_path / Path("petri_net").with_stem("process_tree-pn"))
+        if save_visualizations:
+            save_pt_visualization(pt, self.output_path / Path("process_tree").with_stem("process_tree-pt"))
+            save_pn_visualization(net, im, fm, self.output_path / Path("petri_net").with_stem("process_tree-pn"))
 
         # create dependency dict
         dependencies = walk_tree(pt)
