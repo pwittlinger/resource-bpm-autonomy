@@ -5,6 +5,7 @@ import os
 import random
 import re
 import json
+import math
 os.environ['SHOW_PROGRESS_BAR'] = 'False'
 os.environ['PM4PY_SHOW_PROGRESS_BAR'] = 'False'
 
@@ -97,7 +98,7 @@ def generate_xes_from_plan(decl_path,activity_mapping, problem_id, initial):
         shutil.copy(xes_path, os.path.join(parent_path, "generated_xes", f"problem{problem_id}.xes"))
 
 
-def adjust_cost(problem_id, gap_file, activity_map_object, initial, update_all = False):
+def adjust_cost(problem_id, gap_file, activity_map_object, initial, update_all, global_cost_model):
     #[('ActivityA', 219), ('ActivityS', 17), ('ActivityM', 6)]
 
     gap = read_gap_file(os.path.join(parent_path, gap_file))
@@ -116,6 +117,9 @@ def adjust_cost(problem_id, gap_file, activity_map_object, initial, update_all =
         res = g["resource"]
         cost = g["predecessor_slack"]
 
+        next_cheapest_alternative = get_next_cheapest_alternative(global_cost_model, act, res)
+
+        
         repl_act = activity_map_object[act]
         
         if (not update_all):
@@ -123,7 +127,8 @@ def adjust_cost(problem_id, gap_file, activity_map_object, initial, update_all =
             old_cost = 0
             if find := re.search(old, content):
                 old_cost = find.group(1)
-            
+            cost = min(cost, (next_cheapest_alternative-int(old_cost))+1)
+
             if initial:
                 updated_cost = int(old_cost) + cost + int(total_slack)
             else:
@@ -157,6 +162,28 @@ def read_gap_file(gap_file):
     with open(gap_file) as f:
         data = json.load(f)
     return data
+
+import json
+
+
+def get_next_cheapest_alternative(data: list[dict], activity: str, resource: str) -> int | None:
+    """
+    Given a task-resource assignment list, an activity name, and a resource ID,
+    returns the duration of the next cheapest alternative resource for that activity
+    (i.e. the cheapest resource that is NOT the given one).
+
+    Returns None if no alternative exists.
+    """
+    alternatives = [
+        entry for entry in data
+        if entry["task"] == activity and entry["resource"] != resource
+    ]
+
+    if not alternatives:
+        return float("inf")
+
+    next_cheapest = min(alternatives, key=lambda x: x["duration"])
+    return next_cheapest["duration"]
 
 
 def instantiate_mapping_file(activity_mapping):
@@ -199,6 +226,10 @@ def run_search(args, maxIterations, timeoutLimit):
     
     activity_mapping = os.path.join(parent_path, "output", f"activityMapping_{pn_name}.txt")
     act_map = instantiate_mapping_file(activity_mapping=activity_mapping)
+
+   
+    with open(cost_model) as f:
+        all_assignments = json.load(f)
 
     subprocess.call(['java', '-jar', jar_path, "-d", decl_loc, "-p", pn_loc, "-o", l, "-a",variable_values,"-s", var_sub_loc, "-c",cost_model])
 
@@ -244,7 +275,7 @@ def run_search(args, maxIterations, timeoutLimit):
     max_replans_without_new_trace = int(total_number_of_problems*0.3)
 
     max_replans_without_new_trace = int(total_number_of_problems*0.3)
-    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (last_objective <= initial_objective)):
+    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit)):
     #while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (no_improvement_found < max_replans_without_new_trace)):
         # Update iteration counter
         i = i+1
@@ -287,7 +318,7 @@ def run_search(args, maxIterations, timeoutLimit):
         last_planned_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
         log2 = pm4py.read_xes(last_planned_suffix)
 
-        adjust_cost(id_to_plan, slack_instance, act_map, update_cost_strongly)
+        adjust_cost(id_to_plan, slack_instance, act_map, update_cost_strongly, False,  all_assignments)
         shutil.copy(slack_instance, os.path.join(parent_path, "highest_slack_instance.json"))
 
         run_planner(id_to_plan)
