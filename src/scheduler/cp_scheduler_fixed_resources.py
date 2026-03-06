@@ -14,6 +14,7 @@ from src.scheduler.resource_repository import ResourceRepository
 from src.scheduler.schedule_instance import ScheduleInstance
 from src.scheduler.plotly_visualizer import visualize_schedule_plotly
 from src.scheduler.slack_analysis import export_highest_slack_instance
+from src.scheduler.resource_shadow_costs import export_resource_shadow_costs
 
 def solve_schedule(schedule_instances: list,
                    resource_repository: ResourceRepository,
@@ -173,6 +174,7 @@ def run_schedule(xes_path:str,
         solver, all_tasks = result
         #visualize_schedule_plotly(solver, all_tasks)
         export_highest_slack_instance(solver, all_tasks, sched_instances, output_path=os.path.abspath("input_files/slack_analysis_output/highest_slack_instance.json"))
+        export_resource_shadow_costs(solver, all_tasks, output_path=os.path.abspath("input_files/slack_analysis_output/resource_shadow_costs.json"))
 
     return result
 
@@ -202,4 +204,5 @@ if __name__ == "__main__":
         solver, all_tasks = result
         visualize_schedule_plotly(solver, all_tasks)
         export_highest_slack_instance(solver, all_tasks, sched_instances, output_path="input_files/slack_analysis_output/highest_slack_instance.json")
+        export_resource_shadow_costs(solver, all_tasks, output_path="input_files/slack_analysis_output/resource_shadow_costs.json")
 
