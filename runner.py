@@ -20,7 +20,11 @@ parent_path = os.path.abspath(os.getcwd())
 output_folder = os.path.join(parent_path, "output", "pddl")
 
 
+
 tqdm.__init__ = partialmethod(tqdm.__init__, disable=True)
+
+shadow_cost = os.path.join(parent_path, "input_files","slack_analysis_output", "resource_shadow_costs.json")
+#input_files/slack_analysis_output
 
 jar_path = "pddl_gen-1.0-SNAPSHOT-launcher.jar"
 planner_path = os.path.join("planner", "enhsp.jar")#"planner\enhsp.jar"
@@ -60,6 +64,8 @@ def generate_all_initial_plans():
     for i in range(nProbs):
         print(f"Generating initial plan for problem{i+1}.pddl")
         run_planner(i+1)
+        [shutil.copy(os.path.join(output_folder,p),os.path.join(parent_path, "output", "initial",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
+
         #if not (os.path.isfile(os.path.join(parent_path, generated_plan_path, f"problem{i+1}.txt"))):
         #    print(f"Generating initial plan for problem{i+1}.pddl")
         #    run_planner(i+1)
@@ -97,7 +103,7 @@ def generate_xes_from_plan(decl_path,activity_mapping, problem_id, initial):
         shutil.copy(xes_path, os.path.join(parent_path, "generated_xes", f"problem{problem_id}.xes"))
 
 
-def adjust_cost(problem_id, gap_file, activity_map_object, initial, update_all = False):
+def adjust_cost(problem_id:int, gap_file:str, activity_map_object:dict, initial:bool, update_all = False):
     #[('ActivityA', 219), ('ActivityS', 17), ('ActivityM', 6)]
 
     gap = read_gap_file(os.path.join(parent_path, gap_file))
@@ -133,25 +139,41 @@ def adjust_cost(problem_id, gap_file, activity_map_object, initial, update_all =
 
             content = re.sub(old, new, content)
 
-        
-        # if (update_all):
-        #old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
-        #old_cost = 0
-        #for m in re.finditer(old, content):
-        #    old_act = m.group(1)
-        #    old_cost = m.group(2)
-        #    updated_cost = int(old_cost) + 700
-        #    new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
-        #    content = re.sub(re.escape(m.group()), new, content)
-
-        
-
-        #updated_cost = int(old_cost) + cost + 700
-
+    
 
     with open(os.path.join(output_folder, f"problem{problem_id}.pddl"), "w") as pf:
         pf.write(content)
         #pf.write(new_content)
+
+def adjust_shadow_cost(problem_id:int):
+    data = read_gap_file(shadow_cost)
+
+    with open(os.path.join(output_folder, f"problem{problem_id}.pddl")) as pf:
+        content = pf.read()
+
+    up = data["resources"]
+
+    for res in up:
+
+        old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
+        old_cost = 0
+        #updated_cost = up[res]["penalty_rate"]
+        update_factor = up[res]["contention_index"]
+        for m in re.finditer(old, content):
+            old_act = m.group(1)
+            old_cost = m.group(2)
+            #updated_cost = int(old_cost) + updated_cost
+            updated_cost = int(old_cost) * update_factor
+            new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
+            content = re.sub(re.escape(m.group()), new, content)
+
+        
+
+        #updated_cost = int(old_cost) + cost + 700
+    with open(os.path.join(output_folder, f"problem{problem_id}.pddl"), "w") as pf:
+        pf.write(content)
+    return True
+    
 
 def read_gap_file(gap_file):
     with open(gap_file) as f:
@@ -186,13 +208,17 @@ def reset_space():
     shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
     [shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(parent_path,output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
 
+def reset_to_initial():
+    [shutil.copy(os.path.join(parent_path,"output","initial",p),os.path.join(output_folder,p)) for p in os.listdir(os.path.join(parent_path,"output", "initial")) if p.endswith(".pddl")]
+    shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
+
 
 
 if __name__ == "__main__":
     print(sys.argv)
     # Stopping conditions for loop
     maxIterations = 50 # total number of iterations
-    timeoutLimit = 300 # Maximum number of seconds spend
+    timeoutLimit = 150 # Maximum number of seconds spend
 
     # Read in file paths to generate PDDL files
     decl_loc, pn_loc, l, variable_values, var_sub_loc, cost_model = parse_input(sys.argv)
@@ -299,7 +325,8 @@ if __name__ == "__main__":
         last_planned_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
         log2 = pm4py.read_xes(last_planned_suffix)
 
-        adjust_cost(id_to_plan, slack_instance, act_map, update_cost_strongly)
+        #adjust_cost(id_to_plan, slack_instance, act_map, update_cost_strongly)
+        adjust_shadow_cost(id_to_plan)
         shutil.copy(slack_instance, os.path.join(parent_path, "highest_slack_instance.json"))
 
         run_planner(id_to_plan)
@@ -324,7 +351,7 @@ if __name__ == "__main__":
             count_no_schedule_generated = 0
             shutil.copy(src=replanned_suffix, dst=os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes"))
             resulting_schedule = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
-        
+            reset_to_initial()
             last_objective = resulting_schedule[0].BestObjectiveBound()
             if (best_ > last_objective):
                 no_improvement_found = 0
@@ -337,7 +364,7 @@ if __name__ == "__main__":
                 best_ = last_objective
                 shutil.move(os.path.join(parent_path, "highest_slack_instance.json"), os.path.join(parent_path, "best_config", "highest_slack_instance.json"))
                 [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
-                [shutil.copy(os.path.join(parent_path,output_folder,p), os.path.join(parent_path,"best_config", "pddl",p)) for p in os.listdir(os.path.join(parent_path,output_folder)) if p.endswith(".pddl")]
+                [shutil.copy(os.path.join(output_folder,p), os.path.join(parent_path,"best_config", "pddl",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
             else:
                 #no_improvement_found += 1
                 already_replanned[id_to_plan] += 1

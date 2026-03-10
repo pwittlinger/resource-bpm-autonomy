@@ -134,7 +134,7 @@ def export_resource_shadow_costs(
     solver,
     all_tasks: AllTasks,
     output_path: str = "output_files/resource_shadow_costs.json",
-    ideal_utilization: float = 1.0,
+    ideal_utilization: float = 0.80,
     scaling_factor: float = 1.0,
 ) -> dict:
     """Calculate shadow costs (penalty rates) for each resource after CP solving
