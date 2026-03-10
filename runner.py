@@ -21,7 +21,11 @@ parent_path = os.path.abspath(os.getcwd())
 output_folder = os.path.join(parent_path, "output", "pddl")
 
 
+
 tqdm.__init__ = partialmethod(tqdm.__init__, disable=True)
+
+shadow_cost = os.path.join(parent_path, "input_files","slack_analysis_output", "resource_shadow_costs.json")
+#input_files/slack_analysis_output
 
 jar_path = "pddl_gen-1.0-SNAPSHOT-launcher.jar"
 planner_path = os.path.join("planner", "enhsp.jar")#"planner\enhsp.jar"
@@ -61,6 +65,8 @@ def generate_all_initial_plans():
     for i in range(nProbs):
         print(f"Generating initial plan for problem{i+1}.pddl")
         run_planner(i+1)
+        [shutil.copy(os.path.join(output_folder,p),os.path.join(parent_path, "output", "initial",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
+
         #if not (os.path.isfile(os.path.join(parent_path, generated_plan_path, f"problem{i+1}.txt"))):
         #    print(f"Generating initial plan for problem{i+1}.pddl")
         #    run_planner(i+1)
@@ -98,7 +104,7 @@ def generate_xes_from_plan(decl_path,activity_mapping, problem_id, initial):
         shutil.copy(xes_path, os.path.join(parent_path, "generated_xes", f"problem{problem_id}.xes"))
 
 
-def adjust_cost(problem_id, gap_file, activity_map_object, initial, update_all, global_cost_model):
+def adjust_cost(problem_id:int, gap_file:str, activity_map_object:dict, initial:bool, update_all = False):
     #[('ActivityA', 219), ('ActivityS', 17), ('ActivityM', 6)]
 
     gap = read_gap_file(os.path.join(parent_path, gap_file))
@@ -138,25 +144,41 @@ def adjust_cost(problem_id, gap_file, activity_map_object, initial, update_all, 
 
             content = re.sub(old, new, content)
 
-        
-        # if (update_all):
-        #old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
-        #old_cost = 0
-        #for m in re.finditer(old, content):
-        #    old_act = m.group(1)
-        #    old_cost = m.group(2)
-        #    updated_cost = int(old_cost) + 700
-        #    new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
-        #    content = re.sub(re.escape(m.group()), new, content)
-
-        
-
-        #updated_cost = int(old_cost) + cost + 700
-
+    
 
     with open(os.path.join(output_folder, f"problem{problem_id}.pddl"), "w") as pf:
         pf.write(content)
         #pf.write(new_content)
+
+def adjust_shadow_cost(problem_id:int):
+    data = read_gap_file(shadow_cost)
+
+    with open(os.path.join(output_folder, f"problem{problem_id}.pddl")) as pf:
+        content = pf.read()
+
+    up = data["resources"]
+
+    for res in up:
+
+        old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
+        old_cost = 0
+        #updated_cost = up[res]["penalty_rate"]
+        update_factor = up[res]["contention_index"]
+        for m in re.finditer(old, content):
+            old_act = m.group(1)
+            old_cost = m.group(2)
+            #updated_cost = int(old_cost) + updated_cost
+            updated_cost = int(old_cost) * update_factor
+            new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
+            content = re.sub(re.escape(m.group()), new, content)
+
+        
+
+        #updated_cost = int(old_cost) + cost + 700
+    with open(os.path.join(output_folder, f"problem{problem_id}.pddl"), "w") as pf:
+        pf.write(content)
+    return True
+    
 
 def read_gap_file(gap_file):
     with open(gap_file) as f:
@@ -318,7 +340,8 @@ def run_search(args, maxIterations, timeoutLimit):
         last_planned_suffix = os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes")
         log2 = pm4py.read_xes(last_planned_suffix)
 
-        adjust_cost(id_to_plan, slack_instance, act_map, update_cost_strongly, False,  all_assignments)
+        #adjust_cost(id_to_plan, slack_instance, act_map, update_cost_strongly)
+        adjust_shadow_cost(id_to_plan)
         shutil.copy(slack_instance, os.path.join(parent_path, "highest_slack_instance.json"))
 
         run_planner(id_to_plan)
@@ -360,7 +383,7 @@ def run_search(args, maxIterations, timeoutLimit):
                 best_ = last_objective
                 shutil.move(os.path.join(parent_path, "highest_slack_instance.json"), os.path.join(parent_path, "best_config", "highest_slack_instance.json"))
                 [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
-                [shutil.copy(os.path.join(parent_path,output_folder,p), os.path.join(parent_path,"best_config", "pddl",p)) for p in os.listdir(os.path.join(parent_path,output_folder)) if p.endswith(".pddl")]
+                [shutil.copy(os.path.join(output_folder,p), os.path.join(parent_path,"best_config", "pddl",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
             else:
                 #no_improvement_found += 1
                 already_replanned[id_to_plan] += 1
