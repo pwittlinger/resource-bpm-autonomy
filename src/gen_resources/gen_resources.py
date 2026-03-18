@@ -23,7 +23,7 @@ def generate(pt: ProcessTree, no_resource:int=3, task_duration:int=10, seed:int=
     # assign each task to a random resource
     import random
     random.seed(seed)
-    task_resource_mapping = {task: random.sample(resource_list, random.randint(1, len(resource_list))) for task in task_list}
+    task_resource_mapping = {task: random.sample(resource_list, random.randint(2, len(resource_list))) for task in task_list}
 
     task_resourece_mapping_zip = [(key, val) for key, values in task_resource_mapping.items() for val in values]
 
@@ -51,8 +51,8 @@ def save_as_json(assignments, output_path: str|Path):
 
 if __name__ == "__main__":
     PT_INPUT_PATH = Path("output_files/petri_net/a20g6.ptml")
-    OUTPUT_PATH = Path("output_files/assignments/a20g6_assignments.json")
+    OUTPUT_PATH = Path("output_files/assignments/a20g6_assignments_5.json")
     
     pt = load_process_tree(PT_INPUT_PATH)
-    assignments = generate(pt)
+    assignments = generate(pt, 5)
     save_as_json(assignments, OUTPUT_PATH)

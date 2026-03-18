@@ -1,0 +1,85 @@
+Domain parsed
+Problem parsed
+Grounding..
+Grounding Time: 324
+UFX:true
+|F|:1940
+|X|:11
+|A|:163
+|P|:0
+|E|:0
+h(I):0.0
+f(n) = 1.0 (Expanded Nodes: 20, Evaluated States: 37, Time: 0.067) Frontier Size: 17
+f(n) = 2.0 (Expanded Nodes: 60, Evaluated States: 80, Time: 0.126) Frontier Size: 20
+f(n) = 3.0 (Expanded Nodes: 79, Evaluated States: 89, Time: 0.132) Frontier Size: 8
+f(n) = 4.0 (Expanded Nodes: 85, Evaluated States: 100, Time: 0.149) Frontier Size: 13
+f(n) = 5.0 (Expanded Nodes: 94, Evaluated States: 109, Time: 0.163) Frontier Size: 13
+f(n) = 6.0 (Expanded Nodes: 111, Evaluated States: 128, Time: 0.167) Frontier Size: 14
+f(n) = 7.0 (Expanded Nodes: 121, Evaluated States: 140, Time: 0.17) Frontier Size: 16
+f(n) = 8.0 (Expanded Nodes: 141, Evaluated States: 167, Time: 0.175) Frontier Size: 23
+f(n) = 9.0 (Expanded Nodes: 149, Evaluated States: 174, Time: 0.176) Frontier Size: 22
+f(n) = 10.0 (Expanded Nodes: 161, Evaluated States: 189, Time: 0.179) Frontier Size: 25
+f(n) = 11.0 (Expanded Nodes: 173, Evaluated States: 196, Time: 0.181) Frontier Size: 20
+f(n) = 12.0 (Expanded Nodes: 187, Evaluated States: 209, Time: 0.183) Frontier Size: 18
+f(n) = 13.0 (Expanded Nodes: 197, Evaluated States: 226, Time: 0.186) Frontier Size: 22
+f(n) = 14.0 (Expanded Nodes: 215, Evaluated States: 250, Time: 0.189) Frontier Size: 26
+f(n) = 15.0 (Expanded Nodes: 229, Evaluated States: 269, Time: 0.19) Frontier Size: 28
+f(n) = 16.0 (Expanded Nodes: 243, Evaluated States: 287, Time: 0.193) Frontier Size: 31
+f(n) = 17.0 (Expanded Nodes: 269, Evaluated States: 314, Time: 0.2) Frontier Size: 31
+f(n) = 18.0 (Expanded Nodes: 279, Evaluated States: 321, Time: 0.202) Frontier Size: 18
+f(n) = 19.0 (Expanded Nodes: 287, Evaluated States: 329, Time: 0.202) Frontier Size: 17
+f(n) = 20.0 (Expanded Nodes: 301, Evaluated States: 347, Time: 0.205) Frontier Size: 19
+f(n) = 21.0 (Expanded Nodes: 315, Evaluated States: 363, Time: 0.207) Frontier Size: 21
+f(n) = 22.0 (Expanded Nodes: 333, Evaluated States: 384, Time: 0.21) Frontier Size: 23
+f(n) = 23.0 (Expanded Nodes: 343, Evaluated States: 392, Time: 0.212) Frontier Size: 21
+f(n) = 24.0 (Expanded Nodes: 355, Evaluated States: 401, Time: 0.213) Frontier Size: 16
+f(n) = 25.0 (Expanded Nodes: 363, Evaluated States: 410, Time: 0.214) Frontier Size: 17
+f(n) = 26.0 (Expanded Nodes: 379, Evaluated States: 429, Time: 0.218) Frontier Size: 19
+f(n) = 28.0 (Expanded Nodes: 385, Evaluated States: 433, Time: 0.219) Frontier Size: 12
+Problem Solved
+
+Found Plan:
+0.0: (validate-payload_t0_a10_t1)
+1.0: (sync-actions_t0_t1_a10)
+2.0: (validate-payload_t1_a16_t2)
+3.0: (sync-actions_t1_t2_a16)
+4.0: (validate-payload_t2_a18_t3)
+5.0: (sync-actions_t2_t3_a18)
+6.0: (add_action_a19_R0)
+7.0: (check_added_parameter_model_a19)
+8.0: (add_move_automata_a19)
+9.0: (add_action_a17_R0)
+10.0: (check_added_parameter_model_a17)
+11.0: (add_move_automata_a17)
+12.0: (add_action_a11_R1)
+13.0: (add_parameter_a11_categorical_c2)
+14.0: (check_added_parameter_model_a11)
+15.0: (add_move_automata_a11)
+16.0: (add_action_a14_R0)
+17.0: (check_added_parameter_model_a14)
+18.0: (add_move_automata_a14)
+19.0: (add_action_a2_R2)
+20.0: (check_added_parameter_model_a2)
+21.0: (add_move_automata_a2)
+22.0: (add_action_a15_R4)
+23.0: (check_added_parameter_model_a15)
+24.0: (add_move_automata_a15)
+25.0: (add_action_a5_R4)
+26.0: (check_added_parameter_model_a5)
+27.0: (add_move_automata_a5)
+28.0: (add_action_a0_R0)
+29.0: (check_added_parameter_model_a0)
+30.0: (add_move_automata_a0)
+31.0: (add_action_a1_R3)
+32.0: (check_added_parameter_model_a1)
+33.0: (add_move_automata_a1)
+
+Plan-Length:34
+Metric (Search):28.0
+Planning Time (msec): 248
+Heuristic Time (msec): 4
+Search Time (msec): 220
+Expanded Nodes:390
+States Evaluated:439
+Number of Dead-Ends detected:0
+Number of Duplicates detected:446
