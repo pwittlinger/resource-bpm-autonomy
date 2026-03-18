@@ -69,44 +69,42 @@ def _compute_simple_regret_values(
     resource_repository: ResourceRepository,
     makespan: int,
 ) -> dict[str, float]:
-    """Calculate regret metric for each task-resource assignment.
-    The regret is the difference between the duration of the assigned resource and 
-    the best possible assignment for that task.
+    """Calculate cost metrics for each task-resource assignment.
 
-    A high regret value indicates that the assigned resource is slower than the best option,
-    a regret value of 0 indicates the best possible assignment.
+    For every (task, resource) pair stores:
+        additional_cost: duration − best_duration across all resources for this
+                         task.  0 for the cheapest resource, positive for others.
+        num_alternatives: how many resources can perform this task.
+        is_only_resource: True when there is exactly one resource option.
+        alternative_resources: list of *other* resource names for this task.
 
     Returns:
-        dict: Nested structure {resource_name: {task_name: {'regret': float}}}
+        dict: Nested structure {resource_name: {task_name: {…}}}
     """
     regret_values = {}
     for candidate_task in resource_repository.get_all_tasks():
-        possible_assignments = []
+        assignments = []
         for resource in resource_repository.get_resources_for_task(candidate_task):
-            # Get each assignment (task, resource, duration)
             duration = resource_repository.get_duration_for_assignment(candidate_task, resource)
-            possible_assignments.append((candidate_task, resource, duration))
-            regret_values.setdefault(resource, {})
-        
-        for assignment in possible_assignments:
-            # Calculate regret for each of the assignments for this task
-            # We calculate regret as best resource duration - average of all other possible resource durations for this task
-            best_assignment = min(possible_assignments, key=lambda x: x[2])  # assignment with lowest duration
-            other_assignments = [
-                a for a in possible_assignments if a != assignment
-            ]
+            assignments.append({"res": resource, "dur": duration})
 
-            regret = (
-                assignment[2]
-                - best_assignment[2]
-            )
+        assignments.sort(key=lambda x: x['dur'])
 
-            # Add to regret_values dict
-            # for best assignment
-            regret_values[assignment[1]][assignment[0]] = {
-                "regret": int(round(regret, 4))
+        num_alternatives = len(assignments)
+        is_only_resource = num_alternatives == 1
+        best_dur = assignments[0]['dur']
+        all_resource_names = [a['res'] for a in assignments]
+
+        for a in assignments:
+            res_name = a['res']
+            additional_cost = a['dur'] - best_dur
+            regret_values.setdefault(res_name, {})
+            regret_values[res_name][candidate_task] = {
+                "additional_cost": float(round(additional_cost, 4)),
+                "num_alternatives": num_alternatives,
+                "is_only_resource": is_only_resource,
+                "alternative_resources": [r for r in all_resource_names if r != res_name],
             }
-
     return regret_values
 
 
@@ -136,38 +134,40 @@ def _compute_regret_rates(
     makespan: int,
     alpha: float = 1.0,
 ) -> dict[str, float]:
-    """Calculates a task specific tax rate. 
-    The task rate is calculated by taing the resource utilizaioton * normalized_regret_for task.
-    
-    This task specific tax therefore should balance utilization and only move tasks away from a 
-    constrained resource if the regret of the assignment is low.
-    """
-    
-    # Get maximal regret value across all resources and tasks to use for normalization
-    max_regret = max(
-        data['regret'] for resource_data in single_resource_regret.values()
-        for data in resource_data.values()
-    )
-    if not max_regret:
-        max_regret = 0
-    for resource in single_resource_regret.keys():
-        lambda_r = resource_stats[resource]['utilization'] * alpha
-        
-        for task, data in single_resource_regret[resource].items():
-            regret = data['regret']
-            # normalize regret
-            normalized_regret = max(regret/max_regret, 0.00001)
-            task_specific_tax = lambda_r * (1+normalized_regret)
+    """Calculates a task-specific tax driven purely by utilization and option count.
 
-            single_resource_regret[resource][task]['task_specific_tax'] = task_specific_tax
+    Tax formula per (resource, task) pair:
+        tax = utilization³ × (num_alternatives − 1) × alpha
+
+    - High utilization → high tax (push work away from overloaded resources).
+    - Many alternatives  → high tax (easy to redistribute).
+    - Only one resource   → tax = 0  (nowhere to move the task).
+    """
+
+    max_additional_cost = max(
+        (data['additional_cost'] for res in single_resource_regret.values() for data in res.values()),
+        default=1.0
+    )
+
+    for resource, tasks in single_resource_regret.items():
+        utilization = resource_stats[resource]['utilization']
+        utilization_pressure = (utilization ** 3) * alpha
+
+        for task, data in tasks.items():
+            num_alt = data.get('num_alternatives', 1)
+
+            if num_alt <= 1:
+                data['task_specific_tax'] = 0.0
+                continue
+
+            tax = utilization_pressure * (num_alt - 1)
+            data['task_specific_tax'] = tax
 
     for resource, stats in resource_stats.items():
         stats['tasks'] = single_resource_regret[resource]
 
-    # save a matplotlib visualization which shows, how the current alpha, 
-    # utilization and max regret impact the curve
-    plot_regret_rates(max_regret, alpha, resource_stats)
-    
+    plot_regret_rates(max_additional_cost, alpha, resource_stats)
+
     return resource_stats
 
 def _build_shadow_cost_report(
@@ -288,7 +288,7 @@ def export_lagrange_shadow_costs(
     )
 
     resource_stats = _compute_regret_rates(
-        resource_stats, single_resource_regret, makespan, alpha=0.5
+        resource_stats, single_resource_regret, makespan, alpha=scaling_factor
     )
 
     report = _build_shadow_cost_report(
