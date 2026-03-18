@@ -167,7 +167,7 @@ def adjust_cost(problem_id:int, gap_file:str, activity_map_object:dict, initial:
         pf.write(content)
         #pf.write(new_content)
 
-def adjust_shadow_cost(problem_id:int):
+def adjust_shadow_cost(problem_id:int, act_map):
     reset_to_initial()
 
     data = read_gap_file(shadow_cost)
@@ -181,18 +181,29 @@ def adjust_shadow_cost(problem_id:int):
 
         update_factor = up[res]["contention_index"]
         
-
+        act_map
 
         #old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
-        old = fr"add_action_(.*)_{res}"
-        old_cost = 0
-        #updated_cost = up[res]["penalty_rate"]
-        update_factor = up[res]["contention_index"]
-        for m in re.finditer(old, content):
-            old_act = m.group(1)
+
+        for task_t in up[res]["tasks"]:
+            mapped_task = act_map[task_t]
+            old = fr"add_action_({mapped_task})_{res}"
+            old_cost = 0
+            #updated_cost = up[res]["penalty_rate"]
+            update_factor = up[res]["tasks"][task_t]["task_specific_tax"]
+
+            content = change(content, mapped_task, res, update_factor, False)
+
+
+        #old = fr"add_action_(.*)_{res}"
+        #old_cost = 0
+        ##updated_cost = up[res]["penalty_rate"]
+        #update_factor = up[res]["contention_index"]
+        #for m in re.finditer(old, content):
+        #    old_act = m.group(1)
             #old_cost = m.group(2)
 
-            content = change(content, old_act, res, update_factor, False)
+        #    content = change(content, old_act, res, update_factor, False)
 
 
             #updated_cost = int(old_cost) + updated_cost
@@ -389,7 +400,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
 
         
         if cost_update_strategy == "contention":
-            adjust_shadow_cost(id_to_plan)
+            adjust_shadow_cost(id_to_plan, act_map)
         elif cost_update_strategy == "slack":
             adjust_cost(id_to_plan, slack_instance, act_map, update_cost_strongly, update_all,  all_assignments)
 
@@ -444,7 +455,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
                 
             else:
                 #no_improvement_found += 1
-                already_replanned[id_to_plan] += 1
+                #already_replanned[id_to_plan] += 1
                 if (last_objective > initial_objective):
                     # Breaks the loop
                     i = maxIterations
@@ -482,7 +493,7 @@ if __name__ == "__main__":
     # Stopping conditions for loop
     maxIterations = 5000 # total number of iterations
     timeoutLimit = 150 # Maximum number of seconds spend
-    search_strat = "slack"
+    search_strat = "contention"
 
     b_, bi_, foundObjectives_= run_search(sys.argv, maxIterations, timeoutLimit, search_strat)
 

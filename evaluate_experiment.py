@@ -1,6 +1,6 @@
 import os
 import traceback
-import runner
+
 import runner_propositionalized
 import matplotlib.pyplot as plt
 import ast
@@ -64,9 +64,9 @@ if __name__=="__main__":
             traceback.print_exc()
             continue
 
-    show_trajectories("schedule_trajectories_shadow_propositional.txt")
+   #show_trajectories("schedule_trajectories_shadow_propositional.txt")
     best_plans = []
-    for j in range(10):
+    for j in range(0):
         try:
             print(f"Running iter {j}")
             #b_, bi_, found_objectives= runner.run_search(args1, 50, 150, "contention")
@@ -102,7 +102,7 @@ if __name__=="__main__":
        
     #show_trajectories("schedule_trajectories_5_shadow_propositional.txt")
     best_plans = []
-    for j in range(10):
+    for j in range(0):
         try:
             #b_, bi_, found_objectives = runner.run_search(args2, 50, 150, "contention")
             b_, bi_, found_objectives = runner_propositionalized.run_search(args2, 50, 45, "slack")

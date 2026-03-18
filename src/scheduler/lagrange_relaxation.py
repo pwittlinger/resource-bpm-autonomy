@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-import resource
+#import resource
 
 from src.scheduler.resource_repository import ResourceRepository
 from src.scheduler.helper import plot_regret_rates
