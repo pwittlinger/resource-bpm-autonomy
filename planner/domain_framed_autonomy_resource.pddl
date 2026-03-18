@@ -105,7 +105,7 @@
       (complete_sync ?a)
   ))
 
-  (:action move_in_model_parameter
+  (:action add_parameter
       :parameters (?a - activity ?pn - parameter_name ?vn - value_name)
       :precondition (and 
       (complete_sync ?a)

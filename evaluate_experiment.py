@@ -1,8 +1,10 @@
 import os
 import traceback
 import runner
+import runner_propositionalized
 import matplotlib.pyplot as plt
 import ast
+from datetime import datetime
 
 args1 = ["dummy",
     "input_files/declare/a20g6_7_data_parsed.decl", 
@@ -46,34 +48,68 @@ def show_trajectories(file_name):
 
 
 if __name__=="__main__":
-
+    timestamp = datetime.utcnow().strftime('%Y-%m-%d_%H-%M-%S')
     best_plans = []
-    for j in range(0):
+    for j in range(10):
         try:
             print(f"Running iter {j}")
-            b_, bi_, found_objectives= runner.run_search(args1, 50, 150)
+            #b_, bi_, found_objectives= runner.run_search(args1, 50, 150, "contention")
+            b_, bi_, found_objectives= runner_propositionalized.run_search(args1, 50, 45, "contention")
             best_plans.append([bi_, b_])
-            with open("best_schedule_no_update.txt", "a") as f:
+            with open("best_schedule_shadow_cost2.txt", "a") as f:
                 f.write(str(best_plans))
-            with open("schedule_trajectories_no_update.txt", "a") as f:
+            with open(f"{timestamp}schedule_trajectories_shadow_propositional.txt", "a") as f:
                 f.write(str(found_objectives)+"\n")
         except Exception as e:
             traceback.print_exc()
             continue
-    
+
+    show_trajectories("schedule_trajectories_shadow_propositional.txt")
+    best_plans = []
+    for j in range(10):
+        try:
+            print(f"Running iter {j}")
+            #b_, bi_, found_objectives= runner.run_search(args1, 50, 150, "contention")
+            b_, bi_, found_objectives= runner_propositionalized.run_search(args1, 50, 45, "slack")
+            best_plans.append([bi_, b_])
+            with open("best_schedule_weak_update.txt", "a") as f:
+                f.write(str(best_plans))
+            with open(f"{timestamp}schedule_trajectories_weak_propositional.txt", "a") as f:
+                f.write(str(found_objectives)+"\n")
+        except Exception as e:
+            traceback.print_exc()
+            continue
+
+
     #show_trajectories("schedule_trajectories.txt")
     #show_trajectories("schedule_trajectories_weak_update.txt")
-    show_trajectories("schedule_trajectories_no_update.txt")
-  
+    #show_trajectories("schedule_trajectories_weak_propositional.txt")
+    
 
     best_plans = []
-    for j in range(0):
+    for j in range(10):
         try:
-            b_, bi_, found_objectives = runner.run_search(args2, 50, 150)
+            #b_, bi_, found_objectives = runner.run_search(args2, 50, 150, "contention")
+            b_, bi_, found_objectives = runner_propositionalized.run_search(args2, 50, 45, "contention")
             best_plans.append([bi_, b_])
-            with open("best_schedule_5_no_update.txt", "a") as f:
+            with open("best_schedule_5_shadow_cost.txt", "a") as f:
                 f.write(str(best_plans))
-            with open("schedule_trajectories_5_no_update.txt", "a") as f:
+            with open(f"{timestamp}schedule_trajectories_5_shadow_propositional.txt", "a") as f:
+                f.write(str(found_objectives)+"\n")
+        except Exception as e:
+            traceback.print_exc()
+            continue
+       
+    #show_trajectories("schedule_trajectories_5_shadow_propositional.txt")
+    best_plans = []
+    for j in range(10):
+        try:
+            #b_, bi_, found_objectives = runner.run_search(args2, 50, 150, "contention")
+            b_, bi_, found_objectives = runner_propositionalized.run_search(args2, 50, 45, "slack")
+            best_plans.append([bi_, b_])
+            with open("best_schedule_5_weak_update.txt", "a") as f:
+                f.write(str(best_plans))
+            with open(f"{timestamp}schedule_trajectories_5_weak_propositional.txt", "a") as f:
                 f.write(str(found_objectives)+"\n")
         except Exception as e:
             traceback.print_exc()
@@ -81,7 +117,9 @@ if __name__=="__main__":
     
     #show_trajectories("schedule_trajectories_5.txt")
     #
-    show_trajectories("schedule_trajectories_5_no_update.txt")
+    #show_trajectories("schedule_trajectories_5_no_update.txt")
+    
+    #show_trajectories("schedule_trajectories_5_weak_propositional.txt")
 
 
 

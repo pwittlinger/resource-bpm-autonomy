@@ -1,31 +1,26 @@
 {
   "instance_id": "problem2_2",
-  "accumulated_slack": 78,
+  "accumulated_slack": 171,
   "tasks": [
     {
-      "task": "ActivityS",
-      "predecessor_slack": 32,
-      "resource": "R0"
-    },
-    {
       "task": "ActivityB",
-      "predecessor_slack": 24,
+      "predecessor_slack": 83,
       "resource": "R1"
     },
     {
       "task": "ActivityH",
-      "predecessor_slack": 22,
+      "predecessor_slack": 81,
       "resource": "R0"
     },
     {
       "task": "ActivityN",
-      "predecessor_slack": 0,
+      "predecessor_slack": 7,
       "resource": "R4"
     },
     {
-      "task": "ActivityT",
+      "task": "ActivityR",
       "predecessor_slack": 0,
-      "resource": "R3"
+      "resource": "R4"
     },
     {
       "task": "ActivityM",
@@ -33,9 +28,14 @@
       "resource": "R0"
     },
     {
-      "task": "ActivityO",
+      "task": "ActivityS",
       "predecessor_slack": 0,
-      "resource": "R2"
+      "resource": "R0"
+    },
+    {
+      "task": "ActivityT",
+      "predecessor_slack": 0,
+      "resource": "R3"
     }
   ]
 }

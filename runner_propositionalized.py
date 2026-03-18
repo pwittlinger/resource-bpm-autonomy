@@ -63,12 +63,18 @@ def generate_single_grounding(problem_id):
                 os.path.join(output_folder, get_problem_path_from_id(problem_id))]
     
     r = subprocess.call(call_array, stdout=output_file)
+    if os.path.exists(os.path.join("grounded-problems", f"problem{problem_id}_grounded.pddl")):
+        os.remove(os.path.join("grounded-problems", f"problem{problem_id}_grounded.pddl"))
     shutil.move(os.path.join(output_folder, f"problem{problem_id}_grounded.pddl"), "grounded-problems")
+    shutil.copy(os.path.join("grounded-problems",f"problem{problem_id}_grounded.pddl"),os.path.join("grounded-problems","initial",f"problem{problem_id}_grounded.pddl"))
+
 
 def generate_groundings():
     nProbs = len(os.listdir(output_folder))
 
     for i in range(nProbs):
+        if not os.path.exists(os.path.join(output_folder,get_problem_path_from_id(i+1))):
+            continue           
         print(f"Generating initial grounding for problem{i+1}.pddl")
         generate_single_grounding(i+1)
 
@@ -128,7 +134,9 @@ def adjust_cost(problem_id:int, gap_file:str, activity_map_object:dict, initial:
     gap_pairs = gap["tasks"]
     total_slack = gap["accumulated_slack"]
 
-    with open(os.path.join(output_folder, f"problem{problem_id}.pddl")) as pf:
+    #with open(os.path.join(output_folder, f"problem{problem_id}.pddl")) as pf:
+    #    content = pf.read()
+    with open(os.path.join(parent_path,"grounded-problems", f"problem{problem_id}_grounded.pddl")) as pf:
         content = pf.read()
     
     # I need to look for the cost allocations and replace them
@@ -140,29 +148,22 @@ def adjust_cost(problem_id:int, gap_file:str, activity_map_object:dict, initial:
         cost = g["predecessor_slack"]
 
         next_cheapest_alternative = get_next_cheapest_alternative(global_cost_model, act, res)
-
-        
         repl_act = activity_map_object[act]
+
+        firstIndex = content.find(f"add_action_{repl_act}_{res}")
+        actionCostMatch = re.search("\\d+\\.\\d+", content[firstIndex:])
+
+        cost = min(cost, (next_cheapest_alternative-float(actionCostMatch.group()))+1)
+
         
-        if (not update_all):
-            old = fr"\(= \(activity_cost {repl_act} {res}\) ([\d]+)\)"
-            old_cost = 0
-            if find := re.search(old, content):
-                old_cost = find.group(1)
-            cost = min(cost, (next_cheapest_alternative-int(old_cost))+1)
+        
 
-            if initial:
-                updated_cost = int(old_cost) + cost + int(total_slack)
-            else:
-                updated_cost = int(old_cost) + cost
-            
-            new = f"(= (activity_cost {repl_act} {res}) {updated_cost})"
+        content = change(content, repl_act, res, cost, True)
 
-            content = re.sub(old, new, content)
 
     
 
-    with open(os.path.join(output_folder, f"problem{problem_id}.pddl"), "w") as pf:
+    with open(os.path.join(parent_path, "grounded-problems", f"problem{problem_id}_grounded.pddl"), "w") as pf:
         pf.write(content)
         #pf.write(new_content)
 
@@ -171,29 +172,38 @@ def adjust_shadow_cost(problem_id:int):
 
     data = read_gap_file(shadow_cost)
 
-    with open(os.path.join(output_folder, f"problem{problem_id}.pddl")) as pf:
+    with open(os.path.join(parent_path,"grounded-problems", f"problem{problem_id}_grounded.pddl")) as pf:
         content = pf.read()
 
     up = data["resources"]
 
     for res in up:
 
-        old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
+        update_factor = up[res]["contention_index"]
+        
+
+
+        #old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
+        old = fr"add_action_(.*)_{res}"
         old_cost = 0
         #updated_cost = up[res]["penalty_rate"]
         update_factor = up[res]["contention_index"]
         for m in re.finditer(old, content):
             old_act = m.group(1)
-            old_cost = m.group(2)
+            #old_cost = m.group(2)
+
+            content = change(content, old_act, res, update_factor, False)
+
+
             #updated_cost = int(old_cost) + updated_cost
-            updated_cost = int(old_cost) * update_factor
-            new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
-            content = re.sub(re.escape(m.group()), new, content)
+            #updated_cost = int(old_cost) * update_factor
+            #new = f"(= (activity_cost {old_act} {res}) {updated_cost})"
+            #content = re.sub(re.escape(m.group()), new, content)
 
         
 
         #updated_cost = int(old_cost) + cost + 700
-    with open(os.path.join(output_folder, f"problem{problem_id}.pddl"), "w") as pf:
+    with open(os.path.join(parent_path, "grounded-problems", f"problem{problem_id}_grounded.pddl"), "w") as pf:
         pf.write(content)
     return True
     
@@ -255,12 +265,15 @@ def reset_space():
 
     #[shutil.copy(os.path.join(parent_path,"output","initial",p),os.path.join(output_folder,p)) for p in os.listdir(os.path.join(parent_path,"output","initial")) if p.endswith(".pddl")]
     shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
-    [shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
+    #[shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
+    [shutil.copy(os.path.join(parent_path,"grounded-problems","best",p),os.path.join(parent_path,"grounded-problems",p)) for p in os.listdir(os.path.join(parent_path,"grounded-problems","best")) if p.endswith(".pddl")]
 
 def reset_to_initial():
     """This effectively resets the costs of the PDDL instances.
     Move the first generated PDDL files to the output folder again."""
-    [shutil.copy(os.path.join(parent_path,"output","initial",p),os.path.join(output_folder,p)) for p in os.listdir(os.path.join(parent_path,"output", "initial")) if p.endswith(".pddl")]
+    #[shutil.copy(os.path.join(parent_path,"output","initial",p),os.path.join(output_folder,p)) for p in os.listdir(os.path.join(parent_path,"output", "initial")) if p.endswith(".pddl")]
+    [shutil.copy(os.path.join(parent_path,"grounded-problems","initial",p),os.path.join(parent_path, "grounded-problems",p)) for p in os.listdir(os.path.join(parent_path,"grounded-problems","initial")) if p.endswith(".pddl")]
+    
     #shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
     
 
@@ -285,7 +298,6 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     [shutil.copy(os.path.join(output_folder,p),os.path.join(parent_path,"output", "initial",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
 
     
-    #generate_all_initial_plans()
     generate_groundings()
     generate_all_initial_plans()
     generate_all_xes_from_plan(decl_loc, activity_mapping)
@@ -317,6 +329,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     update_all = False
     count_no_schedule_generated = 0
     found_objectives = []
+    alternate = True
 
     all_original_logs = []
     total_number_of_problems = len(os.listdir(output_folder))
@@ -334,7 +347,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
         max_replans_without_new_trace = int(total_number_of_problems*0.3)
 
     max_replans_without_new_trace = int(total_number_of_problems*0.3)
-    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and len(keys_with_zero)>0):
+    while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit)):
     #while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (no_improvement_found < max_replans_without_new_trace)):
         # Update iteration counter
         i = i+1
@@ -352,6 +365,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
             for k in already_replanned.keys():
                 already_replanned[k] = 0
             
+
             reset_space()
 
         # Check if the current id had already been planned.
@@ -425,6 +439,9 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
                 shutil.move(os.path.join(parent_path, "highest_slack_instance.json"), os.path.join(parent_path, "best_config", "highest_slack_instance.json"))
                 [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
                 [shutil.copy(os.path.join(output_folder,p), os.path.join(parent_path,"best_config", "pddl",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
+                [shutil.copy(os.path.join(parent_path, "grounded-problems",p), os.path.join(parent_path,"grounded-problems","best",p)) for p in os.listdir(os.path.join(parent_path, "grounded-problems")) if p.endswith(".pddl")]
+
+                
             else:
                 #no_improvement_found += 1
                 already_replanned[id_to_plan] += 1
@@ -432,6 +449,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
                     # Breaks the loop
                     i = maxIterations
                     #no_improvement_found +=1
+                    #reset_space()
                     #shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
 
         currentIteration = time.time()
@@ -462,11 +480,12 @@ def change(pddlContent:str, activity:str, resource:str, cost:float, additive:boo
 if __name__ == "__main__":
     print(sys.argv)
     # Stopping conditions for loop
-    maxIterations = 50 # total number of iterations
-    timeoutLimit = 300 # Maximum number of seconds spend
-    search_strat = "contention"
+    maxIterations = 5000 # total number of iterations
+    timeoutLimit = 150 # Maximum number of seconds spend
+    search_strat = "slack"
 
-    b_, bi_ = run_search(sys.argv, maxIterations, timeoutLimit, search_strat)
+    b_, bi_, foundObjectives_= run_search(sys.argv, maxIterations, timeoutLimit, search_strat)
 
     print(f"Best Plan found on iteration {bi_}: {b_}")
+    print(foundObjectives_)
 
