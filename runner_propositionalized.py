@@ -455,7 +455,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
                 
             else:
                 #no_improvement_found += 1
-                #already_replanned[id_to_plan] += 1
+                already_replanned[id_to_plan] += 1
                 if (last_objective > initial_objective):
                     # Breaks the loop
                     i = maxIterations
@@ -483,7 +483,7 @@ def change(pddlContent:str, activity:str, resource:str, cost:float, additive:boo
     if additive:
         newCost = newCost + cost
     else:
-        newCost = newCost * cost
+        newCost = newCost * (1+cost)
 
 
     return firstPart + str(newCost) + secondPart
