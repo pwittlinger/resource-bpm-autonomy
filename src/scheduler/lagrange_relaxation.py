@@ -160,7 +160,12 @@ def _compute_regret_rates(
                 data['task_specific_tax'] = 0.0
                 continue
 
-            tax = utilization_pressure * (num_alt - 1)
+            normalized_cost = (
+                data['additional_cost'] / max_additional_cost
+                if max_additional_cost > 0
+                else 0.0
+            )
+            tax = utilization_pressure * (num_alt - 1) * (1 + normalized_cost)
             data['task_specific_tax'] = tax
 
     for resource, stats in resource_stats.items():
