@@ -167,7 +167,7 @@ def adjust_cost(problem_id:int, gap_file:str, activity_map_object:dict, initial:
         pf.write(content)
         #pf.write(new_content)
 
-def adjust_shadow_cost(problem_id:int, act_map):
+def adjust_shadow_cost(problem_id:int, act_map, instance_id:int):
     reset_to_initial()
 
     data = read_gap_file(shadow_cost)
@@ -185,12 +185,12 @@ def adjust_shadow_cost(problem_id:int, act_map):
 
         #old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
 
-        for task_t in up[res]["tasks"]:
+        for task_t in up[res]['instances'][instance_id]["tasks"]:
             mapped_task = act_map[task_t]
             old = fr"add_action_({mapped_task})_{res}"
             old_cost = 0
             #updated_cost = up[res]["penalty_rate"]
-            update_factor = up[res]["tasks"][task_t]["task_specific_tax"]
+            update_factor = up[res]['instances'][instance_id]["tasks"][task_t]["task_specific_tax"]
 
             content = change(content, mapped_task, res, update_factor, False)
 
@@ -400,7 +400,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
 
         
         if cost_update_strategy == "contention":
-            adjust_shadow_cost(id_to_plan, act_map)
+            adjust_shadow_cost(id_to_plan, act_map, gap["instance_id"])
         elif cost_update_strategy == "slack":
             adjust_cost(id_to_plan, slack_instance, act_map, update_cost_strongly, update_all,  all_assignments)
 
@@ -483,7 +483,7 @@ def change(pddlContent:str, activity:str, resource:str, cost:float, additive:boo
     if additive:
         newCost = newCost + cost
     else:
-        newCost = newCost * (1+cost)
+        newCost = newCost * (cost)
 
 
     return firstPart + str(newCost) + secondPart

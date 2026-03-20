@@ -42,8 +42,8 @@ def _compute_resource_stats(
     """
     resource_stats: dict[str, dict] = {}
 
-    for task_dict in all_tasks.values():
-        for task_info in task_dict.values():
+    for instance_id, task_dict in all_tasks.items():
+        for task_name, task_info in task_dict.items():
             start_time = solver.Value(task_info[0])  # start_var at index 0
             end_time = solver.Value(task_info[1])  # end_var   at index 1
             resource = task_info[3]  # resource  at index 3
@@ -82,29 +82,37 @@ def _compute_simple_regret_values(
         dict: Nested structure {resource_name: {task_name: {…}}}
     """
     regret_values = {}
-    for candidate_task in resource_repository.get_all_tasks():
-        assignments = []
-        for resource in resource_repository.get_resources_for_task(candidate_task):
-            duration = resource_repository.get_duration_for_assignment(candidate_task, resource)
-            assignments.append({"res": resource, "dur": duration})
+    for instance_id, task_dict in all_tasks.items():
+        regret_values.setdefault(instance_id, {})
+        for candidate_task in resource_repository.get_all_tasks():
+            assignments = []
+            for resource in resource_repository.get_resources_for_task(candidate_task):
+                duration = resource_repository.get_duration_for_assignment(candidate_task, resource)
+                assignments.append({"res": resource, "dur": duration})
 
-        assignments.sort(key=lambda x: x['dur'])
+            assignments.sort(key=lambda x: x['dur'])
 
-        num_alternatives = len(assignments)
-        is_only_resource = num_alternatives == 1
-        best_dur = assignments[0]['dur']
-        all_resource_names = [a['res'] for a in assignments]
+            num_alternatives = len(assignments)
+            is_only_resource = num_alternatives == 1
+            best_dur = assignments[0]['dur']
+            all_resource_names = [a['res'] for a in assignments]
 
-        for a in assignments:
-            res_name = a['res']
-            additional_cost = a['dur'] - best_dur
-            regret_values.setdefault(res_name, {})
-            regret_values[res_name][candidate_task] = {
-                "additional_cost": float(round(additional_cost, 4)),
-                "num_alternatives": num_alternatives,
-                "is_only_resource": is_only_resource,
-                "alternative_resources": [r for r in all_resource_names if r != res_name],
-            }
+            for a in assignments:
+                res_name = a['res']
+                additional_cost = a['dur'] - best_dur
+                if candidate_task not in all_tasks[instance_id]:
+                    currently_assigned = False
+                else:
+                    currently_assigned = all_tasks[instance_id][candidate_task][3] == res_name
+                regret_values[instance_id].setdefault(res_name, {})
+                regret_values[instance_id][res_name][candidate_task] = {
+                    "additional_cost": float(round(additional_cost, 4)),
+                    "num_alternatives": num_alternatives,
+                    "is_only_resource": is_only_resource,
+                    "alternative_resources": [r for r in all_resource_names if r != res_name],
+                    "cost": int(a['dur']),
+                    "currently_assigned": currently_assigned
+                }
     return regret_values
 
 
@@ -131,6 +139,7 @@ def _compute_penalty_rates(
 def _compute_regret_rates(
     resource_stats: dict[str, dict],
     single_resource_regret: dict[str, dict],
+    all_tasks: AllTasks,
     makespan: int,
     alpha: float = 1.0,
 ) -> dict[str, float]:
@@ -144,34 +153,42 @@ def _compute_regret_rates(
     - Only one resource   → tax = 0  (nowhere to move the task).
     """
 
-    max_additional_cost = max(
-        (data['additional_cost'] for res in single_resource_regret.values() for data in res.values()),
-        default=1.0
-    )
+    for instance_id, resource_dict in single_resource_regret.items():
+        for resource, tasks in resource_dict.items():
+            utilization = resource_stats[resource]['utilization']
+            utilization_pressure = (utilization ** 3) * alpha
 
-    for resource, tasks in single_resource_regret.items():
-        utilization = resource_stats[resource]['utilization']
-        utilization_pressure = (utilization ** 3) * alpha
+            for task, data in tasks.items():
+                """
+                if task == 'ActivityT':
+                    print("Stop")
+                num_alt = data.get('num_alternatives', 1)
 
-        for task, data in tasks.items():
-            num_alt = data.get('num_alternatives', 1)
+                if num_alt <= 1:
+                    data['task_specific_tax'] = 0.0
+                    continue
 
-            if num_alt <= 1:
-                data['task_specific_tax'] = 0.0
-                continue
+                normalized_cost = (
+                    data['additional_cost'] / max_additional_cost
+                    if max_additional_cost > 0
+                    else 0.0
+                )
+                tax = utilization_pressure * (num_alt) * (1 + normalized_cost)
+                data['task_specific_tax'] = tax
+                """
 
-            normalized_cost = (
-                data['additional_cost'] / max_additional_cost
-                if max_additional_cost > 0
-                else 0.0
-            )
-            tax = utilization_pressure * (num_alt - 1) * (1 + normalized_cost)
-            data['task_specific_tax'] = tax
+                used_capacity = resource_stats[resource]['total_assigned_duration'] - data['cost'] if data['currently_assigned'] else resource_stats[resource]['total_assigned_duration']
+                res_makespan = resource_stats[resource]['total_assigned_duration'] + data['cost'] if not data['currently_assigned'] else resource_stats[resource]['total_assigned_duration']
+                shifted_makespan = max(makespan, res_makespan)
+                tax = shifted_makespan / max((makespan - used_capacity), 0.1)
+                data['task_specific_tax'] = tax
 
-    for resource, stats in resource_stats.items():
-        stats['tasks'] = single_resource_regret[resource]
+        
+        for resource, stats in resource_stats.items():
+            stats.setdefault(instance_id, {})
+            stats[instance_id]['tasks'] = single_resource_regret[instance_id][resource]
 
-    plot_regret_rates(max_additional_cost, alpha, resource_stats)
+    #plot_regret_rates(max_additional_cost, alpha, resource_stats)
 
     return resource_stats
 
@@ -191,8 +208,14 @@ def _build_shadow_cost_report(
                                  (> 1.0 means the resource is over the target)
         penalty_rate:            πr to be used by the planner (Step C)
     """
+    base_keys = {"total_assigned_duration", "utilization"}
     resources: dict[str, dict] = {}
     for resource, stats in resource_stats.items():
+        instances = {
+            key: {"tasks": value.get("tasks", {})}
+            for key, value in stats.items()
+            if key not in base_keys and isinstance(value, dict)
+        }
         resources[resource] = {
             "total_assigned_duration": stats["total_assigned_duration"],
             "utilization": stats["utilization"],
@@ -202,7 +225,7 @@ def _build_shadow_cost_report(
                 else 0.0
             ),
             "penalty_rate": penalty_rates[resource],
-            "tasks": stats["tasks"]
+            "instances": instances,
         }
 
     # Sort by penalty_rate descending so the most contended resources appear first
@@ -293,7 +316,7 @@ def export_lagrange_shadow_costs(
     )
 
     resource_stats = _compute_regret_rates(
-        resource_stats, single_resource_regret, makespan, alpha=scaling_factor
+        resource_stats, single_resource_regret, all_tasks, makespan, alpha=scaling_factor
     )
 
     report = _build_shadow_cost_report(
