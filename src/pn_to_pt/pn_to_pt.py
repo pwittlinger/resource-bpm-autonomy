@@ -51,7 +51,9 @@ def save_pn_visualization(net, im, fm, output_path: str|Path, filetype: str = 'p
     #    pm4py.visualization.petri_net.visualizer.save(gviz, str(output_path))
 
 if __name__ == "__main__":
-    INPUT_PATH = Path("input_files/petri_net/a20g6.pnml")
+    #INPUT_PATH = Path("input_files/petri_net/a20g6.pnml")
+    INPUT_PATH = Path("input_files/petri_net/a35g6.pnml")
+    INPUT_PATH = Path("input_files/petri_net/a40g17AND.pnml")
     OUTPUT_PATH = Path(str(INPUT_PATH).replace("input_files", "output_files").replace(".pnml", ".ptml"))
 
     net, im, fm = load_petri_net(INPUT_PATH)

@@ -57,7 +57,7 @@ def run_planner(problem_id):
 
 def generate_single_grounding(problem_id):
     output_file = open(os.path.join(parent_path, generated_plan_path, f"problem{problem_id}.txt"), "w")
-    call_array = ["java", "-jar",
+    call_array = ["java", "-jar", "-Xmx8G", 
                 grounder_jar,
                 os.path.join(parent_path, domain_path),
                 os.path.join(output_folder, get_problem_path_from_id(problem_id))]
@@ -126,7 +126,7 @@ def generate_xes_from_plan(decl_path,activity_mapping, problem_id, initial):
         shutil.copy(xes_path, os.path.join(parent_path, "generated_xes", f"problem{problem_id}.xes"))
 
 
-def adjust_cost(problem_id:int, gap_file:str, activity_map_object:dict, initial:bool, update_all, global_cost_model):
+def adjust_cost(problem_id:int, gap_file:str, activity_map_object:dict, global_cost_model):
     #[('ActivityA', 219), ('ActivityS', 17), ('ActivityM', 6)]
 
     gap = read_gap_file(os.path.join(parent_path, gap_file))
@@ -167,7 +167,7 @@ def adjust_cost(problem_id:int, gap_file:str, activity_map_object:dict, initial:
         pf.write(content)
         #pf.write(new_content)
 
-def adjust_shadow_cost(problem_id:int, act_map, instance_id:int):
+def adjust_shadow_cost(problem_id:int, act_map:dict, instance_id:int):
     reset_to_initial()
 
     data = read_gap_file(shadow_cost)
@@ -278,6 +278,7 @@ def reset_space():
     shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
     #[shutil.copy(os.path.join(parent_path,"best_config", "pddl",p),os.path.join(output_folder,p)) for p in os.listdir(os.path.join(parent_path,"best_config", "pddl")) if p.endswith(".pddl")]
     [shutil.copy(os.path.join(parent_path,"grounded-problems","best",p),os.path.join(parent_path,"grounded-problems",p)) for p in os.listdir(os.path.join(parent_path,"grounded-problems","best")) if p.endswith(".pddl")]
+    shutil.copy(os.path.join(parent_path, "best_config", "resource_shadow_costs.json"), shadow_cost)
 
 def reset_to_initial():
     """This effectively resets the costs of the PDDL instances.
@@ -320,7 +321,8 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     # Get initial schedule
     inrus = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
 
-    initial_objective = inrus[0].BestObjectiveBound()
+    #initial_objective = inrus[0].BestObjectiveBound()
+    initial_objective = inrus[0].ObjectiveValue()
     last_objective = initial_objective
 
     # Instantiate the loop variables
@@ -336,11 +338,10 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     best_plan_iter = 0
 
     # update_cost_strongly sets the flag that the total slack will be added on top of the current slack for all resource allocs
-    update_cost_strongly = False
-    update_all = False
     count_no_schedule_generated = 0
     found_objectives = []
-    alternate = True
+    
+    found_objectives.append(initial_objective)
 
     all_original_logs = []
     total_number_of_problems = len(os.listdir(output_folder))
@@ -357,7 +358,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     elif (cost_update_strategy == "slack"):
         max_replans_without_new_trace = int(total_number_of_problems*0.3)
 
-    max_replans_without_new_trace = int(total_number_of_problems*0.3)
+    #max_replans_without_new_trace = int(total_number_of_problems*0.3)
     while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit)):
     #while ((i < maxIterations) and ((currentIteration-currentStart)<timeoutLimit) and (no_improvement_found < max_replans_without_new_trace)):
         # Update iteration counter
@@ -369,15 +370,17 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
 
 
         if ((no_improvement_found > max_replans_without_new_trace) or (count_no_schedule_generated > max_replans_without_new_trace)):
+            i = maxIterations
+            break
             no_improvement_found = 0
             count_no_schedule_generated = 0
-            update_cost_strongly = False
+            #update_cost_strongly = False
 
             for k in already_replanned.keys():
                 already_replanned[k] = 0
             
-
             reset_space()
+            #reset_to_initial()
 
         # Check if the current id had already been planned.
         if (already_replanned[id_to_plan] > 0):
@@ -402,10 +405,11 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
         if cost_update_strategy == "contention":
             adjust_shadow_cost(id_to_plan, act_map, gap["instance_id"])
         elif cost_update_strategy == "slack":
-            adjust_cost(id_to_plan, slack_instance, act_map, update_cost_strongly, update_all,  all_assignments)
+            adjust_cost(id_to_plan, slack_instance, act_map, all_assignments)
 
         # intermediately saves the slack instance file
         shutil.copy(slack_instance, os.path.join(parent_path, "highest_slack_instance.json"))
+        shutil.copy(shadow_cost, os.path.join(parent_path, "resource_shadow_costs.json"))
 
         run_planner(id_to_plan)
         generate_xes_from_plan(decl_path=decl_loc, activity_mapping=activity_mapping,problem_id=id_to_plan, initial=False)
@@ -435,7 +439,8 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
             #reset_to_initial()
         
             # get objective of plan
-            last_objective = resulting_schedule[0].BestObjectiveBound()
+            #last_objective = resulting_schedule[0].BestObjectiveBound()
+            last_objective = resulting_schedule[0].ObjectiveValue()
             found_objectives.append(last_objective)
 
             if (best_ > last_objective):
@@ -447,6 +452,8 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
                     already_replanned[k] = 0
 
                 best_ = last_objective
+                
+                shutil.move(os.path.join(parent_path, "resource_shadow_costs.json"), os.path.join(parent_path, "best_config", "resource_shadow_costs.json"))
                 shutil.move(os.path.join(parent_path, "highest_slack_instance.json"), os.path.join(parent_path, "best_config", "highest_slack_instance.json"))
                 [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
                 [shutil.copy(os.path.join(output_folder,p), os.path.join(parent_path,"best_config", "pddl",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
@@ -454,13 +461,19 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
 
                 
             else:
-                #no_improvement_found += 1
+                no_improvement_found += 1
                 already_replanned[id_to_plan] += 1
+
+
                 if (last_objective > initial_objective):
                     # Breaks the loop
-                    i = maxIterations
+                    #i = maxIterations
                     #no_improvement_found +=1
                     #reset_space()
+                    #if cost_update_strategy == "contention":
+                    #    cost_update_strategy = "slack"
+
+                    reset_to_initial()
                     #shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
 
         currentIteration = time.time()

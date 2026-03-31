@@ -171,7 +171,7 @@ def run_scheduler(xes_path, petri_path, assignment_path):
     # You can add multiple dependency dicts to this list to schedule multiple instances
     result = solve_schedule(schedule_instances=sched_instances, 
                             resource_repository=resource_repository, 
-                            timeout=30, 
+                            timeout=300, 
                             objective='makespan')
     
     if result:
@@ -211,7 +211,11 @@ def prepare_all_tasks(solver, all_tasks):
 
 if __name__ == "__main__":
     XES_DIR = "best_config"
-    PETRI_PATH = "input_files/petri_net/a20g6.pnml"
-    ASSIGNMENTS_PATH = "input_files/assignments/a20g6_assignments_5.json"
+    #XES_DIR = "generated_xes/initial"
+    #PETRI_PATH = "input_files/petri_net/a20g6.pnml"
+    #ASSIGNMENTS_PATH = "input_files/assignments/a20g6_assignments_7.json"
+
+    PETRI_PATH = "input_files/petri_net/a35g6.pnml"
+    ASSIGNMENTS_PATH = "input_files/assignments/a35g6_assignments_3.json"
     
     run_scheduler(XES_DIR, PETRI_PATH, ASSIGNMENTS_PATH)

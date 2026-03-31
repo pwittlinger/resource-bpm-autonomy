@@ -155,6 +155,9 @@ def _compute_regret_rates(
 
     for instance_id, resource_dict in single_resource_regret.items():
         for resource, tasks in resource_dict.items():
+            if resource not in resource_stats.keys():
+                continue 
+            
             utilization = resource_stats[resource]['utilization']
             utilization_pressure = (utilization ** 3) * alpha
 
