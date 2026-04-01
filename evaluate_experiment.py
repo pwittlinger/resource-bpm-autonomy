@@ -4,7 +4,7 @@ import traceback
 import runner_propositionalized
 import matplotlib.pyplot as plt
 import ast
-from datetime import datetime
+import datetime
 
 args1 = ["dummy",
     "input_files/declare/a20g6_7_data_parsed.decl", 
@@ -20,9 +20,34 @@ args2 = ["dummy",
         "input_files/xes_files/a20g6-prefix-conforming-3.xes", 
         "input_files/variable_values_multi_model.txt",
         "input_files/variable_substitutions_a20g6_7.decl.txt", 
-        "input_files/assignments/a20g6_assignments_5.json",
+        "input_files/assignments/a20g6_assignments_7.json",
         "input_files/petri_net/a20g6.pnml"
             ]
+
+args3 = ["dummy",
+    "input_files/declare/a40g17AND_7_data_parsed.decl", 
+        "input_files/xes_files/a40g17AND-prefix-conforming-3.xes", 
+        "input_files/variable_values_multi_model.txt",
+        "input_files/variable_substitutions_a40g17AND_7.decl.txt", 
+        "input_files/assignments/a40g17AND_assignments_3.json",
+        "input_files/petri_net/a40g17AND.pnml"
+            ]
+
+args4 = ["dummy",
+    "input_files/declare/a35g6_7_data_parsed.decl", 
+        "input_files/xes_files/a35g6-prefix-1.xes", 
+        "input_files/variable_values_multi_model.txt",
+        "input_files/variable_substitutions_a35g6_7.decl.txt", 
+        "input_files/assignments/a35g6_assignments_3.json",
+        "input_files/petri_net/a35g6.pnml"
+            ]
+
+
+numberTraces = [10, 15, 20, 25]
+petriNets = os.listdir(os.path.join("input_files", "petri_net"))
+runTimes = [45,60,90,180]
+noResources = [3,5,7,12]
+prefixLength = [2]
 
 def show_trajectories(file_name):
     # Load data from file
@@ -43,73 +68,55 @@ def show_trajectories(file_name):
 
     plt.tight_layout()
     plt.savefig(f"{file_name}.png", dpi=150)
-    plt.show()
-    print("Plot saved to schedule_trajectories.png")
+    #plt.show()
+    #print("Plot saved to schedule_trajectories.png")
 
 
 if __name__=="__main__":
-    timestamp = datetime.utcnow().strftime('%Y-%m-%d_%H-%M-%S')
-    best_plans = []
-    for j in range(10):
-        try:
-            print(f"Running iter {j}")
-            #b_, bi_, found_objectives= runner.run_search(args1, 50, 150, "contention")
-            b_, bi_, found_objectives= runner_propositionalized.run_search(args1, 50, 45, "contention")
-            best_plans.append([bi_, b_])
-            with open("best_schedule_shadow_cost2.txt", "a") as f:
-                f.write(str(best_plans))
-            with open(f"{timestamp}schedule_trajectories_shadow_propositional.txt", "a") as f:
-                f.write(str(found_objectives)+"\n")
-        except Exception as e:
-            traceback.print_exc()
-            continue
 
-   #show_trajectories("schedule_trajectories_shadow_propositional.txt")
+
+    timestamp = datetime.datetime.now(datetime.UTC).strftime('%Y-%m-%d_%H-%M-%S')
+
     best_plans = []
     for j in range(0):
         try:
             print(f"Running iter {j}")
             #b_, bi_, found_objectives= runner.run_search(args1, 50, 150, "contention")
-            b_, bi_, found_objectives= runner_propositionalized.run_search(args1, 50, 45, "slack")
+            b_, bi_, found_objectives= runner_propositionalized.run_search(args1, 500, 45, "contention")
             best_plans.append([bi_, b_])
-            with open("best_schedule_weak_update.txt", "a") as f:
+            with open("experiments/best_schedule_shadow_cost2.txt", "a") as f:
                 f.write(str(best_plans))
-            with open(f"{timestamp}schedule_trajectories_weak_propositional.txt", "a") as f:
+            with open(f"experiments/{timestamp}schedule_trajectories_shadow_propositional.txt", "a") as f:
                 f.write(str(found_objectives)+"\n")
         except Exception as e:
             traceback.print_exc()
             continue
 
 
-    #show_trajectories("schedule_trajectories.txt")
-    #show_trajectories("schedule_trajectories_weak_update.txt")
-    #show_trajectories("schedule_trajectories_weak_propositional.txt")
-    
-
     best_plans = []
-    for j in range(10):
+    for j in range(0):
         try:
             #b_, bi_, found_objectives = runner.run_search(args2, 50, 150, "contention")
-            b_, bi_, found_objectives = runner_propositionalized.run_search(args2, 50, 45, "contention")
+            b_, bi_, found_objectives = runner_propositionalized.run_search(args2, 500, 45, "contention")
             best_plans.append([bi_, b_])
-            with open("best_schedule_5_shadow_cost.txt", "a") as f:
+            with open("experiments/best_schedule_7_shadow_cost.txt", "a") as f:
                 f.write(str(best_plans))
-            with open(f"{timestamp}schedule_trajectories_5_shadow_propositional.txt", "a") as f:
+            with open(f"experiments/{timestamp}schedule_trajectories_7_shadow_propositional.txt", "a") as f:
                 f.write(str(found_objectives)+"\n")
         except Exception as e:
             traceback.print_exc()
             continue
        
-    #show_trajectories("schedule_trajectories_5_shadow_propositional.txt")
+    #show_trajectories(f"{timestamp}schedule_trajectories_7_shadow_propositional.txt")
     best_plans = []
     for j in range(0):
         try:
             #b_, bi_, found_objectives = runner.run_search(args2, 50, 150, "contention")
-            b_, bi_, found_objectives = runner_propositionalized.run_search(args2, 50, 45, "slack")
+            b_, bi_, found_objectives = runner_propositionalized.run_search(args2, 500, 45, "slack")
             best_plans.append([bi_, b_])
-            with open("best_schedule_5_weak_update.txt", "a") as f:
+            with open("experiments/best_schedule_5_weak_update.txt", "a") as f:
                 f.write(str(best_plans))
-            with open(f"{timestamp}schedule_trajectories_5_weak_propositional.txt", "a") as f:
+            with open(f"experiments/{timestamp}schedule_trajectories_5_weak_propositional.txt", "a") as f:
                 f.write(str(found_objectives)+"\n")
         except Exception as e:
             traceback.print_exc()
@@ -119,9 +126,37 @@ if __name__=="__main__":
     #
     #show_trajectories("schedule_trajectories_5_no_update.txt")
     
-    #show_trajectories("schedule_trajectories_5_weak_propositional.txt")
+    #show_trajectories(f"{timestamp}schedule_trajectories_7_weak_propositional.txt")
 
 
+    best_plans = []
+    for j in range(2):
+        try:
+            #b_, bi_, found_objectives = runner.run_search(args2, 50, 150, "contention")
+            b_, bi_, found_objectives = runner_propositionalized.run_search(args3, 500, 300, "contention")
+            best_plans.append([bi_, b_])
+            with open("experiments/best_a40g17AND_weak_update.txt", "a") as f:
+                f.write(str(best_plans))
+            with open(f"experiments/{timestamp}-a40g17AND_schedule_trajectories_3_contention_propositional.txt", "a") as f:
+                f.write(str(found_objectives)+"\n")
+        except Exception as e:
+            traceback.print_exc()
+            continue
 
+        best_plans = []
+    for j in range(2):
+        try:
+            #b_, bi_, found_objectives = runner.run_search(args2, 50, 150, "contention")
+            b_, bi_, found_objectives = runner_propositionalized.run_search(args4, 500, 300, "contention")
+            best_plans.append([bi_, b_])
+            with open("experiments/best_a35g6AND_weak_update.txt", "a") as f:
+                f.write(str(best_plans))
+            with open(f"experiments/{timestamp}-a35g6_schedule_trajectories_3_contention_propositional.txt", "a") as f:
+                f.write(str(found_objectives)+"\n")
+        except Exception as e:
+            traceback.print_exc()
+            continue
+    
+    #show_trajectories("schedule_trajectories_5.txt")
 
     
