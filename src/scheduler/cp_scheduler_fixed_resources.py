@@ -173,7 +173,7 @@ def run_schedule(xes_path:str,
     
     if result:
         solver, all_tasks = result
-        visualize_schedule_plotly(solver, all_tasks)
+        #visualize_schedule_plotly(solver, all_tasks)
         export_highest_slack_instance(solver, all_tasks, sched_instances, output_path=os.path.abspath("input_files/slack_analysis_output/highest_slack_instance.json"))
         export_lagrange_shadow_costs(solver, all_tasks, resource_repository, output_path=os.path.abspath("input_files/slack_analysis_output/resource_shadow_costs.json"))
 

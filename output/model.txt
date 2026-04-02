@@ -1,32 +1,27 @@
 This model contains 13 activities:
 
-ActivityV=> My attributes are: 
-categorical of type enum with values: [c1, c2, c3]
-
-
-
-ActivityAR=> My attributes are: 
-categorical of type enum with values: [c1, c2, c3]
-
-
-
-ActivityAU=> My attributes are: 
+ActivityT=> My attributes are: 
 integer of type integer with bounds: [0.0, 100.0]
 
 
 
-ActivityAT=> My attributes are: 
+ActivityO=> My attributes are: 
+categorical of type enum with values: [c1, c2, c3]
+
+
+
+ActivityP=> My attributes are: 
 integer of type integer with bounds: [0.0, 100.0]
+
+
+
+ActivityC=> My attributes are: 
+categorical of type enum with values: [c1, c2, c3]
 
 
 
 ActivityF=> My attributes are: 
 categorical of type enum with values: [c1, c2, c3]
-
-
-
-ActivityAP=> My attributes are: 
-integer of type integer with bounds: [0.0, 100.0]
 
 
 
@@ -40,11 +35,6 @@ categorical of type enum with values: [c1, c2, c3]
 
 
 
-ActivityAL=> My attributes are: 
-integer of type integer with bounds: [0.0, 100.0]
-
-
-
 ActivityK=> My attributes are: 
 integer of type integer with bounds: [0.0, 100.0]
 
@@ -53,12 +43,22 @@ integer of type integer with bounds: [0.0, 100.0]
 ActivityL=> My attributes are: 
 
 
+ActivityN=> My attributes are: 
+integer of type integer with bounds: [0.0, 100.0]
+
+
+
 ActivityG=> My attributes are: 
 integer of type integer with bounds: [0.0, 100.0]
 
 
 
-ActivityH=> My attributes are: 
+ActivityI=> My attributes are: 
+integer of type integer with bounds: [0.0, 100.0]
+
+
+
+ActivityJ=> My attributes are: 
 integer of type integer with bounds: [0.0, 100.0]
 
 
@@ -66,8 +66,8 @@ integer of type integer with bounds: [0.0, 100.0]
 This model contains following constraints:
 [template=Absence, activationActivity=ActivityK, activationCondition=A.integer < 20 , targetActivity=null, targetCondition=null]
 [template=Existence, activationActivity=ActivityB, activationCondition=A.categorical is c2 , targetActivity=null, targetCondition=null]
-[template=Response, activationActivity=ActivityG, activationCondition=A.integer > 10 , targetActivity=ActivityAP, targetCondition=T.integer < 10 ]
-[template=Precedence, activationActivity=ActivityV, activationCondition=A.categorical is c1 , targetActivity=ActivityF, targetCondition=T.categorical is c2 ]
-[template=Not_Response, activationActivity=ActivityAL, activationCondition=A.integer > 20 , targetActivity=ActivityH, targetCondition=T.integer < 10 ]
-[template=Chain_Response, activationActivity=ActivityA, activationCondition=A.integer < 5 , targetActivity=ActivityAR, targetCondition=T.categorical is c1 ]
-[template=Response, activationActivity=ActivityAT, activationCondition=A.integer > 10 , targetActivity=ActivityAU, targetCondition=T.integer > 10 ]
+[template=Response, activationActivity=ActivityG, activationCondition=A.integer > 10 , targetActivity=ActivityP, targetCondition=T.integer < 10 ]
+[template=Precedence, activationActivity=ActivityO, activationCondition=A.categorical is c1 , targetActivity=ActivityF, targetCondition=T.categorical is c2 ]
+[template=Not_Response, activationActivity=ActivityI, activationCondition=A.integer > 20 , targetActivity=ActivityJ, targetCondition=T.integer < 10 ]
+[template=Chain_Response, activationActivity=ActivityA, activationCondition=A.integer < 5 , targetActivity=ActivityC, targetCondition=T.categorical is c1 ]
+[template=Response, activationActivity=ActivityN, activationCondition=A.integer > 10 , targetActivity=ActivityT, targetCondition=T.integer > 10 ]

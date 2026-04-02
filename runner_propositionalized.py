@@ -42,12 +42,20 @@ cols = ["concept:name", "org:resource", "case:concept:name"]
 def get_problem_path_from_id(id_to_search):
     return f"problem{id_to_search}.pddl"
 
-def run_planner(problem_id):
+def run_planner(problem_id, groundedVersion = True):
     output_file = open(os.path.join(parent_path, generated_plan_path, f"problem{problem_id}.txt"), "w")
+    
+
+    if groundedVersion:
+        domainPath = os.path.join(parent_path, "grounded-problems", f"problem{problem_id}_grounded.pddl")
+    else:
+        domainPath = os.path.join(parent_path, domain_path)
+
     call_array = ["java", "-jar",
                 os.path.join(parent_path, planner_path),
                 #"-o", os.path.join(parent_path, domain_path),
-                "-o", os.path.join(parent_path, "grounded-problems", f"problem{problem_id}_grounded.pddl"),
+                #"-o", os.path.join(parent_path, "grounded-problems", f"problem{problem_id}_grounded.pddl"),
+                "-o", domainPath,
                 "-f", os.path.join(output_folder, get_problem_path_from_id(problem_id)),
                 "-s", "WAStar",
                 "-h", "blind"]
@@ -256,6 +264,48 @@ def instantiate_mapping_file(activity_mapping):
 
     return actmap
 
+def cleanRepos():
+    # Generated Plans
+    # Generated XES
+    ## initial
+    ## optim
+    # Grounded Problems
+    ## best
+    ## initial
+    genreated_xes_remove = [x for x in os.listdir(generated_xes_path) if x.endswith(".xes")]
+    genreated_xes_remove_initial = [x for x in os.listdir(os.path.join(generated_xes_path, "initial")) if x.endswith(".xes")]
+    genreated_xes_remove_optim = [x for x in os.listdir(os.path.join(generated_xes_path, "optim")) if x.endswith(".xes")]
+
+    [os.remove(os.path.join(generated_xes_path, x)) for x in genreated_xes_remove]
+    [os.remove(os.path.join(generated_xes_path, "initial", x)) for x in genreated_xes_remove_initial]
+    [os.remove(os.path.join(generated_xes_path, "optim", x)) for x in genreated_xes_remove_optim]
+
+    plans_remove = [x for x in os.listdir(generated_plan_path) if x.endswith(".txt")]
+
+    [os.remove(os.path.join(generated_plan_path, x)) for x in plans_remove]
+
+    best_config_remove = [x for x in os.listdir(os.path.join(parent_path, "best_config")) if x.endswith(".xes")]
+    best_config_remove_pddl = [x for x in os.listdir(os.path.join(parent_path, "best_config", "pddl")) if x.endswith(".pddl")]
+
+    [os.remove(os.path.join(parent_path, "best_config", x)) for x in best_config_remove]
+    [os.remove(os.path.join(parent_path, "best_config", "pddl", x)) for x in best_config_remove_pddl]
+
+    grounded_remove = [x for x in os.listdir(os.path.join(parent_path, "grounded-problems")) if x.endswith(".pddl")]
+    grounded_remove_best = [x for x in os.listdir(os.path.join(parent_path, "grounded-problems", "best")) if x.endswith(".pddl")]
+    grounded_remove_initial = [x for x in os.listdir(os.path.join(parent_path, "grounded-problems", "initial")) if x.endswith(".pddl")]
+
+    [os.remove(os.path.join(parent_path, "grounded-problems", x)) for x in grounded_remove]
+    [os.remove(os.path.join(parent_path, "grounded-problems", "best", x)) for x in grounded_remove_best]
+    [os.remove(os.path.join(parent_path, "grounded-problems","initial", x)) for x in grounded_remove_initial]
+
+
+    initial_remove = [x for x in os.listdir(os.path.join(parent_path, "output", "initial")) if x.endswith(".pddl")]
+    pddl_remove = [x for x in os.listdir(os.path.join(parent_path, "output", "pddl")) if x.endswith(".pddl")]
+    
+    [os.remove(os.path.join(parent_path, "output", "initial", x)) for x in initial_remove]
+    [os.remove(os.path.join(parent_path, "output", "pddl", x)) for x in pddl_remove]
+
+    
 def parse_input(args):
     """Takes the array of arguments and returns paths.
     """
@@ -292,6 +342,8 @@ def reset_to_initial():
 def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:str):
     """
     """
+
+    cleanRepos()
     # Instantiate variables
     decl_loc, pn_loc, l, variable_values, var_sub_loc, cost_model = parse_input(args)
     pn_name = os.path.normpath(pn_loc).split(os.sep)[-1]
@@ -311,7 +363,9 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
 
     
     generate_groundings()
-    generate_all_initial_plans()
+    # When generating the Plans with the Propositionalized version, we get different results (same plan COST though)
+    # This causes the first iteration to already find an optimal plan?
+    #generate_all_initial_plans()
     generate_all_xes_from_plan(decl_loc, activity_mapping)
 
     [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
@@ -324,6 +378,8 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     #initial_objective = inrus[0].BestObjectiveBound()
     initial_objective = inrus[0].ObjectiveValue()
     last_objective = initial_objective
+    shutil.copy(shadow_cost, os.path.join(parent_path, "best_config"))
+    shutil.copy(slack_instance, os.path.join(parent_path, "best_config"))
 
     # Instantiate the loop variables
     i = 0
