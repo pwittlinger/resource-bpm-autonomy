@@ -8,10 +8,10 @@ import datetime
 
 args1 = ["dummy",
     "input_files/declare/a20g6_7_data_parsed.decl", 
-        "input_files/xes_files/a20g6-prefix-conforming-3.xes", 
+        "input_files/xes_files/a20g6-prefix-conforming-2-10.xes", 
         "input_files/variable_values_multi_model.txt",
         "input_files/variable_substitutions_a20g6_7.decl.txt", 
-        "input_files/assignments/a20g6_assignments_t.json",
+        "input_files/assignments/a20g6_resource_3.json",
         "input_files/petri_net/a20g6.pnml"
             ]
 
@@ -43,11 +43,6 @@ args4 = ["dummy",
             ]
 
 
-numberTraces = [10, 15, 20, 25]
-petriNets = os.listdir(os.path.join("input_files", "petri_net"))
-runTimes = [45,60,90,180]
-noResources = [3,5,7,12]
-prefixLength = [2]
 
 def show_trajectories(file_name):
     # Load data from file
@@ -72,11 +67,44 @@ def show_trajectories(file_name):
     #print("Plot saved to schedule_trajectories.png")
 
 
+numberTraces = [10, 15, 20, 25]
+petriNets = os.listdir(os.path.join("input_files", "petri_net"))
+runTimes = [45,60,90,180]
+noResources = [3,5,7,12]
+prefixLength = [2]
+
 if __name__=="__main__":
 
 
     timestamp = datetime.datetime.now(datetime.UTC).strftime('%Y-%m-%d_%H-%M-%S')
 
+    varValues = os.path.join("input_files","variable_values_multi_model.txt")
+    for pn in petriNets:
+        petriPath = os.path.join("input_files", "petri_net", pn)
+        pnName = pn.removesuffix(".pnml")
+
+        declFile = os.path.join("input_files", "declare", f"{pnName}_7_data_parsed.decl")
+        varSub =  os.path.join("input_files", "variable_substitutions",f"variable_substitutions_{pnName}_7.decl.txt")
+        for nTraces in numberTraces:
+            for nResource in noResources:
+                                        
+                    xesPath = os.path.join("input_files", "xes_files", f"{pnName}-prefix-conforming-2-{nTraces}.xes")
+                    resourceAssignment = os.path.join("input_files", "assignments", f"{pnName}_resource_{nResource}.json")
+
+                    cArgs  = ["dummy",declFile,xesPath,varValues,varSub,resourceAssignment,petriPath]
+
+                    for runTime in runTimes:
+                        for j in range(2):
+                            try:
+                                print(f"Running iter {j} for {pnName} with {nResource}")
+                                b_, bi_, found_objectives= runner_propositionalized.run_search(cArgs, 500, runTime, "contention")
+                                with open(f"experiments/{timestamp}-{pnName}-{nTraces}-{nResource}_{runTime}_contention.txt", "a") as f:
+                                    f.write(str(found_objectives)+"\n")
+                            except Exception as e:
+                                traceback.print_exc()
+                                continue
+
+    exit()
     best_plans = []
     for j in range(0):
         try:
