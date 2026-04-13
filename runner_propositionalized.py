@@ -188,8 +188,6 @@ def adjust_shadow_cost(problem_id:int, act_map:dict, instance_id:int):
     for res in up:
 
         update_factor = up[res]["contention_index"]
-        
-        act_map
 
         #old = fr"\(= \(activity_cost (.*) {res}\) ([\d]+)\)"
 

@@ -218,4 +218,6 @@ if __name__ == "__main__":
     #PETRI_PATH = "input_files/petri_net/a35g6.pnml"
     #ASSIGNMENTS_PATH = "input_files/assignments/a35g6_assignments_3.json"
     
-    run_scheduler(XES_DIR, PETRI_PATH, ASSIGNMENTS_PATH)
+    r = run_scheduler(XES_DIR, PETRI_PATH, ASSIGNMENTS_PATH)
+    print(r)
+    print(r[0].ObjectiveValue())
