@@ -6,6 +6,7 @@ import pm4py
 import pandas as pd
 import os
 import json
+import gc
 
 # Add parent directories to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -124,6 +125,20 @@ def solve_schedule(schedule_instances: list,
     else:
         raise NotImplementedError(f"Objective {objective} not implemented. Choose 'makespan' or 'flow_time'.")
 
+    
+    errorModel = model.Validate()
+    if errorModel:
+        return None
+    proto = model.Proto()
+    for i, var in enumerate(proto.variables):
+        d = list(var.domain)
+        pairs = [(d[j], d[j+1]) for j in range(0, len(d), 2)]
+        if any(lb > ub for lb, ub in pairs):
+            print(f"BAD VAR [{i}] '{var.name}': {pairs}")
+        if not pairs:
+            print(f"EMPTY DOMAIN VAR [{i}] '{var.name}'")
+
+    
     # Solve the model
     #print(f'Solving the scheduling problem for objective {objective}...')
     solver = cp_model.CpSolver()
@@ -177,6 +192,9 @@ def run_schedule(xes_path:str,
         export_highest_slack_instance(solver, all_tasks, sched_instances, output_path=os.path.abspath("input_files/slack_analysis_output/highest_slack_instance.json"))
         export_lagrange_shadow_costs(solver, all_tasks, resource_repository, output_path=os.path.abspath("input_files/slack_analysis_output/resource_shadow_costs.json"))
 
+
+    del solver
+    gc.collect()
     return result
 
 if __name__ == "__main__":

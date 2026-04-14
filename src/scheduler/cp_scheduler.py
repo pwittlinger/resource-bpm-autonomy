@@ -152,7 +152,7 @@ def solve_schedule(schedule_instances: list[ScheduleInstance],
         return None   
 
 
-def run_scheduler(xes_path, petri_path, assignment_path):
+def run_scheduler(xes_path, petri_path, assignment_path, time_limit):
 # create a schedule_instance object
     sched_instances = []
 
@@ -171,7 +171,7 @@ def run_scheduler(xes_path, petri_path, assignment_path):
     # You can add multiple dependency dicts to this list to schedule multiple instances
     result = solve_schedule(schedule_instances=sched_instances, 
                             resource_repository=resource_repository, 
-                            timeout=300, 
+                            timeout=time_limit, 
                             objective='makespan')
     
     if result:

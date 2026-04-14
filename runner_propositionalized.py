@@ -6,12 +6,14 @@ import random
 import re
 import json
 import math
+import multiprocessing
 os.environ['SHOW_PROGRESS_BAR'] = 'False'
 os.environ['PM4PY_SHOW_PROGRESS_BAR'] = 'False'
 
 import pm4py
 import pandas as pd
 import src.scheduler.cp_scheduler_fixed_resources as cp
+import src.scheduler.cp_scheduler as cpnf
 import shutil
 import tqdm
 import json
@@ -363,7 +365,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     generate_groundings()
     # When generating the Plans with the Propositionalized version, we get different results (same plan COST though)
     # This causes the first iteration to already find an optimal plan?
-    #generate_all_initial_plans()
+    generate_all_initial_plans()
     generate_all_xes_from_plan(decl_loc, activity_mapping)
 
     [shutil.copy(os.path.join(parent_path,generated_xes_path,p), os.path.join(parent_path,"best_config",p)) for p in os.listdir(os.path.join(parent_path,generated_xes_path)) if p.endswith(".xes")]
@@ -378,6 +380,10 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     last_objective = initial_objective
     shutil.copy(shadow_cost, os.path.join(parent_path, "best_config"))
     shutil.copy(slack_instance, os.path.join(parent_path, "best_config"))
+
+    ##################
+    initial_benchmark = cpnf.run_scheduler(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model, timeoutLimit)
+    bench1 = initial_benchmark[0].ObjectiveValue()
 
     # Instantiate the loop variables
     i = 0
@@ -488,16 +494,21 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
         else:
             count_no_schedule_generated = 0
             shutil.copy(src=replanned_suffix, dst=os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes"))
-            resulting_schedule = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
             
-            #reset_to_initial()
+            #resulting_schedule = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
+
+            resilient_result = resilient_solve(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model, timeoutLimit)
+            
+            if resilient_result["status"] == "success":
+                last_objective = resilient_result["solution"]
+            else:
+                continue
         
             # get objective of plan
-            #last_objective = resulting_schedule[0].BestObjectiveBound()
-            last_objective = resulting_schedule[0].ObjectiveValue()
+            #last_objective = resulting_schedule[0].ObjectiveValue()
             found_objectives.append(last_objective)
 
-            if (best_ > last_objective):
+            if (best_ > last_objective): 
                 no_improvement_found = 0
                 
                 best_plan_iter = i
@@ -533,8 +544,13 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
         currentIteration = time.time()
         print(id_to_plan, same_trace, currentIteration-currentStart)
 
+        #####
+    # Running the scheduler with variable assignments for the best known set resource assignment
+    best_benchmark = cpnf.run_scheduler(os.path.join(parent_path,"best_config"), pn_loc, cost_model, timeoutLimit)
+
+    bench2 = best_benchmark[0].ObjectiveValue()
     
-    return [best_, best_plan_iter, found_objectives]
+    return [best_, best_plan_iter, found_objectives, bench1, bench2]
 
 
 
@@ -555,11 +571,39 @@ def change(pddlContent:str, activity:str, resource:str, cost:float, additive:boo
 
     return firstPart + str(newCost) + secondPart
 
+
+def resilient_solve(full_xes_path, petri_net_location, resource_cost_assignments, timeout):
+    result_queue = multiprocessing.Queue()
+
+    process = multiprocessing.Process(target=solver_worker, args=(result_queue, full_xes_path, petri_net_location, resource_cost_assignments))
+    #cp.run_schedule(full_xes_path, petri_net_location, resource_cost_assignments)
+
+    process.start()
+    process.join(timeout=timeout)
+
+    if process.exitcode != 0:
+        print("Error in model solving")
+    
+    if not result_queue.empty():
+        return result_queue.get()
+
+def solver_worker(result_queue, full_xes_path, petri_net_location, resource_cost_assignments):
+    result = cp.run_schedule(full_xes_path, petri_net_location, resource_cost_assignments)
+
+    if result is None:
+        result_queue.put({"status":"error"})
+    else:
+        result_queue.put({"status":"success", "solution":result[0].ObjectiveValue()})
+
+    return result_queue
+
+
+
 if __name__ == "__main__":
     print(sys.argv)
     # Stopping conditions for loop
     maxIterations = 5000 # total number of iterations
-    timeoutLimit = 150 # Maximum number of seconds spend
+    timeoutLimit = 180 # Maximum number of seconds spend
     search_strat = "contention"
 
     b_, bi_, foundObjectives_= run_search(sys.argv, maxIterations, timeoutLimit, search_strat)
