@@ -356,7 +356,8 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     with open(cost_model) as f:
         all_assignments = json.load(f)
 
-    subprocess.call(['java', '-jar', jar_path, "-d", decl_loc, "-p", pn_loc, "-o", l, "-a",variable_values,"-s", var_sub_loc, "-c",cost_model])
+    #subprocess.call(['java', '-jar', jar_path, "-d", decl_loc, "-p", pn_loc, "-o", l, "-a",variable_values,"-s", var_sub_loc, "-c",cost_model])
+    subprocess.call(['java', '-jar', jar_path, "-d", decl_loc, "-p", pn_loc, "-l", l, "-a",variable_values,"-s", var_sub_loc, "-c",cost_model])
 
     # Move initially generated PDDL files to initial folder.
     [shutil.copy(os.path.join(output_folder,p),os.path.join(parent_path,"output", "initial",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
