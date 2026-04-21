@@ -12,6 +12,9 @@ class ResourceRepository:
         self.assignments = self._load_assignments()
         
     def _load_assignments(self) -> pd.DataFrame:
+        """Load the resource assignments from the specified JSON file into a DataFrame.
+        Creates a DataFrame with columns: 'task', 'resource', 'duration'            
+        """
         if not self.resource_file_path.exists():
             raise FileNotFoundError(f"Resource file not found at {self.resource_file_path}")
         return pd.DataFrame(json.load(open(self.resource_file_path, 'r')))
@@ -40,3 +43,6 @@ class ResourceRepository:
     
     def get_all_resources(self) -> list:
         return self.assignments['resource'].unique().tolist()
+    
+    def get_all_tasks(self) -> list:
+        return self.assignments['task'].unique().tolist()

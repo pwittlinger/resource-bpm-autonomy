@@ -6,6 +6,7 @@ import pm4py
 import pandas as pd
 import os
 import json
+import gc
 
 # Add parent directories to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -15,6 +16,7 @@ from src.scheduler.schedule_instance import ScheduleInstance
 from src.scheduler.plotly_visualizer import visualize_schedule_plotly
 from src.scheduler.slack_analysis import export_highest_slack_instance
 from src.scheduler.resource_shadow_costs import export_resource_shadow_costs
+from src.scheduler.lagrange_relaxation import export_lagrange_shadow_costs
 
 def solve_schedule(schedule_instances: list,
                    resource_repository: ResourceRepository,
@@ -123,6 +125,20 @@ def solve_schedule(schedule_instances: list,
     else:
         raise NotImplementedError(f"Objective {objective} not implemented. Choose 'makespan' or 'flow_time'.")
 
+    
+    #errorModel = model.Validate()
+    #if errorModel:
+    #    return None
+    #proto = model.Proto()
+    #for i, var in enumerate(proto.variables):
+    #    d = list(var.domain)
+    #    pairs = [(d[j], d[j+1]) for j in range(0, len(d), 2)]
+    #    if any(lb > ub for lb, ub in pairs):
+    ##        print(f"BAD VAR [{i}] '{var.name}': {pairs}")
+    #    if not pairs:
+    #        print(f"EMPTY DOMAIN VAR [{i}] '{var.name}'")
+
+    
     # Solve the model
     #print(f'Solving the scheduling problem for objective {objective}...')
     solver = cp_model.CpSolver()
@@ -167,14 +183,17 @@ def run_schedule(xes_path:str,
     # You can add multiple dependency dicts to this list to schedule multiple instances
     result = solve_schedule(schedule_instances=sched_instances, 
                             resource_repository=resource_repository, 
-                            timeout=30, 
+                            timeout=5, 
                             objective='makespan')
     
     if result:
         solver, all_tasks = result
         #visualize_schedule_plotly(solver, all_tasks)
         export_highest_slack_instance(solver, all_tasks, sched_instances, output_path=os.path.abspath("input_files/slack_analysis_output/highest_slack_instance.json"))
-        export_resource_shadow_costs(solver, all_tasks, output_path=os.path.abspath("input_files/slack_analysis_output/resource_shadow_costs.json"))
+        export_lagrange_shadow_costs(solver, all_tasks, resource_repository, output_path=os.path.abspath("input_files/slack_analysis_output/resource_shadow_costs.json"))
+        #del solver
+
+    #gc.collect()
 
     return result
 
@@ -183,7 +202,18 @@ if __name__ == "__main__":
     INSTANCES_PATH = "input_files/xes_files/log_with_resources.xes"
     PETRI_PATH = "input_files/petri_net/a20g6.pnml"
 
+    
+    #XES_DIR = "generated_xes/initial"
+    #PETRI_PATH = "input_files/petri_net/a20g6.pnml"
+    #ASSIGNMENTS_PATH = "input_files/assignments/a20g6_assignments_7.json"
 
+    XES_DIR = "best_config"
+    PETRI_PATH = "input_files/petri_net/a35g6.pnml"
+    ASSIGNMENTS_PATH = "input_files/assignments/a35g6_assignments_3.json"
+    
+    run_schedule(XES_DIR, PETRI_PATH, ASSIGNMENTS_PATH)
+
+    exit()
     # create a schedule_instance object
     sched_instances = []
     for i in range(15):
@@ -204,5 +234,5 @@ if __name__ == "__main__":
         solver, all_tasks = result
         visualize_schedule_plotly(solver, all_tasks)
         export_highest_slack_instance(solver, all_tasks, sched_instances, output_path="input_files/slack_analysis_output/highest_slack_instance.json")
-        export_resource_shadow_costs(solver, all_tasks, output_path="input_files/slack_analysis_output/resource_shadow_costs.json")
+        export_lagrange_shadow_costs(solver, all_tasks, resource_repository, output_path="input_files/slack_analysis_output/resource_shadow_costs.json")
 

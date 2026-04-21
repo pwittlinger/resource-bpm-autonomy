@@ -1,0 +1,522 @@
+[
+    {
+        "task": "ActivityA",
+        "resource": "R0",
+        "duration": 3
+    },
+    {
+        "task": "ActivityA",
+        "resource": "R6",
+        "duration": 9
+    },
+    {
+        "task": "ActivityA",
+        "resource": "R2",
+        "duration": 8
+    },
+    {
+        "task": "ActivityA",
+        "resource": "R1",
+        "duration": 2
+    },
+    {
+        "task": "ActivityA",
+        "resource": "R5",
+        "duration": 1
+    },
+    {
+        "task": "ActivityA",
+        "resource": "R4",
+        "duration": 2
+    },
+    {
+        "task": "ActivityB",
+        "resource": "R0",
+        "duration": 3
+    },
+    {
+        "task": "ActivityB",
+        "resource": "R5",
+        "duration": 3
+    },
+    {
+        "task": "ActivityB",
+        "resource": "R4",
+        "duration": 7
+    },
+    {
+        "task": "ActivityB",
+        "resource": "R6",
+        "duration": 10
+    },
+    {
+        "task": "ActivityB",
+        "resource": "R2",
+        "duration": 2
+    },
+    {
+        "task": "ActivityB",
+        "resource": "R1",
+        "duration": 7
+    },
+    {
+        "task": "ActivityM",
+        "resource": "R0",
+        "duration": 7
+    },
+    {
+        "task": "ActivityN",
+        "resource": "R1",
+        "duration": 10
+    },
+    {
+        "task": "ActivityR",
+        "resource": "R4",
+        "duration": 8
+    },
+    {
+        "task": "ActivityR",
+        "resource": "R6",
+        "duration": 9
+    },
+    {
+        "task": "ActivityS",
+        "resource": "R4",
+        "duration": 5
+    },
+    {
+        "task": "ActivityT",
+        "resource": "R5",
+        "duration": 9
+    },
+    {
+        "task": "ActivityT",
+        "resource": "R6",
+        "duration": 1
+    },
+    {
+        "task": "ActivityO",
+        "resource": "R4",
+        "duration": 2
+    },
+    {
+        "task": "ActivityO",
+        "resource": "R3",
+        "duration": 9
+    },
+    {
+        "task": "ActivityO",
+        "resource": "R1",
+        "duration": 5
+    },
+    {
+        "task": "ActivityO",
+        "resource": "R5",
+        "duration": 6
+    },
+    {
+        "task": "ActivityO",
+        "resource": "R2",
+        "duration": 2
+    },
+    {
+        "task": "ActivityO",
+        "resource": "R6",
+        "duration": 5
+    },
+    {
+        "task": "ActivityG",
+        "resource": "R6",
+        "duration": 7
+    },
+    {
+        "task": "ActivityG",
+        "resource": "R0",
+        "duration": 3
+    },
+    {
+        "task": "ActivityG",
+        "resource": "R1",
+        "duration": 8
+    },
+    {
+        "task": "ActivityG",
+        "resource": "R3",
+        "duration": 1
+    },
+    {
+        "task": "ActivityG",
+        "resource": "R4",
+        "duration": 5
+    },
+    {
+        "task": "ActivityG",
+        "resource": "R2",
+        "duration": 9
+    },
+    {
+        "task": "ActivityG",
+        "resource": "R5",
+        "duration": 3
+    },
+    {
+        "task": "ActivityH",
+        "resource": "R6",
+        "duration": 9
+    },
+    {
+        "task": "ActivityH",
+        "resource": "R2",
+        "duration": 2
+    },
+    {
+        "task": "ActivityC",
+        "resource": "R0",
+        "duration": 5
+    },
+    {
+        "task": "ActivityU",
+        "resource": "R0",
+        "duration": 9
+    },
+    {
+        "task": "ActivityU",
+        "resource": "R2",
+        "duration": 10
+    },
+    {
+        "task": "ActivityU",
+        "resource": "R5",
+        "duration": 4
+    },
+    {
+        "task": "ActivityU",
+        "resource": "R4",
+        "duration": 3
+    },
+    {
+        "task": "ActivityV",
+        "resource": "R0",
+        "duration": 6
+    },
+    {
+        "task": "ActivityV",
+        "resource": "R5",
+        "duration": 3
+    },
+    {
+        "task": "ActivityV",
+        "resource": "R3",
+        "duration": 9
+    },
+    {
+        "task": "ActivityV",
+        "resource": "R6",
+        "duration": 9
+    },
+    {
+        "task": "ActivityV",
+        "resource": "R1",
+        "duration": 1
+    },
+    {
+        "task": "ActivityV",
+        "resource": "R4",
+        "duration": 10
+    },
+    {
+        "task": "ActivityV",
+        "resource": "R2",
+        "duration": 6
+    },
+    {
+        "task": "ActivityE",
+        "resource": "R5",
+        "duration": 8
+    },
+    {
+        "task": "ActivityE",
+        "resource": "R4",
+        "duration": 1
+    },
+    {
+        "task": "ActivityE",
+        "resource": "R2",
+        "duration": 2
+    },
+    {
+        "task": "ActivityE",
+        "resource": "R1",
+        "duration": 6
+    },
+    {
+        "task": "ActivityE",
+        "resource": "R6",
+        "duration": 5
+    },
+    {
+        "task": "ActivityE",
+        "resource": "R0",
+        "duration": 4
+    },
+    {
+        "task": "ActivityE",
+        "resource": "R3",
+        "duration": 1
+    },
+    {
+        "task": "ActivityF",
+        "resource": "R1",
+        "duration": 4
+    },
+    {
+        "task": "ActivityF",
+        "resource": "R2",
+        "duration": 10
+    },
+    {
+        "task": "ActivityF",
+        "resource": "R0",
+        "duration": 2
+    },
+    {
+        "task": "ActivityF",
+        "resource": "R6",
+        "duration": 2
+    },
+    {
+        "task": "ActivityF",
+        "resource": "R4",
+        "duration": 8
+    },
+    {
+        "task": "ActivityF",
+        "resource": "R3",
+        "duration": 2
+    },
+    {
+        "task": "ActivityP",
+        "resource": "R3",
+        "duration": 9
+    },
+    {
+        "task": "ActivityP",
+        "resource": "R5",
+        "duration": 3
+    },
+    {
+        "task": "ActivityP",
+        "resource": "R2",
+        "duration": 3
+    },
+    {
+        "task": "ActivityQ",
+        "resource": "R2",
+        "duration": 8
+    },
+    {
+        "task": "ActivityQ",
+        "resource": "R6",
+        "duration": 9
+    },
+    {
+        "task": "ActivityI",
+        "resource": "R5",
+        "duration": 3
+    },
+    {
+        "task": "ActivityI",
+        "resource": "R2",
+        "duration": 5
+    },
+    {
+        "task": "ActivityJ",
+        "resource": "R5",
+        "duration": 9
+    },
+    {
+        "task": "ActivityJ",
+        "resource": "R6",
+        "duration": 10
+    },
+    {
+        "task": "ActivityJ",
+        "resource": "R0",
+        "duration": 7
+    },
+    {
+        "task": "ActivityJ",
+        "resource": "R1",
+        "duration": 4
+    },
+    {
+        "task": "ActivityJ",
+        "resource": "R2",
+        "duration": 9
+    },
+    {
+        "task": "ActivityJ",
+        "resource": "R4",
+        "duration": 4
+    },
+    {
+        "task": "ActivityK",
+        "resource": "R3",
+        "duration": 5
+    },
+    {
+        "task": "ActivityK",
+        "resource": "R6",
+        "duration": 7
+    },
+    {
+        "task": "ActivityL",
+        "resource": "R5",
+        "duration": 6
+    },
+    {
+        "task": "ActivityL",
+        "resource": "R6",
+        "duration": 8
+    },
+    {
+        "task": "ActivityL",
+        "resource": "R4",
+        "duration": 9
+    },
+    {
+        "task": "ActivityAA",
+        "resource": "R5",
+        "duration": 8
+    },
+    {
+        "task": "ActivityAA",
+        "resource": "R2",
+        "duration": 2
+    },
+    {
+        "task": "ActivityAB",
+        "resource": "R6",
+        "duration": 4
+    },
+    {
+        "task": "ActivityAB",
+        "resource": "R0",
+        "duration": 4
+    },
+    {
+        "task": "ActivityAB",
+        "resource": "R1",
+        "duration": 2
+    },
+    {
+        "task": "ActivityAB",
+        "resource": "R5",
+        "duration": 6
+    },
+    {
+        "task": "ActivityAB",
+        "resource": "R4",
+        "duration": 1
+    },
+    {
+        "task": "ActivityAB",
+        "resource": "R2",
+        "duration": 10
+    },
+    {
+        "task": "ActivityAB",
+        "resource": "R3",
+        "duration": 9
+    },
+    {
+        "task": "ActivityW",
+        "resource": "R1",
+        "duration": 4
+    },
+    {
+        "task": "ActivityX",
+        "resource": "R5",
+        "duration": 10
+    },
+    {
+        "task": "ActivityX",
+        "resource": "R2",
+        "duration": 4
+    },
+    {
+        "task": "ActivityX",
+        "resource": "R1",
+        "duration": 1
+    },
+    {
+        "task": "ActivityX",
+        "resource": "R3",
+        "duration": 2
+    },
+    {
+        "task": "ActivityX",
+        "resource": "R4",
+        "duration": 1
+    },
+    {
+        "task": "ActivityZ",
+        "resource": "R3",
+        "duration": 4
+    },
+    {
+        "task": "ActivityZ",
+        "resource": "R1",
+        "duration": 2
+    },
+    {
+        "task": "ActivityZ",
+        "resource": "R2",
+        "duration": 1
+    },
+    {
+        "task": "ActivityZ",
+        "resource": "R5",
+        "duration": 6
+    },
+    {
+        "task": "ActivityZ",
+        "resource": "R0",
+        "duration": 2
+    },
+    {
+        "task": "ActivityZ",
+        "resource": "R6",
+        "duration": 9
+    },
+    {
+        "task": "ActivityY",
+        "resource": "R4",
+        "duration": 4
+    },
+    {
+        "task": "ActivityY",
+        "resource": "R3",
+        "duration": 5
+    },
+    {
+        "task": "ActivityY",
+        "resource": "R6",
+        "duration": 8
+    },
+    {
+        "task": "ActivityY",
+        "resource": "R5",
+        "duration": 4
+    },
+    {
+        "task": "ActivityY",
+        "resource": "R1",
+        "duration": 9
+    },
+    {
+        "task": "ActivityY",
+        "resource": "R0",
+        "duration": 3
+    }
+]

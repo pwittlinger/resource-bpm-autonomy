@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
+	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
+	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
+	<extension name="Lifecycle" prefix="lifecycle" uri="http://www.xes-standard.org/lifecycle.xesext" />
+	<string key="origin" value="csv" />
+	<trace>
+		<string key="concept:name" value="Positive No. 0" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="5" />
+			<date key="time:timestamp" value="2021-09-19T01:59:30+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2021-09-19T03:42:40+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 1" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="5" />
+			<date key="time:timestamp" value="2023-04-14T02:11:10+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="0" />
+			<date key="time:timestamp" value="2023-04-14T03:35:40+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 2" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="5" />
+			<date key="time:timestamp" value="2022-12-24T01:24:30+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="15" />
+			<date key="time:timestamp" value="2022-12-24T02:58:20+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 3" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="4" />
+			<date key="time:timestamp" value="2021-10-19T01:40:50+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2021-10-19T03:45:00+00:00" />
+			<string key="categorical" value="c1" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 10" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="4" />
+			<date key="time:timestamp" value="2022-08-27T01:45:30+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2022-08-27T03:14:40+00:00" />
+			<string key="categorical" value="c1" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 11" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2021-05-01T01:22:10+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="22" />
+			<date key="time:timestamp" value="2021-05-01T03:24:00+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 12" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="22" />
+			<date key="time:timestamp" value="2021-09-17T02:18:10+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="8" />
+			<date key="time:timestamp" value="2021-09-17T04:22:20+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 13" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="5" />
+			<date key="time:timestamp" value="2021-06-27T02:11:10+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2021-06-27T04:34:00+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 14" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="21" />
+			<date key="time:timestamp" value="2023-01-12T01:31:30+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2023-01-12T03:03:00+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 15" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="19" />
+			<date key="time:timestamp" value="2022-07-19T01:33:50+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="22" />
+			<date key="time:timestamp" value="2022-07-19T03:59:00+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 16" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2023-06-25T01:43:10+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2023-06-25T03:14:40+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 17" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="16" />
+			<date key="time:timestamp" value="2024-05-03T01:59:30+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2024-05-03T03:21:40+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 18" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="20" />
+			<date key="time:timestamp" value="2024-10-02T01:31:30+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="1" />
+			<date key="time:timestamp" value="2024-10-02T02:56:00+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 19" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="5" />
+			<date key="time:timestamp" value="2024-01-11T01:33:50+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2024-01-11T03:21:40+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 20" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="10" />
+			<date key="time:timestamp" value="2022-07-21T02:01:50+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="23" />
+			<date key="time:timestamp" value="2022-07-21T04:24:40+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 21" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="8" />
+			<date key="time:timestamp" value="2022-03-04T01:43:10+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2022-03-04T04:08:20+00:00" />
+			<string key="categorical" value="c2" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 22" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="5" />
+			<date key="time:timestamp" value="2022-02-11T01:54:50+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2022-02-11T03:35:40+00:00" />
+			<string key="categorical" value="c2" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 23" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="20" />
+			<date key="time:timestamp" value="2024-06-22T01:22:10+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="22" />
+			<date key="time:timestamp" value="2024-06-22T03:24:00+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 24" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="1" />
+			<date key="time:timestamp" value="2021-06-20T02:11:10+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2021-06-20T03:40:20+00:00" />
+			<string key="categorical" value="c1" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 25" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="10" />
+			<date key="time:timestamp" value="2024-09-24T02:27:30+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2024-09-24T03:52:00+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 26" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="8" />
+			<date key="time:timestamp" value="2023-07-22T01:52:30+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="7" />
+			<date key="time:timestamp" value="2023-07-22T04:15:20+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 27" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="20" />
+			<date key="time:timestamp" value="2022-06-07T02:11:10+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2022-06-07T03:47:20+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 28" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2022-03-10T01:59:30+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityG" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="7" />
+			<date key="time:timestamp" value="2022-03-10T04:27:00+00:00" />
+			
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 29" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="1" />
+			<date key="time:timestamp" value="2023-10-08T01:38:30+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2023-10-08T03:52:00+00:00" />
+			<string key="categorical" value="c1" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="Positive No. 30" />
+		<event>
+			<string key="concept:name" value="ActivityA" />
+			<string key="lifecycle:transition" value="complete" />
+			<float key="integer" value="5" />
+			<date key="time:timestamp" value="2024-04-21T02:11:10+00:00" />
+			
+		</event>
+		<event>
+			<string key="concept:name" value="ActivityAR" />
+			<string key="lifecycle:transition" value="complete" />
+			
+			<date key="time:timestamp" value="2024-04-21T04:01:20+00:00" />
+			
+		</event>
+	</trace>
+</log>

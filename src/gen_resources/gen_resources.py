@@ -51,8 +51,14 @@ def save_as_json(assignments, output_path: str|Path):
 
 if __name__ == "__main__":
     PT_INPUT_PATH = Path("output_files/petri_net/a20g6.ptml")
-    OUTPUT_PATH = Path("output_files/assignments/a20g6_assignments.json")
+    OUTPUT_PATH = Path("output_files/assignments/a20g6_assignments_7.json")
+
+    #PT_INPUT_PATH = Path("output_files/petri_net/a35g6.ptml")
+    #OUTPUT_PATH = Path("output_files/assignments/a35g6_assignments_5.json")
+
+    #PT_INPUT_PATH = Path("output_files/petri_net/a40g17AND.ptml")
+    #OUTPUT_PATH = Path("output_files/assignments/a40g17AND_assignments_3.json")
     
     pt = load_process_tree(PT_INPUT_PATH)
-    assignments = generate(pt)
+    assignments = generate(pt, 7)
     save_as_json(assignments, OUTPUT_PATH)

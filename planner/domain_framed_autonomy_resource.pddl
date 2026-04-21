@@ -105,7 +105,7 @@
       (complete_sync ?a)
   ))
 
-  (:action move_in_model_parameter
+  (:action add_parameter
       :parameters (?a - activity ?pn - parameter_name ?vn - value_name)
       :precondition (and 
       (complete_sync ?a)
@@ -531,29 +531,6 @@
         )
       (not (failure))
       (not (violated ?c))
-      )
-  )
-  
-  (:action skip-unused
-      :parameters (?t1 - trace_state ?a - activity ?t2 - trace_state)
-      :precondition (and 
-
-      (cur_t_state ?t1) 
-      (trace ?t1 ?a ?t2)
-      (not (recovery_finished))
-      (not (exists (?s1 - automaton_state ?s2 - automaton_state) 
-        (and
-        
-        (automaton ?s1 ?a ?s2)
-        (not (failure_state ?s2))
-        )
-      ))
-      )
-      :effect (and 
-      (increase (total_cost) 0)
-      (not (cur_t_state ?t1)) 
-      (cur_t_state ?t2)
-      (when (final_t_state ?t2) (recovery_finished))
       )
   )
 

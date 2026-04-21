@@ -61,8 +61,9 @@ def visualize_schedule_plotly(solver, all_tasks):
     fig.update_yaxes(autorange="reversed") # Highest resource at the top
     fig.update_layout(
         xaxis_title="Time Units",
-        yaxis_title="Resource / Machine",
+        yaxis_title="Resource",
         legend_title="Process Instances",
+        font_size=24,
         hoverlabel=dict(bgcolor="white", font_size=12)
     )
 

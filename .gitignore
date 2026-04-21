@@ -218,3 +218,5 @@ __marimo__/
 
 .vscode/settings.json
 input_files/slack_analysis_output/*
+
+experiments/*

@@ -138,7 +138,7 @@ def solve_schedule(schedule_instances: list[ScheduleInstance],
     # Solve the model
     print(f'Solving the scheduling problem for objective {objective}...')
     solver = cp_model.CpSolver()
-    solver.parameters.log_search_progress = True
+    solver.parameters.log_search_progress = False
     solver.parameters.max_time_in_seconds = timeout
     status = solver.Solve(model)
     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
@@ -152,7 +152,7 @@ def solve_schedule(schedule_instances: list[ScheduleInstance],
         return None   
 
 
-def run_scheduler(xes_path, petri_path, assignment_path):
+def run_scheduler(xes_path, petri_path, assignment_path, time_limit):
 # create a schedule_instance object
     sched_instances = []
 
@@ -171,14 +171,14 @@ def run_scheduler(xes_path, petri_path, assignment_path):
     # You can add multiple dependency dicts to this list to schedule multiple instances
     result = solve_schedule(schedule_instances=sched_instances, 
                             resource_repository=resource_repository, 
-                            timeout=30, 
+                            timeout=time_limit, 
                             objective='makespan')
     
     if result:
         solver, all_tasks = result
 
         prepared_tasks = prepare_all_tasks(solver, all_tasks)
-        visualize_schedule_plotly(solver, prepared_tasks)
+        #visualize_schedule_plotly(solver, prepared_tasks)
         export_highest_slack_instance(solver, prepared_tasks, sched_instances, output_path=os.path.abspath("input_files/slack_analysis_output/highest_slack_instance.json"))
         return result
 
@@ -211,7 +211,13 @@ def prepare_all_tasks(solver, all_tasks):
 
 if __name__ == "__main__":
     XES_DIR = "best_config"
+    #XES_DIR = "generated_xes/initial"
     PETRI_PATH = "input_files/petri_net/a20g6.pnml"
-    ASSIGNMENTS_PATH = "input_files/assignments/a20g6_assignments_t.json"
+    ASSIGNMENTS_PATH = "input_files/assignments/a20g6_resource_3.json"
+
+    #PETRI_PATH = "input_files/petri_net/a35g6.pnml"
+    #ASSIGNMENTS_PATH = "input_files/assignments/a35g6_assignments_3.json"
     
-    run_scheduler(XES_DIR, PETRI_PATH, ASSIGNMENTS_PATH)
+    r = run_scheduler(XES_DIR, PETRI_PATH, ASSIGNMENTS_PATH)
+    print(r)
+    print(r[0].ObjectiveValue())
