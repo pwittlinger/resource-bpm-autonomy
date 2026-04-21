@@ -126,17 +126,17 @@ def solve_schedule(schedule_instances: list,
         raise NotImplementedError(f"Objective {objective} not implemented. Choose 'makespan' or 'flow_time'.")
 
     
-    errorModel = model.Validate()
-    if errorModel:
-        return None
-    proto = model.Proto()
-    for i, var in enumerate(proto.variables):
-        d = list(var.domain)
-        pairs = [(d[j], d[j+1]) for j in range(0, len(d), 2)]
-        if any(lb > ub for lb, ub in pairs):
-            print(f"BAD VAR [{i}] '{var.name}': {pairs}")
-        if not pairs:
-            print(f"EMPTY DOMAIN VAR [{i}] '{var.name}'")
+    #errorModel = model.Validate()
+    #if errorModel:
+    #    return None
+    #proto = model.Proto()
+    #for i, var in enumerate(proto.variables):
+    #    d = list(var.domain)
+    #    pairs = [(d[j], d[j+1]) for j in range(0, len(d), 2)]
+    #    if any(lb > ub for lb, ub in pairs):
+    ##        print(f"BAD VAR [{i}] '{var.name}': {pairs}")
+    #    if not pairs:
+    #        print(f"EMPTY DOMAIN VAR [{i}] '{var.name}'")
 
     
     # Solve the model
@@ -183,7 +183,7 @@ def run_schedule(xes_path:str,
     # You can add multiple dependency dicts to this list to schedule multiple instances
     result = solve_schedule(schedule_instances=sched_instances, 
                             resource_repository=resource_repository, 
-                            timeout=30, 
+                            timeout=5, 
                             objective='makespan')
     
     if result:
@@ -191,10 +191,10 @@ def run_schedule(xes_path:str,
         #visualize_schedule_plotly(solver, all_tasks)
         export_highest_slack_instance(solver, all_tasks, sched_instances, output_path=os.path.abspath("input_files/slack_analysis_output/highest_slack_instance.json"))
         export_lagrange_shadow_costs(solver, all_tasks, resource_repository, output_path=os.path.abspath("input_files/slack_analysis_output/resource_shadow_costs.json"))
+        #del solver
 
+    #gc.collect()
 
-    del solver
-    gc.collect()
     return result
 
 if __name__ == "__main__":

@@ -1,13 +1,13 @@
 {
-  "makespan": 229,
+  "makespan": 189,
   "ideal_utilization": 0.8,
   "scaling_factor": 1.0,
   "resources": {
     "R0": {
-      "total_assigned_duration": 229,
+      "total_assigned_duration": 189,
       "utilization": 1.0,
       "contention_index": 1.25,
-      "penalty_rate": 45.8,
+      "penalty_rate": 37.8,
       "instances": {
         "problem1_1": {
           "tasks": {
@@ -21,7 +21,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -30,7 +30,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -42,7 +42,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -51,7 +51,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -61,8 +61,8 @@
                 "R1"
               ],
               "cost": 6,
-              "currently_assigned": true,
-              "task_specific_tax": 38.166666666666664
+              "currently_assigned": false,
+              "task_specific_tax": 1950.0
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -74,7 +74,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -86,7 +86,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -98,7 +98,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -106,8 +106,8 @@
               "is_only_resource": true,
               "alternative_resources": [],
               "cost": 8,
-              "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "currently_assigned": false,
+              "task_specific_tax": 1970.0
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -118,7 +118,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -129,7 +129,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -140,7 +140,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -151,7 +151,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -163,7 +163,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             }
           }
         },
@@ -179,7 +179,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -188,7 +188,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -200,7 +200,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -209,7 +209,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -219,8 +219,8 @@
                 "R1"
               ],
               "cost": 6,
-              "currently_assigned": true,
-              "task_specific_tax": 38.166666666666664
+              "currently_assigned": false,
+              "task_specific_tax": 1950.0
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -232,7 +232,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -244,7 +244,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -256,7 +256,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -265,7 +265,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": false,
-              "task_specific_tax": 2370.0
+              "task_specific_tax": 1970.0
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -276,7 +276,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -287,7 +287,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -298,7 +298,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -309,7 +309,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -321,7 +321,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             }
           }
         },
@@ -337,7 +337,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -346,7 +346,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -358,7 +358,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -367,7 +367,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -378,7 +378,7 @@
               ],
               "cost": 6,
               "currently_assigned": true,
-              "task_specific_tax": 38.166666666666664
+              "task_specific_tax": 31.5
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -390,7 +390,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -402,7 +402,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -414,7 +414,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -423,7 +423,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -434,7 +434,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -445,7 +445,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -456,7 +456,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -467,7 +467,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -479,7 +479,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             }
           }
         },
@@ -495,7 +495,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -504,7 +504,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -516,7 +516,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -525,7 +525,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -535,8 +535,8 @@
                 "R1"
               ],
               "cost": 6,
-              "currently_assigned": true,
-              "task_specific_tax": 38.166666666666664
+              "currently_assigned": false,
+              "task_specific_tax": 1950.0
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -548,7 +548,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -560,7 +560,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -572,7 +572,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -581,7 +581,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": false,
-              "task_specific_tax": 2370.0
+              "task_specific_tax": 1970.0
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -592,7 +592,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -603,7 +603,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -614,7 +614,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -625,7 +625,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -637,7 +637,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             }
           }
         },
@@ -653,7 +653,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -662,7 +662,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -674,7 +674,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -683,7 +683,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -694,7 +694,7 @@
               ],
               "cost": 6,
               "currently_assigned": true,
-              "task_specific_tax": 38.166666666666664
+              "task_specific_tax": 31.5
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -706,7 +706,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -718,7 +718,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -730,7 +730,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -739,7 +739,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": false,
-              "task_specific_tax": 2370.0
+              "task_specific_tax": 1970.0
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -750,7 +750,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -761,7 +761,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -772,7 +772,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -783,7 +783,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -795,7 +795,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             }
           }
         },
@@ -811,7 +811,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -820,7 +820,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -832,7 +832,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -841,7 +841,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -852,7 +852,7 @@
               ],
               "cost": 6,
               "currently_assigned": true,
-              "task_specific_tax": 38.166666666666664
+              "task_specific_tax": 31.5
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -864,7 +864,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -876,7 +876,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -888,7 +888,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -897,7 +897,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -908,7 +908,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -919,7 +919,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -930,7 +930,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -941,7 +941,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -953,7 +953,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             }
           }
         },
@@ -969,7 +969,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -978,7 +978,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -990,7 +990,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -999,7 +999,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -1009,8 +1009,8 @@
                 "R1"
               ],
               "cost": 6,
-              "currently_assigned": true,
-              "task_specific_tax": 38.166666666666664
+              "currently_assigned": false,
+              "task_specific_tax": 1950.0
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -1022,7 +1022,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -1034,7 +1034,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -1046,7 +1046,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -1054,8 +1054,8 @@
               "is_only_resource": true,
               "alternative_resources": [],
               "cost": 8,
-              "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "currently_assigned": false,
+              "task_specific_tax": 1970.0
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -1066,7 +1066,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -1077,7 +1077,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -1088,7 +1088,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -1099,7 +1099,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -1111,7 +1111,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             }
           }
         },
@@ -1127,7 +1127,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -1136,7 +1136,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -1148,7 +1148,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -1157,7 +1157,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -1167,8 +1167,8 @@
                 "R1"
               ],
               "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "currently_assigned": true,
+              "task_specific_tax": 31.5
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -1180,7 +1180,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -1192,7 +1192,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -1204,7 +1204,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -1213,7 +1213,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": false,
-              "task_specific_tax": 2370.0
+              "task_specific_tax": 1970.0
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -1224,7 +1224,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -1235,7 +1235,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -1246,7 +1246,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -1257,7 +1257,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -1269,7 +1269,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             }
           }
         },
@@ -1285,7 +1285,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -1294,7 +1294,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -1306,7 +1306,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -1315,7 +1315,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -1325,8 +1325,8 @@
                 "R1"
               ],
               "cost": 6,
-              "currently_assigned": true,
-              "task_specific_tax": 38.166666666666664
+              "currently_assigned": false,
+              "task_specific_tax": 1950.0
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -1338,7 +1338,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -1350,7 +1350,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -1362,7 +1362,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -1371,7 +1371,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": false,
-              "task_specific_tax": 2370.0
+              "task_specific_tax": 1970.0
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -1382,7 +1382,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -1393,7 +1393,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -1404,7 +1404,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -1415,7 +1415,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -1427,7 +1427,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             }
           }
         },
@@ -1443,7 +1443,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -1452,7 +1452,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -1464,7 +1464,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -1473,7 +1473,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -1484,7 +1484,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -1496,7 +1496,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -1508,7 +1508,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -1520,7 +1520,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -1529,7 +1529,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": false,
-              "task_specific_tax": 2370.0
+              "task_specific_tax": 1970.0
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -1540,7 +1540,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -1551,7 +1551,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -1562,7 +1562,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -1573,7 +1573,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -1585,7 +1585,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             }
           }
         },
@@ -1601,7 +1601,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 2310.0
+              "task_specific_tax": 1910.0
             },
             "ActivityB": {
               "additional_cost": 0.0,
@@ -1610,7 +1610,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 45.8
+              "task_specific_tax": 37.8
             },
             "ActivityR": {
               "additional_cost": 5.0,
@@ -1622,7 +1622,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityS": {
               "additional_cost": 0.0,
@@ -1631,7 +1631,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": true,
-              "task_specific_tax": 28.625
+              "task_specific_tax": 23.625
             },
             "ActivityT": {
               "additional_cost": 0.0,
@@ -1642,7 +1642,7 @@
               ],
               "cost": 6,
               "currently_assigned": true,
-              "task_specific_tax": 38.166666666666664
+              "task_specific_tax": 31.5
             },
             "ActivityG": {
               "additional_cost": 2.0,
@@ -1654,7 +1654,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityC": {
               "additional_cost": 8.0,
@@ -1666,7 +1666,7 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
+              "task_specific_tax": 1990.0
             },
             "ActivityD": {
               "additional_cost": 0.0,
@@ -1678,7 +1678,7 @@
               ],
               "cost": 3,
               "currently_assigned": false,
-              "task_specific_tax": 2320.0
+              "task_specific_tax": 1920.0
             },
             "ActivityE": {
               "additional_cost": 0.0,
@@ -1687,7 +1687,7 @@
               "alternative_resources": [],
               "cost": 8,
               "currently_assigned": false,
-              "task_specific_tax": 2370.0
+              "task_specific_tax": 1970.0
             },
             "ActivityF": {
               "additional_cost": 2.0,
@@ -1698,7 +1698,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityP": {
               "additional_cost": 5.0,
@@ -1709,7 +1709,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 2380.0
+              "task_specific_tax": 1980.0
             },
             "ActivityJ": {
               "additional_cost": 5.0,
@@ -1720,7 +1720,7 @@
               ],
               "cost": 6,
               "currently_assigned": false,
-              "task_specific_tax": 2350.0
+              "task_specific_tax": 1950.0
             },
             "ActivityK": {
               "additional_cost": 2.0,
@@ -1731,7 +1731,7 @@
               ],
               "cost": 7,
               "currently_assigned": false,
-              "task_specific_tax": 2360.0
+              "task_specific_tax": 1960.0
             },
             "ActivityL": {
               "additional_cost": 8.0,
@@ -1743,1620 +1743,17 @@
               ],
               "cost": 10,
               "currently_assigned": false,
-              "task_specific_tax": 2390.0
-            }
-          }
-        }
-      }
-    },
-    "R2": {
-      "total_assigned_duration": 142,
-      "utilization": 0.6201,
-      "contention_index": 0.7751,
-      "penalty_rate": 0.0,
-      "instances": {
-        "problem1_1": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5444444444444443
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": true,
-              "task_specific_tax": 2.489130434782609
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            }
-          }
-        },
-        "problem10_10": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5444444444444443
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": true,
-              "task_specific_tax": 2.602272727272727
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            }
-          }
-        },
-        "problem11_11": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5444444444444443
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": true,
-              "task_specific_tax": 2.489130434782609
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            }
-          }
-        },
-        "problem2_2": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5444444444444443
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": true,
-              "task_specific_tax": 2.602272727272727
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            }
-          }
-        },
-        "problem3_3": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5444444444444443
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": true,
-              "task_specific_tax": 2.602272727272727
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            }
-          }
-        },
-        "problem4_4": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5444444444444443
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": true,
-              "task_specific_tax": 2.489130434782609
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            }
-          }
-        },
-        "problem5_5": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5444444444444443
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": true,
-              "task_specific_tax": 2.489130434782609
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            }
-          }
-        },
-        "problem6_6": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": true,
-              "task_specific_tax": 2.602272727272727
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            }
-          }
-        },
-        "problem7_7": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5444444444444443
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": true,
-              "task_specific_tax": 2.602272727272727
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            }
-          }
-        },
-        "problem8_8": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": true,
-              "task_specific_tax": 2.602272727272727
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            }
-          }
-        },
-        "problem9_9": {
-          "tasks": {
-            "ActivityA": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 1,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityM": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityN": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5164835164835164
-            },
-            "ActivityR": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5730337078651684
-            },
-            "ActivityO": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 3,
-              "currently_assigned": true,
-              "task_specific_tax": 2.5444444444444443
-            },
-            "ActivityG": {
-              "additional_cost": 2.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityC": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 3,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityD": {
-              "additional_cost": 1.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0",
-                "R1"
-              ],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityF": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 5,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityQ": {
-              "additional_cost": 5.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1"
-              ],
-              "cost": 6,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityI": {
-              "additional_cost": 0.0,
-              "num_alternatives": 1,
-              "is_only_resource": true,
-              "alternative_resources": [],
-              "cost": 4,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
-            },
-            "ActivityJ": {
-              "additional_cost": 0.0,
-              "num_alternatives": 2,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R0"
-              ],
-              "cost": 1,
-              "currently_assigned": true,
-              "task_specific_tax": 2.602272727272727
-            },
-            "ActivityL": {
-              "additional_cost": 0.0,
-              "num_alternatives": 3,
-              "is_only_resource": false,
-              "alternative_resources": [
-                "R1",
-                "R0"
-              ],
-              "cost": 2,
-              "currently_assigned": false,
-              "task_specific_tax": 2.632183908045977
+              "task_specific_tax": 1990.0
             }
           }
         }
       }
     },
     "R1": {
-      "total_assigned_duration": 85,
-      "utilization": 0.3712,
-      "contention_index": 0.464,
-      "penalty_rate": 0.0,
+      "total_assigned_duration": 170,
+      "utilization": 0.8995,
+      "contention_index": 1.1244,
+      "penalty_rate": 18.8,
       "instances": {
         "problem1_1": {
           "tasks": {
@@ -3370,7 +1767,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -3382,7 +1779,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -3392,8 +1789,8 @@
                 "R0"
               ],
               "cost": 20,
-              "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "currently_assigned": true,
+              "task_specific_tax": 4.846153846153846
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -3405,7 +1802,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -3413,8 +1810,8 @@
               "is_only_resource": true,
               "alternative_resources": [],
               "cost": 5,
-              "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "currently_assigned": true,
+              "task_specific_tax": 7.875
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -3426,7 +1823,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -3438,7 +1835,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -3449,7 +1846,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -3460,7 +1857,7 @@
               ],
               "cost": 1,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -3471,7 +1868,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -3483,7 +1880,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             }
           }
         },
@@ -3499,7 +1896,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -3511,7 +1908,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -3521,8 +1918,8 @@
                 "R0"
               ],
               "cost": 20,
-              "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "currently_assigned": true,
+              "task_specific_tax": 4.846153846153846
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -3534,7 +1931,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -3543,7 +1940,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 1.5369127516778522
+              "task_specific_tax": 7.875
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -3555,7 +1952,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -3567,7 +1964,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -3578,7 +1975,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -3589,7 +1986,7 @@
               ],
               "cost": 1,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -3600,7 +1997,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -3612,7 +2009,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             }
           }
         },
@@ -3628,7 +2025,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -3640,7 +2037,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -3651,7 +2048,7 @@
               ],
               "cost": 20,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 10.0
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -3663,7 +2060,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -3672,7 +2069,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -3684,7 +2081,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -3696,7 +2093,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -3707,7 +2104,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -3718,7 +2115,7 @@
               ],
               "cost": 1,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -3729,7 +2126,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -3741,7 +2138,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             }
           }
         },
@@ -3757,7 +2154,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -3769,7 +2166,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -3779,8 +2176,8 @@
                 "R0"
               ],
               "cost": 20,
-              "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "currently_assigned": true,
+              "task_specific_tax": 4.846153846153846
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -3792,7 +2189,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -3801,7 +2198,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 1.5369127516778522
+              "task_specific_tax": 7.875
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -3813,7 +2210,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -3825,7 +2222,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -3836,7 +2233,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -3847,7 +2244,7 @@
               ],
               "cost": 1,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -3858,7 +2255,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -3870,7 +2267,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             }
           }
         },
@@ -3886,7 +2283,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -3898,7 +2295,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -3909,7 +2306,7 @@
               ],
               "cost": 20,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 10.0
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -3921,7 +2318,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -3930,7 +2327,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 1.5369127516778522
+              "task_specific_tax": 7.875
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -3942,7 +2339,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -3954,7 +2351,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -3965,7 +2362,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -3976,7 +2373,7 @@
               ],
               "cost": 1,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -3987,7 +2384,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -3999,7 +2396,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             }
           }
         },
@@ -4015,7 +2412,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -4027,7 +2424,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -4038,7 +2435,7 @@
               ],
               "cost": 20,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 10.0
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -4050,7 +2447,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -4059,7 +2456,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -4071,7 +2468,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -4083,7 +2480,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -4094,7 +2491,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -4105,7 +2502,7 @@
               ],
               "cost": 1,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -4116,7 +2513,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -4128,7 +2525,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             }
           }
         },
@@ -4144,7 +2541,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -4156,7 +2553,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -4166,8 +2563,8 @@
                 "R0"
               ],
               "cost": 20,
-              "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "currently_assigned": true,
+              "task_specific_tax": 4.846153846153846
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -4179,7 +2576,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -4187,8 +2584,8 @@
               "is_only_resource": true,
               "alternative_resources": [],
               "cost": 5,
-              "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "currently_assigned": true,
+              "task_specific_tax": 7.875
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -4200,7 +2597,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -4212,7 +2609,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -4223,7 +2620,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -4234,7 +2631,7 @@
               ],
               "cost": 1,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -4245,7 +2642,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -4257,7 +2654,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             }
           }
         },
@@ -4273,7 +2670,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -4285,7 +2682,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -4295,8 +2692,8 @@
                 "R0"
               ],
               "cost": 20,
-              "currently_assigned": true,
-              "task_specific_tax": 1.396341463414634
+              "currently_assigned": false,
+              "task_specific_tax": 10.0
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -4308,7 +2705,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -4317,7 +2714,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 1.5369127516778522
+              "task_specific_tax": 7.875
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -4329,7 +2726,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -4341,7 +2738,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -4351,8 +2748,8 @@
                 "R0"
               ],
               "cost": 4,
-              "currently_assigned": true,
-              "task_specific_tax": 1.5472972972972974
+              "currently_assigned": false,
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -4362,8 +2759,8 @@
                 "R2"
               ],
               "cost": 1,
-              "currently_assigned": true,
-              "task_specific_tax": 1.5793103448275863
+              "currently_assigned": false,
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -4374,7 +2771,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -4386,7 +2783,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             }
           }
         },
@@ -4402,7 +2799,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -4414,7 +2811,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -4424,8 +2821,8 @@
                 "R0"
               ],
               "cost": 20,
-              "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "currently_assigned": true,
+              "task_specific_tax": 4.846153846153846
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -4437,7 +2834,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -4446,7 +2843,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 1.5369127516778522
+              "task_specific_tax": 7.875
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -4458,7 +2855,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -4470,7 +2867,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -4481,7 +2878,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -4492,7 +2889,7 @@
               ],
               "cost": 1,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -4503,7 +2900,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -4515,7 +2912,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             }
           }
         },
@@ -4531,7 +2928,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -4543,7 +2940,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -4554,7 +2951,7 @@
               ],
               "cost": 20,
               "currently_assigned": true,
-              "task_specific_tax": 1.396341463414634
+              "task_specific_tax": 4.846153846153846
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -4566,7 +2963,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -4575,7 +2972,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 1.5369127516778522
+              "task_specific_tax": 7.875
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -4587,7 +2984,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -4599,7 +2996,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -4610,7 +3007,7 @@
               ],
               "cost": 4,
               "currently_assigned": true,
-              "task_specific_tax": 1.5472972972972974
+              "task_specific_tax": 8.217391304347826
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -4621,7 +3018,7 @@
               ],
               "cost": 1,
               "currently_assigned": true,
-              "task_specific_tax": 1.5793103448275863
+              "task_specific_tax": 9.45
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -4632,7 +3029,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -4644,7 +3041,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             }
           }
         },
@@ -4660,7 +3057,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityR": {
               "additional_cost": 3.0,
@@ -4672,7 +3069,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityT": {
               "additional_cost": 14.0,
@@ -4683,7 +3080,7 @@
               ],
               "cost": 20,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 10.0
             },
             "ActivityG": {
               "additional_cost": 0.0,
@@ -4695,7 +3092,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityH": {
               "additional_cost": 0.0,
@@ -4704,7 +3101,7 @@
               "alternative_resources": [],
               "cost": 5,
               "currently_assigned": true,
-              "task_specific_tax": 1.5369127516778522
+              "task_specific_tax": 7.875
             },
             "ActivityC": {
               "additional_cost": 0.0,
@@ -4716,7 +3113,7 @@
               ],
               "cost": 2,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityD": {
               "additional_cost": 6.0,
@@ -4728,7 +3125,7 @@
               ],
               "cost": 9,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityP": {
               "additional_cost": 0.0,
@@ -4739,7 +3136,7 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityQ": {
               "additional_cost": 0.0,
@@ -4750,7 +3147,7 @@
               ],
               "cost": 1,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityK": {
               "additional_cost": 0.0,
@@ -4761,7 +3158,7 @@
               ],
               "cost": 5,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
             },
             "ActivityL": {
               "additional_cost": 2.0,
@@ -4773,7 +3170,1610 @@
               ],
               "cost": 4,
               "currently_assigned": false,
-              "task_specific_tax": 1.5902777777777777
+              "task_specific_tax": 9.947368421052632
+            }
+          }
+        }
+      }
+    },
+    "R2": {
+      "total_assigned_duration": 159,
+      "utilization": 0.8413,
+      "contention_index": 1.0516,
+      "penalty_rate": 7.8,
+      "instances": {
+        "problem1_1": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": true,
+              "task_specific_tax": 5.7272727272727275
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": true,
+              "task_specific_tax": 5.25
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            }
+          }
+        },
+        "problem10_10": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": true,
+              "task_specific_tax": 5.7272727272727275
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            }
+          }
+        },
+        "problem11_11": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": true,
+              "task_specific_tax": 5.7272727272727275
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": true,
+              "task_specific_tax": 5.4
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            }
+          }
+        },
+        "problem2_2": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": true,
+              "task_specific_tax": 5.7272727272727275
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            }
+          }
+        },
+        "problem3_3": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": true,
+              "task_specific_tax": 5.7272727272727275
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            }
+          }
+        },
+        "problem4_4": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": true,
+              "task_specific_tax": 5.7272727272727275
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": true,
+              "task_specific_tax": 5.4
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            }
+          }
+        },
+        "problem5_5": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": true,
+              "task_specific_tax": 5.7272727272727275
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": true,
+              "task_specific_tax": 5.25
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            }
+          }
+        },
+        "problem6_6": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": true,
+              "task_specific_tax": 5.7272727272727275
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            }
+          }
+        },
+        "problem7_7": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": true,
+              "task_specific_tax": 5.7272727272727275
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            }
+          }
+        },
+        "problem8_8": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            }
+          }
+        },
+        "problem9_9": {
+          "tasks": {
+            "ActivityA": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 1,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityM": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityN": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": true,
+              "task_specific_tax": 5.5588235294117645
+            },
+            "ActivityR": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": true,
+              "task_specific_tax": 5.90625
+            },
+            "ActivityO": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 3,
+              "currently_assigned": true,
+              "task_specific_tax": 5.7272727272727275
+            },
+            "ActivityG": {
+              "additional_cost": 2.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityC": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 3,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityD": {
+              "additional_cost": 1.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0",
+                "R1"
+              ],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityF": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 5,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityQ": {
+              "additional_cost": 5.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1"
+              ],
+              "cost": 6,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityI": {
+              "additional_cost": 0.0,
+              "num_alternatives": 1,
+              "is_only_resource": true,
+              "alternative_resources": [],
+              "cost": 4,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
+            },
+            "ActivityJ": {
+              "additional_cost": 0.0,
+              "num_alternatives": 2,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R0"
+              ],
+              "cost": 1,
+              "currently_assigned": true,
+              "task_specific_tax": 6.096774193548387
+            },
+            "ActivityL": {
+              "additional_cost": 0.0,
+              "num_alternatives": 3,
+              "is_only_resource": false,
+              "alternative_resources": [
+                "R1",
+                "R0"
+              ],
+              "cost": 2,
+              "currently_assigned": false,
+              "task_specific_tax": 6.3
             }
           }
         }

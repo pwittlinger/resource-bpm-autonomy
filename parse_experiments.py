@@ -260,8 +260,8 @@ def plot_trajectories(contention_trajs: dict, benchmarks: dict, search_dir: str 
             ax.axhline(avg, linewidth=2, **style)
         
         ax.axhline(statistics.mean(minimum_values), linewidth=2, color="black",  linestyle="--", label="Best solution found(avg)")
-        ax.set_xlabel("Iteration", fontsize=13)
-        ax.set_ylabel("Value", fontsize=13)
+        ax.set_xlabel("Iteration", fontsize=15)
+        ax.set_ylabel("Makespan", fontsize=15)
         ax.set_title(
             f"Trajectories – {name}  |  instances={instances}  "
             f"resources={resources}  time={search_time}s",
@@ -292,4 +292,4 @@ if __name__ == "__main__":
 
     contention_mins, contention_trajs, benchmarks = collect_all(search_dir)
     summarise(contention_mins, benchmarks)
-    #plot_trajectories(contention_trajs, benchmarks, search_dir)
+    plot_trajectories(contention_trajs, benchmarks, search_dir)

@@ -178,7 +178,7 @@ def run_scheduler(xes_path, petri_path, assignment_path, time_limit):
         solver, all_tasks = result
 
         prepared_tasks = prepare_all_tasks(solver, all_tasks)
-        visualize_schedule_plotly(solver, prepared_tasks)
+        #visualize_schedule_plotly(solver, prepared_tasks)
         export_highest_slack_instance(solver, prepared_tasks, sched_instances, output_path=os.path.abspath("input_files/slack_analysis_output/highest_slack_instance.json"))
         return result
 

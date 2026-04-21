@@ -18,6 +18,9 @@ import shutil
 import tqdm
 import json
 from functools import partialmethod
+import cProfile
+import pstats
+import io
 
 
 parent_path = os.path.abspath(os.getcwd())
@@ -60,14 +63,14 @@ def run_planner(problem_id, groundedVersion = True):
                 "-o", domainPath,
                 "-f", os.path.join(output_folder, get_problem_path_from_id(problem_id)),
                 "-s", "WAStar",
-                "-h", "blind"]
+                "-h", "blind", "-dap"]
     
     r = subprocess.call(call_array, stdout=output_file)
     #print(r)
 
 def generate_single_grounding(problem_id):
     output_file = open(os.path.join(parent_path, generated_plan_path, f"problem{problem_id}.txt"), "w")
-    call_array = ["java", "-jar", "-Xmx8G", 
+    call_array = ["java", "-jar", "-Xmx16G", 
                 grounder_jar,
                 os.path.join(parent_path, domain_path),
                 os.path.join(output_folder, get_problem_path_from_id(problem_id))]
@@ -362,8 +365,21 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     # Move initially generated PDDL files to initial folder.
     [shutil.copy(os.path.join(output_folder,p),os.path.join(parent_path,"output", "initial",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
 
+    # I need
+    # - PN name
+    # - Number Resources
+    # - XES
+    cost_name = os.path.basename(cost_model).removesuffix(".json")
+    log_name = os.path.basename(l).removesuffix(".xes")
     
-    generate_groundings()
+    if not os.path.exists(os.path.join(parent_path, "save-grounded", log_name+cost_name)):
+        generate_groundings()
+        os.makedirs(os.path.join(parent_path, "save-grounded", log_name+cost_name))
+        [shutil.copy(os.path.join(parent_path, "grounded-problems",p), os.path.join(parent_path, "save-grounded", log_name+cost_name, p)) for p in os.listdir(os.path.join(parent_path, "grounded-problems")) if p.endswith(".pddl")]
+        
+    else:
+        [shutil.copy(os.path.join(parent_path, "save-grounded", log_name+cost_name,p),os.path.join(parent_path, "grounded-problems",p)) for p in os.listdir(os.path.join(parent_path, "save-grounded", log_name+cost_name)) if p.endswith(".pddl")]
+   
     # When generating the Plans with the Propositionalized version, we get different results (same plan COST though)
     # This causes the first iteration to already find an optimal plan?
     generate_all_initial_plans()
@@ -497,6 +513,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
             shutil.copy(src=replanned_suffix, dst=os.path.join(parent_path, generated_xes_path, f"problem{id_to_plan}.xes"))
             
             #resulting_schedule = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
+            #last_objective = resulting_schedule[0].ObjectiveValue()
 
             resilient_result = resilient_solve(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model, timeoutLimit)
             
@@ -506,7 +523,7 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
                 continue
         
             # get objective of plan
-            #last_objective = resulting_schedule[0].ObjectiveValue()
+            
             found_objectives.append(last_objective)
 
             if (best_ > last_objective): 
@@ -574,19 +591,39 @@ def change(pddlContent:str, activity:str, resource:str, cost:float, additive:boo
 
 
 def resilient_solve(full_xes_path, petri_net_location, resource_cost_assignments, timeout):
-    result_queue = multiprocessing.Queue()
+    #result_queue = multiprocessing.Queue()
+   
+    try:
+        #result_queue = multiprocessing.Manager().Queue()
+        result_queue = multiprocessing.Queue()
+        #result_queue = manager.Queue()
 
-    process = multiprocessing.Process(target=solver_worker, args=(result_queue, full_xes_path, petri_net_location, resource_cost_assignments))
-    #cp.run_schedule(full_xes_path, petri_net_location, resource_cost_assignments)
+        process = multiprocessing.Process(target=solver_worker, args=(result_queue, full_xes_path, petri_net_location, resource_cost_assignments))
+        #cp.run_schedule(full_xes_path, petri_net_location, resource_cost_assignments)
 
-    process.start()
-    process.join(timeout=timeout)
+        process.start()
+        process.join(timeout=timeout)
+        
+        if process.is_alive():
+            process.terminate()
+            process.join()
+            return fallback_result(reason="timeout")
 
-    if process.exitcode != 0:
-        print("Error in model solving")
+        if process.exitcode != 0:
+            print("Error in model solving")
+            return fallback_result(reason="crash")
+        
+        if not result_queue.empty():
+            return result_queue.get()
+
+        return fallback_result(reason="no_result")
     
-    if not result_queue.empty():
-        return result_queue.get()
+    finally:
+        result_queue.close()
+        result_queue.join_thread()
+        if process.is_alive():
+            process.terminate()
+        process.join()
 
 def solver_worker(result_queue, full_xes_path, petri_net_location, resource_cost_assignments):
     result = cp.run_schedule(full_xes_path, petri_net_location, resource_cost_assignments)
@@ -598,6 +635,19 @@ def solver_worker(result_queue, full_xes_path, petri_net_location, resource_cost
 
     return result_queue
 
+def fallback_result(reason="unknown"):
+    """
+    Define your fallback behavior here depending on your use case:
+    - Return a best-effort heuristic solution
+    - Return the last known good solution
+    - Skip this iteration and continue
+    - Raise an alert for human review
+    """
+    return {
+        "status": "fallback",
+        "reason": reason,
+        "solution": None  # or your heuristic
+    }
 
 
 if __name__ == "__main__":
@@ -607,7 +657,16 @@ if __name__ == "__main__":
     timeoutLimit = 180 # Maximum number of seconds spend
     search_strat = "contention"
 
-    b_, bi_, foundObjectives_= run_search(sys.argv, maxIterations, timeoutLimit, search_strat)
+    pr = cProfile.Profile()
+    pr.enable()
+    b_, bi_, foundObjectives_, b1, b2= run_search(sys.argv, maxIterations, timeoutLimit, search_strat)
+    pr.disable()
+    s = io.StringIO()
+    ps = pstats.Stats(pr, stream=s).sort_stats('cumtime')
+    ps.print_stats()
+
+    with open('profile4.txt', 'w+') as f:
+        f.write(s.getvalue())
 
     print(f"Best Plan found on iteration {bi_}: {b_}")
     print(foundObjectives_)
