@@ -40,7 +40,7 @@ def solve_schedule(schedule_instances: list[ScheduleInstance],
                 )
 
     release_time = 0
-    all_tasks = collections.defaultdict(dict)  
+    all_tasks = collections.defaultdict(dict)
     all_resources = set()
     
     # Create all task intervals for each instance

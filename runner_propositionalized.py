@@ -7,6 +7,8 @@ import re
 import json
 import math
 import multiprocessing
+import queue
+import shlex
 os.environ['SHOW_PROGRESS_BAR'] = 'False'
 os.environ['PM4PY_SHOW_PROGRESS_BAR'] = 'False'
 
@@ -21,6 +23,12 @@ from functools import partialmethod
 import cProfile
 import pstats
 import io
+
+from src.scheduler.plotly_visualizer import (
+    save_schedule_plotly_png,
+    visualize_schedule_plotly,
+)
+from src.scheduler.schedule_data import ScheduleData
 
 
 parent_path = os.path.abspath(os.getcwd())
@@ -44,41 +52,176 @@ grounder_jar = "enhsp-grounded-plan.jar"
 
 cols = ["concept:name", "org:resource", "case:concept:name"]
 
+
+class JavaExecutionError(RuntimeError):
+    """Raised when one of the Java tools used by the experiment fails."""
+
+
+def build_java_command(jar_file, *arguments, jvm_options=None):
+    """Build a Java command with JVM options in their required position."""
+    jar_file = (
+        jar_file
+        if os.path.isabs(jar_file)
+        else os.path.join(parent_path, jar_file)
+    )
+    return [
+        "java",
+        *(jvm_options or []),
+        "-jar",
+        jar_file,
+        *(str(argument) for argument in arguments),
+    ]
+
+
+def run_java_command(command, description, stdout_path=None):
+    """Run a Java tool and turn a non-zero exit into an actionable error."""
+    if stdout_path is None:
+        result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+    else:
+        os.makedirs(os.path.dirname(stdout_path), exist_ok=True)
+        with open(stdout_path, "w") as output_file:
+            result = subprocess.run(
+                command,
+                stdout=output_file,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+
+    if result.returncode != 0:
+        details = (result.stderr or "").strip()
+        if not details and stdout_path is None:
+            details = (result.stdout or "").strip()
+        if not details:
+            details = "The Java process did not provide an error message."
+        raise JavaExecutionError(
+            f"{description} failed with exit code {result.returncode}.\n"
+            f"Command: {shlex.join(command)}\n"
+            f"Java output:\n{details}"
+        )
+    return result
+
+
+def require_file(path, description):
+    if not os.path.isfile(path):
+        raise JavaExecutionError(
+            f"{description} did not create the expected file: {path}"
+        )
+    return path
+
+
+def validate_run_inputs(args):
+    """Fail before cleanup when Java or an experiment input is unavailable."""
+    if shutil.which("java") is None:
+        raise JavaExecutionError("Java is not available on PATH.")
+
+    decl_loc, pn_loc, log_path, variable_values, var_sub_loc, cost_model = (
+        parse_input(args)
+    )
+    required_files = {
+        "PDDL generator": os.path.join(parent_path, jar_path),
+        "planner": os.path.join(parent_path, planner_path),
+        "plan parser": os.path.join(parent_path, plan_parser),
+        "grounder": os.path.join(parent_path, grounder_jar),
+        "planner domain": os.path.join(parent_path, domain_path),
+        "DECLARE model": decl_loc,
+        "event log": log_path,
+        "variable assignments": variable_values,
+        "variable substitutions": var_sub_loc,
+        "resource assignments": cost_model,
+        "Petri net": pn_loc,
+    }
+    missing = [
+        f"- {description}: {path}"
+        for description, path in required_files.items()
+        if not os.path.isfile(path)
+    ]
+    if missing:
+        raise FileNotFoundError(
+            "Experiment prerequisites are missing:\n" + "\n".join(missing)
+        )
+
+
+def save_schedule_artifacts(
+    schedule_data,
+    output_directory,
+    x_axis_max=None,
+):
+    """Save one evaluation schedule as both JSON and PNG."""
+    if not isinstance(schedule_data, ScheduleData):
+        raise TypeError("schedule_data must be a ScheduleData object.")
+    if not schedule_data.name:
+        raise ValueError("schedule_data must have a name.")
+
+    json_path = schedule_data.save(
+        os.path.join(output_directory, f"{schedule_data.name}.json")
+    )
+    figure = visualize_schedule_plotly(
+        schedule_data,
+        show=False,
+        x_axis_max=x_axis_max,
+    )
+    png_path = save_schedule_plotly_png(
+        figure,
+        output_directory,
+        f"{schedule_data.name}.png",
+    )
+    return json_path, png_path
+
+
 def get_problem_path_from_id(id_to_search):
     return f"problem{id_to_search}.pddl"
 
 def run_planner(problem_id, groundedVersion = True):
-    output_file = open(os.path.join(parent_path, generated_plan_path, f"problem{problem_id}.txt"), "w")
-    
-
     if groundedVersion:
         domainPath = os.path.join(parent_path, "grounded-problems", f"problem{problem_id}_grounded.pddl")
     else:
         domainPath = os.path.join(parent_path, domain_path)
 
-    call_array = ["java", "-jar",
-                os.path.join(parent_path, planner_path),
-                #"-o", os.path.join(parent_path, domain_path),
-                #"-o", os.path.join(parent_path, "grounded-problems", f"problem{problem_id}_grounded.pddl"),
-                "-o", domainPath,
-                "-f", os.path.join(output_folder, get_problem_path_from_id(problem_id)),
-                "-s", "WAStar",
-                "-h", "blind", "-dap"]
-    
-    r = subprocess.call(call_array, stdout=output_file)
-    #print(r)
+    output_path = os.path.join(
+        parent_path, generated_plan_path, f"problem{problem_id}.txt"
+    )
+    call_array = build_java_command(
+        planner_path,
+        "-o", domainPath,
+        "-f", os.path.join(output_folder, get_problem_path_from_id(problem_id)),
+        "-s", "WAStar",
+        "-h", "blind",
+        "-dap",
+    )
+    run_java_command(
+        call_array,
+        f"Planning problem {problem_id}",
+        stdout_path=output_path,
+    )
+    require_file(output_path, f"Planner for problem {problem_id}")
 
 def generate_single_grounding(problem_id):
-    output_file = open(os.path.join(parent_path, generated_plan_path, f"problem{problem_id}.txt"), "w")
-    call_array = ["java", "-jar", "-Xmx16G", 
-                grounder_jar,
-                os.path.join(parent_path, domain_path),
-                os.path.join(output_folder, get_problem_path_from_id(problem_id))]
-    
-    r = subprocess.call(call_array, stdout=output_file)
+    grounder_output_path = os.path.join(
+        parent_path, generated_plan_path, f"problem{problem_id}.txt"
+    )
+    grounded_output_path = os.path.join(
+        output_folder, f"problem{problem_id}_grounded.pddl"
+    )
+    call_array = build_java_command(
+        grounder_jar,
+        os.path.join(parent_path, domain_path),
+        os.path.join(output_folder, get_problem_path_from_id(problem_id)),
+        jvm_options=["-Xmx16G"],
+    )
+    run_java_command(
+        call_array,
+        f"Grounding problem {problem_id}",
+        stdout_path=grounder_output_path,
+    )
+    require_file(grounded_output_path, f"Grounder for problem {problem_id}")
     if os.path.exists(os.path.join("grounded-problems", f"problem{problem_id}_grounded.pddl")):
         os.remove(os.path.join("grounded-problems", f"problem{problem_id}_grounded.pddl"))
-    shutil.move(os.path.join(output_folder, f"problem{problem_id}_grounded.pddl"), "grounded-problems")
+    shutil.move(grounded_output_path, "grounded-problems")
     shutil.copy(os.path.join("grounded-problems",f"problem{problem_id}_grounded.pddl"),os.path.join("grounded-problems","initial",f"problem{problem_id}_grounded.pddl"))
 
 
@@ -87,7 +230,7 @@ def generate_groundings():
 
     for i in range(nProbs):
         if not os.path.exists(os.path.join(output_folder,get_problem_path_from_id(i+1))):
-            continue           
+            continue
         print(f"Generating initial grounding for problem{i+1}.pddl")
         generate_single_grounding(i+1)
 
@@ -129,11 +272,18 @@ def generate_xes_from_plan(decl_path,activity_mapping, problem_id, initial):
         if os.path.isfile(xes_path):
             os.remove(xes_path)
 
-    call_array = ["java", "-jar",
-                  os.path.join(parent_path, plan_parser),
-                  decl_path, activity_mapping, generated_plan, xes_path
-                  ]
-    subprocess.call(call_array)
+    call_array = build_java_command(
+        plan_parser,
+        decl_path,
+        activity_mapping,
+        generated_plan,
+        xes_path,
+    )
+    run_java_command(
+        call_array,
+        f"Converting the plan for problem {problem_id} to XES",
+    )
+    require_file(xes_path, f"Plan parser for problem {problem_id}")
 
     if initial:
         shutil.copy(xes_path, os.path.join(parent_path, "generated_xes", f"problem{problem_id}.xes"))
@@ -342,25 +492,62 @@ def reset_to_initial():
     #shutil.copy(os.path.join(parent_path, "best_config", "highest_slack_instance.json"), slack_instance)
     
 
-def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:str):
+def run_search(
+    args,
+    maxIterations: int,
+    timeoutLimit: int,
+    cost_update_strategy: str,
+    schedule_output_dir=None,
+):
     """
+    Run the search and optionally save all evaluation schedules.
     """
 
+    validate_run_inputs(args)
     cleanRepos()
     # Instantiate variables
     decl_loc, pn_loc, l, variable_values, var_sub_loc, cost_model = parse_input(args)
     pn_name = os.path.normpath(pn_loc).split(os.sep)[-1]
     
-    activity_mapping = os.path.join(parent_path, "output", f"activityMapping_{pn_name}.txt")
-    act_map = instantiate_mapping_file(activity_mapping=activity_mapping)
+    activity_mapping = os.path.join(
+        parent_path, "output", f"activityMapping_{pn_name}.txt"
+    )
 
    
     # initialize global cost model (resource assignment file)
     with open(cost_model) as f:
         all_assignments = json.load(f)
+    available_resources = list(dict.fromkeys(
+        str(assignment["resource"])
+        for assignment in all_assignments
+    ))
 
     #subprocess.call(['java', '-jar', jar_path, "-d", decl_loc, "-p", pn_loc, "-o", l, "-a",variable_values,"-s", var_sub_loc, "-c",cost_model])
-    subprocess.call(['java', '-jar', jar_path, "-d", decl_loc, "-p", pn_loc, "-l", l, "-a",variable_values,"-s", var_sub_loc, "-c",cost_model])
+    pddl_generator_command = build_java_command(
+        jar_path,
+        "-d", decl_loc,
+        "-p", pn_loc,
+        "-o", l,
+        "-a", variable_values,
+        "-s", var_sub_loc,
+        "-c", cost_model,
+    )
+    run_java_command(
+        pddl_generator_command,
+        "Generating PDDL problems",
+    )
+    generated_problems = [
+        file_name
+        for file_name in os.listdir(output_folder)
+        if file_name.startswith("problem") and file_name.endswith(".pddl")
+    ]
+    if not generated_problems:
+        raise JavaExecutionError(
+            f"The PDDL generator succeeded but created no problem files in "
+            f"{output_folder}."
+        )
+    require_file(activity_mapping, "PDDL generator activity mapping")
+    act_map = instantiate_mapping_file(activity_mapping=activity_mapping)
 
     # Move initially generated PDDL files to initial folder.
     [shutil.copy(os.path.join(output_folder,p),os.path.join(parent_path,"output", "initial",p)) for p in os.listdir(os.path.join(output_folder)) if p.endswith(".pddl")]
@@ -394,6 +581,25 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
 
     #initial_objective = inrus[0].BestObjectiveBound()
     initial_objective = inrus[0].ObjectiveValue()
+    initial_schedule_data = ScheduleData.from_solver(
+        inrus[0],
+        inrus[1],
+        name="initial_schedule",
+        resources=available_resources,
+    )
+    # Use the initialized schedule as the shared comparison horizon for every
+    # schedule visualization produced by this experiment.
+    comparison_x_axis_max = initial_schedule_data.max_finish
+    best_schedule_data = ScheduleData.from_dict(
+        initial_schedule_data.to_dict()
+    )
+    best_schedule_data.name = "best_schedule"
+    if schedule_output_dir is not None:
+        save_schedule_artifacts(
+            initial_schedule_data,
+            schedule_output_dir,
+            x_axis_max=comparison_x_axis_max,
+        )
     last_objective = initial_objective
     shutil.copy(shadow_cost, os.path.join(parent_path, "best_config"))
     shutil.copy(slack_instance, os.path.join(parent_path, "best_config"))
@@ -401,6 +607,22 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     ##################
     initial_benchmark = cpnf.run_scheduler(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model, timeoutLimit)
     bench1 = initial_benchmark[0].ObjectiveValue()
+    initial_benchmark_tasks = cpnf.prepare_all_tasks(
+        initial_benchmark[0],
+        initial_benchmark[1],
+    )
+    initial_benchmark_schedule_data = ScheduleData.from_solver(
+        initial_benchmark[0],
+        initial_benchmark_tasks,
+        name="initial_benchmark_schedule",
+        resources=available_resources,
+    )
+    if schedule_output_dir is not None:
+        save_schedule_artifacts(
+            initial_benchmark_schedule_data,
+            schedule_output_dir,
+            x_axis_max=comparison_x_axis_max,
+        )
 
     # Instantiate the loop variables
     i = 0
@@ -515,7 +737,13 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
             #resulting_schedule = cp.run_schedule(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model)
             #last_objective = resulting_schedule[0].ObjectiveValue()
 
-            resilient_result = resilient_solve(os.path.join(parent_path, generated_xes_path), pn_loc, cost_model, timeoutLimit)
+            resilient_result = resilient_solve(
+                os.path.join(parent_path, generated_xes_path),
+                pn_loc,
+                cost_model,
+                timeoutLimit,
+                include_schedule_data=schedule_output_dir is not None,
+            )
             
             if resilient_result["status"] == "success":
                 last_objective = resilient_result["solution"]
@@ -535,6 +763,11 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
                     already_replanned[k] = 0
 
                 best_ = last_objective
+                if schedule_output_dir is not None:
+                    best_schedule_data = ScheduleData.from_dict(
+                        resilient_result["schedule_data"]
+                    )
+                    best_schedule_data.name = "best_schedule"
                 
                 shutil.move(os.path.join(parent_path, "resource_shadow_costs.json"), os.path.join(parent_path, "best_config", "resource_shadow_costs.json"))
                 shutil.move(os.path.join(parent_path, "highest_slack_instance.json"), os.path.join(parent_path, "best_config", "highest_slack_instance.json"))
@@ -567,6 +800,27 @@ def run_search(args, maxIterations:int, timeoutLimit:int, cost_update_strategy:s
     best_benchmark = cpnf.run_scheduler(os.path.join(parent_path,"best_config"), pn_loc, cost_model, timeoutLimit)
 
     bench2 = best_benchmark[0].ObjectiveValue()
+    if schedule_output_dir is not None:
+        save_schedule_artifacts(
+            best_schedule_data,
+            schedule_output_dir,
+            x_axis_max=comparison_x_axis_max,
+        )
+        best_benchmark_tasks = cpnf.prepare_all_tasks(
+            best_benchmark[0],
+            best_benchmark[1],
+        )
+        best_benchmark_schedule_data = ScheduleData.from_solver(
+            best_benchmark[0],
+            best_benchmark_tasks,
+            name="best_benchmark_schedule",
+            resources=available_resources,
+        )
+        save_schedule_artifacts(
+            best_benchmark_schedule_data,
+            schedule_output_dir,
+            x_axis_max=comparison_x_axis_max,
+        )
     
     return [best_, best_plan_iter, found_objectives, bench1, bench2]
 
@@ -590,7 +844,13 @@ def change(pddlContent:str, activity:str, resource:str, cost:float, additive:boo
     return firstPart + str(newCost) + secondPart
 
 
-def resilient_solve(full_xes_path, petri_net_location, resource_cost_assignments, timeout):
+def resilient_solve(
+    full_xes_path,
+    petri_net_location,
+    resource_cost_assignments,
+    timeout,
+    include_schedule_data=False,
+):
     #result_queue = multiprocessing.Queue()
    
     try:
@@ -598,25 +858,35 @@ def resilient_solve(full_xes_path, petri_net_location, resource_cost_assignments
         result_queue = multiprocessing.Queue()
         #result_queue = manager.Queue()
 
-        process = multiprocessing.Process(target=solver_worker, args=(result_queue, full_xes_path, petri_net_location, resource_cost_assignments))
+        process = multiprocessing.Process(
+            target=solver_worker,
+            args=(
+                result_queue,
+                full_xes_path,
+                petri_net_location,
+                resource_cost_assignments,
+                include_schedule_data,
+            ),
+        )
         #cp.run_schedule(full_xes_path, petri_net_location, resource_cost_assignments)
 
         process.start()
-        process.join(timeout=timeout)
-        
-        if process.is_alive():
-            process.terminate()
-            process.join()
-            return fallback_result(reason="timeout")
+        try:
+            result = result_queue.get(timeout=timeout)
+        except queue.Empty:
+            if process.is_alive():
+                process.terminate()
+                process.join()
+                return fallback_result(reason="timeout")
+            return fallback_result(reason="no_result")
+
+        process.join()
 
         if process.exitcode != 0:
             print("Error in model solving")
             return fallback_result(reason="crash")
-        
-        if not result_queue.empty():
-            return result_queue.get()
 
-        return fallback_result(reason="no_result")
+        return result
     
     finally:
         result_queue.close()
@@ -625,13 +895,35 @@ def resilient_solve(full_xes_path, petri_net_location, resource_cost_assignments
             process.terminate()
         process.join()
 
-def solver_worker(result_queue, full_xes_path, petri_net_location, resource_cost_assignments):
+def solver_worker(
+    result_queue,
+    full_xes_path,
+    petri_net_location,
+    resource_cost_assignments,
+    include_schedule_data=False,
+):
     result = cp.run_schedule(full_xes_path, petri_net_location, resource_cost_assignments)
 
     if result is None:
         result_queue.put({"status":"error"})
     else:
-        result_queue.put({"status":"success", "solution":result[0].ObjectiveValue()})
+        response = {
+            "status": "success",
+            "solution": result[0].ObjectiveValue(),
+        }
+        if include_schedule_data:
+            with open(resource_cost_assignments) as assignment_file:
+                assignments = json.load(assignment_file)
+            available_resources = list(dict.fromkeys(
+                str(assignment["resource"])
+                for assignment in assignments
+            ))
+            response["schedule_data"] = ScheduleData.from_solver(
+                result[0],
+                result[1],
+                resources=available_resources,
+            ).to_dict()
+        result_queue.put(response)
 
     return result_queue
 
@@ -654,12 +946,25 @@ if __name__ == "__main__":
     print(sys.argv)
     # Stopping conditions for loop
     maxIterations = 5000 # total number of iterations
-    timeoutLimit = 180 # Maximum number of seconds spend
+    timeoutLimit = 45 # Maximum number of seconds spend
     search_strat = "contention"
 
     pr = cProfile.Profile()
     pr.enable()
-    b_, bi_, foundObjectives_, b1, b2= run_search(sys.argv, maxIterations, timeoutLimit, search_strat)
+    direct_run_name = os.path.splitext(os.path.basename(sys.argv[6]))[0]
+    schedule_output_dir = os.path.join(
+        parent_path,
+        "experiments",
+        "schedules",
+        f"{time.strftime('%Y-%m-%d_%H-%M-%S')}_{direct_run_name}_direct-run",
+    )
+    b_, bi_, foundObjectives_, b1, b2 = run_search(
+        sys.argv,
+        maxIterations,
+        timeoutLimit,
+        search_strat,
+        schedule_output_dir=schedule_output_dir,
+    )
     pr.disable()
     s = io.StringIO()
     ps = pstats.Stats(pr, stream=s).sort_stats('cumtime')
@@ -670,4 +975,3 @@ if __name__ == "__main__":
 
     print(f"Best Plan found on iteration {bi_}: {b_}")
     print(foundObjectives_)
-
