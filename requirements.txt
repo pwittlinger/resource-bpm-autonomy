@@ -5,6 +5,7 @@ cycler==0.12.1
 fonttools==4.61.1
 graphviz==0.21
 immutabledict==4.3.1
+kaleido==1.2.0
 kiwisolver==1.4.9
 lxml==6.0.2
 matplotlib==3.10.8

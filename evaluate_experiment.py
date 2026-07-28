@@ -16,7 +16,7 @@ args1 = ["dummy",
             ]
 
 args2 = ["dummy",
-    "input_files/declare/a20g6_7_data_parsed.decl", 
+        "input_files/declare/a20g6_7_data_parsed.decl", 
         "input_files/xes_files/a20g6-prefix-conforming-3.xes", 
         "input_files/variable_values_multi_model.txt",
         "input_files/variable_substitutions_a20g6_7.decl.txt", 
@@ -68,7 +68,11 @@ def show_trajectories(file_name):
 
 
 numberTraces = [10, 15, 20, 25]
-petriNets = os.listdir(os.path.join("input_files", "petri_net"))
+petriNets = sorted(
+    file_name
+    for file_name in os.listdir(os.path.join("input_files", "petri_net"))
+    if file_name.endswith(".pnml")
+)
 runTimes = [45,60,90,180]
 noResources = [3,5,7,12]
 prefixLength = [2]
@@ -97,14 +101,35 @@ if __name__=="__main__":
                         for j in range(2):
                             try:
                                 print(f"Running iter {j} for {pnName} with {nResource}")
-                                b_, bi_, found_objectives, bench1, bench2 = runner_propositionalized.run_search(cArgs, 500, runTime, "contention")
+                                schedule_output_dir = os.path.join(
+                                    "experiments",
+                                    "schedules",
+                                    (
+                                        f"{timestamp}_{pnName}_traces-{nTraces}_"
+                                        f"resources-{nResource}_runtime-{runTime}_"
+                                        f"run-{j + 1}"
+                                    ),
+                                )
+                                b_, bi_, found_objectives, bench1, bench2 = runner_propositionalized.run_search(
+                                    cArgs,
+                                    500,
+                                    runTime,
+                                    "contention",
+                                    schedule_output_dir=schedule_output_dir,
+                                )
                                 with open(f"experiments/{timestamp}-{pnName}-{nTraces}-{nResource}_{runTime}_contention.txt", "a") as f:
                                     f.write(str(found_objectives)+"\n")
                                 with open(f"experiments/{timestamp}-{pnName}-{nTraces}-{nResource}_{runTime}_initial-bench.txt", "a") as f:
                                     f.write(str(bench1)+"\n")
                                 with open(f"experiments/{timestamp}-{pnName}-{nTraces}-{nResource}_{runTime}_best-bench.txt", "a") as f:
                                     f.write(str(bench2)+"\n")
-                            except Exception as e:
+                            except runner_propositionalized.JavaExecutionError:
+                                # A broken Java invocation affects subsequent
+                                # experiments too. Stop at the first failure so
+                                # its original cause remains visible.
+                                traceback.print_exc()
+                                raise
+                            except Exception:
                                 traceback.print_exc()
                                 
                         #show_trajectories(f"experiments/{timestamp}-{pnName}-{nTraces}-{nResource}_{runTime}_contention.txt")
